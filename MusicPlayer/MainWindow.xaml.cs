@@ -1,7 +1,9 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,60 +20,55 @@ using System.Windows.Threading;
 
 namespace MusicPlayer
 {
-    /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private bool mediaPlayerIsPlaying = false;
         private bool userIsDraggingSlider = false;
+        List<Audio> audios = new List<Audio>();
+        DispatcherTimer timer = new DispatcherTimer();
         public MainWindow()
         {
             InitializeComponent();
-            DispatcherTimer timer = new DispatcherTimer();
+            DataContext = audios;
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += timer_Tick;
-            timer.Start();
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Media files (*.mp3;*.mpg;*.mpeg)|*.mp3;*.mpg;*.mpeg|All files (*.*)|*.*";
-            if (openFileDialog.ShowDialog() == true)
-                mePlayer.Source = new Uri(openFileDialog.FileName);
         }
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Play_Or_Pause_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             if (mediaPlayerIsPlaying)
             {
                 mePlayer.Pause();
                 mediaPlayerIsPlaying = false;
 
-                StackPanel stackPanel = new StackPanel();
-                stackPanel.Orientation = Orientation.Horizontal;
-                Rectangle rectangle = new Rectangle();
-                rectangle.Height = 16;
-                rectangle.Width = 4;
-                rectangle.Fill = new SolidColorBrush(Colors.White);
-                stackPanel.Children.Add(rectangle);
-                Thickness margin = rectangle.Margin;
-                margin.Left = 2;
-                rectangle.Margin = margin;
-                stackPanel.Children.Add(rectangle);
+                Image image = new Image();
+                image.Source = new BitmapImage(new Uri(@"/MusicPlayer;component/Image/ButtonPlay.png", UriKind.RelativeOrAbsolute));
+                ButtonStart.Content = image;
+
             }
             else
             {
                 mePlayer.Play();
                 mediaPlayerIsPlaying = true;
-                Polygon polygon = new Polygon();
-                polygon.Fill = new SolidColorBrush(Colors.White);
-                polygon.Points = new PointCollection { new Point(100, 50), new Point(50, 100) };
+
+                Image image = new Image();
+                image.Source = new BitmapImage(new Uri(@"/MusicPlayer;component/Image/ButtonPause.png", UriKind.RelativeOrAbsolute));
+                ButtonStart.Content = image;
+                timer.Start();
             }
         }
         private void timer_Tick(object sender, EventArgs e)
         {
             if ((mePlayer.Source != null) && (mePlayer.NaturalDuration.HasTimeSpan) && (!userIsDraggingSlider))
             {
+                sliProgress.Value = mePlayer.Position.TotalSeconds;
                 sliProgress.Minimum = 0;
                 sliProgress.Maximum = mePlayer.NaturalDuration.TimeSpan.TotalSeconds;
-                sliProgress.Value = mePlayer.Position.TotalSeconds;
+            }
+            if(sliProgress.Value == sliProgress.Maximum)
+            {
+                audiosList.SelectedIndex = audiosList.SelectedIndex != audios.Count - 1 ? ++audiosList.SelectedIndex : 0;
+                mePlayer.Source = new Uri(audios[audiosList.SelectedIndex].Path);
+                textBlock_Title.Text = audios[audiosList.SelectedIndex].Title;
             }
         }
 
@@ -86,9 +83,64 @@ namespace MusicPlayer
             mePlayer.Position = TimeSpan.FromSeconds(sliProgress.Value);
         }
 
-        private void sliProgress_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void Grid_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            lblProgressStatus.Text = TimeSpan.FromSeconds(sliProgress.Value).ToString(@"mm\:ss");
+            mePlayer.Volume += (e.Delta > 0) ? 0.1 : -0.1;
+            slVolume.Value = mePlayer.Volume;
+            textBlockVolumeStatus.Text = (Math.Floor(slVolume.Value * 100)).ToString();
+        }
+
+        private void sliVolume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            mePlayer.Volume = slVolume.Value;
+            textBlockVolumeStatus.Text = (Math.Floor(slVolume.Value * 100)).ToString();
+        }
+
+        //  private void ChangeAudio_Click(object sender, EventArgs e)
+        //  {
+        //      Button button = sender as Button;
+        //      for(int i = 0; i < listButtons.Count; i++)
+        //      {
+        //          if (button.Name == listButtons[i].Name)
+        //          {
+        //              mePlayer.Source = new Uri($"{audios[i].Path}", UriKind.RelativeOrAbsolute);
+        //              slVolume.Value = 0.5;
+        //              sliProgress.Value = 0;
+        //              textBlock_Title.Text = audios[i].Title;
+        //              textBlock_Musician.Text = audios[i].Musician;
+        //              index = i;
+        //              break;
+        //          }
+        //      }
+        //  }
+
+        private void NewAudio_Click(object sender, EventArgs e)
+        {
+
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Multiselect = true;
+            openFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
+            openFileDialog.RestoreDirectory = true;
+            openFileDialog.Filter = "Media files (*.mp3;*.mpg;*.mpeg)|*.mp3;*.mpg;*.mpeg|All files (*.*)|*.*";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                foreach(var file in openFileDialog.FileNames)
+                {
+                    //mePlayer.Source = new Uri(openFileDialog.FileName);
+                    FileInfo fileInf = new FileInfo(file);
+                    Audio audio = new Audio(fileInf.Name.TrimEnd(new char[] {'.','m','p','3'}), file);
+                    audios.Add(audio);
+
+                }    
+            }
+        }
+
+        private void Selected_Audio(object sender, EventArgs e)
+        {
+            Audio audio = audiosList.SelectedItem as Audio;
+            if (audio is null) return;
+            textBlock_Title.Text = audio.Title;
+            mePlayer.Source = new Uri(audio.Path);
         }
     }
 }
