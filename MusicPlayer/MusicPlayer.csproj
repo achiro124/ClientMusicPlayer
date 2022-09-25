@@ -99,22 +99,17 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Image\Img.jpg" />
-    <Content Include="Musics\1.mp3" />
-    <Content Include="Musics\2.mp3" />
-    <Content Include="Musics\4.mp3" />
-    <Content Include="Musics\5.mp3" />
-    <Content Include="Musics\6.mp3" />
     <Resource Include="Image\ButtonPause.png" />
     <Resource Include="Image\ButtonPlay.png" />
     <Resource Include="Image\ButtonNext.png" />
     <Resource Include="Image\ButtonPrev.png" />
-    <Resource Include="Image\1.jpg" />
     <Resource Include="Image\BlackHeart.png" />
     <Resource Include="Image\RedHeart.png" />
     <Resource Include="Image\Mute.png" />
     <Resource Include="Image\Volume.png" />
-    <Content Include="Musics\3.mp3" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Image\ButtonCycle.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -24,6 +24,7 @@ namespace MusicPlayer
     {
         private bool mediaPlayerIsPlaying = false;
         private bool userIsDraggingSlider = false;
+        private bool cycleAudioList = false;
         List<Audio> audios = new List<Audio>();
         DispatcherTimer timer = new DispatcherTimer();
         public MainWindow()
@@ -33,6 +34,7 @@ namespace MusicPlayer
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += timer_Tick;
         }
+        //Пауза или старт песни
         private void Play_Or_Pause_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             if (mediaPlayerIsPlaying)
@@ -56,6 +58,8 @@ namespace MusicPlayer
                 timer.Start();
             }
         }
+
+        //Работа аудио записи на всем этапе работы программы
         private void timer_Tick(object sender, EventArgs e)
         {
             if ((mePlayer.Source != null) && (mePlayer.NaturalDuration.HasTimeSpan) && (!userIsDraggingSlider))
@@ -66,54 +70,60 @@ namespace MusicPlayer
             }
             if(sliProgress.Value == sliProgress.Maximum)
             {
-                audiosList.SelectedIndex = audiosList.SelectedIndex != audios.Count - 1 ? ++audiosList.SelectedIndex : 0;
-                mePlayer.Source = new Uri(audios[audiosList.SelectedIndex].Path);
-                textBlock_Title.Text = audios[audiosList.SelectedIndex].Title;
+                if (cycleAudioList)
+                {
+                    audiosList.SelectedIndex = audiosList.SelectedIndex != audios.Count - 1 ? ++audiosList.SelectedIndex : 0;
+                    mePlayer.Source = new Uri(audios[audiosList.SelectedIndex].Path);
+                    textBlock_Title.Text = audios[audiosList.SelectedIndex].Title;
+                }
+                else
+                {
+                    if (audiosList.SelectedIndex == audios.Count - 1)
+                        return;
+                    audiosList.SelectedIndex = audiosList.SelectedIndex + 1;
+                    mePlayer.Source = new Uri(audios[audiosList.SelectedIndex].Path);
+                    textBlock_Title.Text = audios[audiosList.SelectedIndex].Title;
+                }
             }
         }
 
+        //Изменение флага при перетаскивании ползнунка
         private void sliProgress_DragStarted(object sender, DragStartedEventArgs e)
         {
             userIsDraggingSlider = true;
         }
-
+        //Перемотка аудио записи
         private void sliProgress_DragCompleted(object sender, DragCompletedEventArgs e)
         {
             userIsDraggingSlider = false;
             mePlayer.Position = TimeSpan.FromSeconds(sliProgress.Value);
         }
 
+        //Изменение громкости звука по колесику мыши
         private void Grid_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             mePlayer.Volume += (e.Delta > 0) ? 0.1 : -0.1;
             slVolume.Value = mePlayer.Volume;
-            textBlockVolumeStatus.Text = (Math.Floor(slVolume.Value * 100)).ToString();
+            //textBlockVolumeStatus.Text = (Math.Floor(slVolume.Value * 100)).ToString();
         }
 
+        //Измнение громкости звука через ползунок
         private void sliVolume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             mePlayer.Volume = slVolume.Value;
             textBlockVolumeStatus.Text = (Math.Floor(slVolume.Value * 100)).ToString();
+            if(slVolume.Value == 0)
+            {
+                imageVolume.Source = new BitmapImage(new Uri(@"/MusicPlayer;component/Image/Mute.png", UriKind.RelativeOrAbsolute));
+            }
+            else
+            {
+                imageVolume.Source = new BitmapImage(new Uri(@"/MusicPlayer;component/Image/Volume.png", UriKind.RelativeOrAbsolute));
+            }
+
         }
 
-        //  private void ChangeAudio_Click(object sender, EventArgs e)
-        //  {
-        //      Button button = sender as Button;
-        //      for(int i = 0; i < listButtons.Count; i++)
-        //      {
-        //          if (button.Name == listButtons[i].Name)
-        //          {
-        //              mePlayer.Source = new Uri($"{audios[i].Path}", UriKind.RelativeOrAbsolute);
-        //              slVolume.Value = 0.5;
-        //              sliProgress.Value = 0;
-        //              textBlock_Title.Text = audios[i].Title;
-        //              textBlock_Musician.Text = audios[i].Musician;
-        //              index = i;
-        //              break;
-        //          }
-        //      }
-        //  }
-
+        //Добавление новых аудио 
         private void NewAudio_Click(object sender, EventArgs e)
         {
 
@@ -135,12 +145,63 @@ namespace MusicPlayer
             }
         }
 
+        //Выбор песен из списка
         private void Selected_Audio(object sender, EventArgs e)
         {
             Audio audio = audiosList.SelectedItem as Audio;
             if (audio is null) return;
             textBlock_Title.Text = audio.Title;
             mePlayer.Source = new Uri(audio.Path);
+        }
+
+        private void CycleAudioList_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (cycleAudioList)
+            {
+                cycleAudioList = false;
+                ButtonCycle.Background = new SolidColorBrush(Colors.White);
+            }
+            else
+            {
+                cycleAudioList = true;
+                ButtonCycle.Background = new SolidColorBrush(Color.FromRgb(169, 169, 169));
+            }
+        }
+
+        private void NextAudio_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (cycleAudioList)
+            {
+                audiosList.SelectedIndex = audiosList.SelectedIndex != audios.Count - 1 ? ++audiosList.SelectedIndex : 0;
+                mePlayer.Source = new Uri(audios[audiosList.SelectedIndex].Path);
+                textBlock_Title.Text = audios[audiosList.SelectedIndex].Title;
+            }
+            else
+            {
+                if (audiosList.SelectedIndex == audios.Count - 1)
+                    return;
+                audiosList.SelectedIndex = audiosList.SelectedIndex + 1;
+                mePlayer.Source = new Uri(audios[audiosList.SelectedIndex].Path);
+                textBlock_Title.Text = audios[audiosList.SelectedIndex].Title;
+            }
+        }
+
+        private void PrevAudio_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (cycleAudioList)
+            {
+                audiosList.SelectedIndex = audiosList.SelectedIndex != 0 ? --audiosList.SelectedIndex : audiosList.SelectedIndex = audios.Count - 1;
+                mePlayer.Source = new Uri(audios[audiosList.SelectedIndex].Path);
+                textBlock_Title.Text = audios[audiosList.SelectedIndex].Title;
+            }
+            else
+            {
+                if (audiosList.SelectedIndex == 0)
+                    return;
+                audiosList.SelectedIndex = audiosList.SelectedIndex - 1;
+                mePlayer.Source = new Uri(audios[audiosList.SelectedIndex].Path);
+                textBlock_Title.Text = audios[audiosList.SelectedIndex].Title;
+            }
         }
     }
 }

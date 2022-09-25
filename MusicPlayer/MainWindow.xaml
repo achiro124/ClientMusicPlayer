@@ -11,6 +11,9 @@
         Background="Gray">
     <Window.CommandBindings>
         <CommandBinding Command="local:MediaPlayerCommands.PlayOrPause"  Executed="Play_Or_Pause_Executed"/>
+        <CommandBinding Command="local:MediaPlayerCommands.CycleAudioList"  Executed="CycleAudioList_Executed"/>
+        <CommandBinding Command="local:MediaPlayerCommands.NextAudio"  Executed="NextAudio_Executed"/>
+        <CommandBinding Command="local:MediaPlayerCommands.PrevAudio"  Executed="PrevAudio_Executed"/>
     </Window.CommandBindings>
 
     <Window.Resources>
@@ -23,8 +26,8 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="0.2*" MaxHeight="76"/>
+            <RowDefinition/>
+            <RowDefinition Height="76" MaxHeight="76"/>
         </Grid.RowDefinitions>
 
         <StackPanel x:Name="StackPanel1" Grid.Row="0" Background="Gray">
@@ -35,7 +38,7 @@
 
         <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.4*" MaxWidth="175"/>
+                <ColumnDefinition Width="0.4*" MaxWidth="210"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -44,14 +47,17 @@
             </Grid.RowDefinitions>
 
             <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" Background="Gray">
-                <Button x:Name="ButtonPrev" Height="40" Width="42" Background="White" Margin="17,3,5,3">
+                <Button x:Name="ButtonPrev" Height="40" Width="42" Background="White" Margin="17,3,5,3" Command="local:MediaPlayerCommands.PrevAudio">
                     <Image Source="Image/ButtonPrev.png"/>
                 </Button>
                 <Button x:Name="ButtonStart"  Height="40" Width="42" Background="White" Margin="0,3,5,3" Command="local:MediaPlayerCommands.PlayOrPause">
                     <Image Source="Image/ButtonPlay.png"/>
                 </Button>
-                <Button x:Name="ButtonNext"  Height="40" Width="42" Background="White" Margin="0,3,5,3" Foreground="Black">
+                <Button x:Name="ButtonNext"  Height="40" Width="42" Background="White" Margin="0,3,5,3" Command="local:MediaPlayerCommands.NextAudio">
                     <Image Source="Image/ButtonNext.png"/>
+                </Button>
+                <Button x:Name="ButtonCycle"  Height="40" Width="42" Background="White" Margin="0,3,5,3" Command="local:MediaPlayerCommands.CycleAudioList">
+                    <Image Source="Image/ButtonCycle.png"/>
                 </Button>
                 <MediaElement Name="mePlayer" LoadedBehavior="Manual" Stretch="None" />
             </StackPanel>
@@ -72,7 +78,7 @@
                 </StackPanel>
 
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Grid.Row="1" Grid.Column="1" MaxWidth="150">
-                    <Image Source="Image/Volume.png" Width="25" Height="25" HorizontalAlignment="Center"/>
+                    <Image x:Name="imageVolume" Source="Image/Volume.png" Width="25" Height="25" HorizontalAlignment="Center"/>
                     <TextBlock x:Name="textBlockVolumeStatus" Margin="0,18,0,0" MinWidth="20" TextAlignment="Center">
                         50
                     </TextBlock>
@@ -80,7 +86,7 @@
                 </StackPanel>
             </Grid>
 
-            
+
             <StatusBar Grid.Column="0" Grid.ColumnSpan="2" Background="Gray">
                 <StatusBar.ItemsPanel>
                     <ItemsPanelTemplate>
