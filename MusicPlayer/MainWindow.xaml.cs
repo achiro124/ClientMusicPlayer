@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -25,16 +26,19 @@ namespace MusicPlayer
         private bool mediaPlayerIsPlaying = false;
         private bool userIsDraggingSlider = false;
         private bool cycleAudioList = false;
-        List<Audio> audios = new List<Audio>();
+        ObservableCollection<Audio> audios = new ObservableCollection<Audio>();
         DispatcherTimer timer = new DispatcherTimer();
         public MainWindow()
         {
             InitializeComponent();
+
             DataContext = audios;
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += timer_Tick;
+
+            audiosList.ItemsSource = audios;
         }
-        //Пауза или старт песни
+        //Пауза или старт аудио
         private void Play_Or_Pause_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             if (mediaPlayerIsPlaying)
@@ -136,16 +140,17 @@ namespace MusicPlayer
             {
                 foreach(var file in openFileDialog.FileNames)
                 {
-                    //mePlayer.Source = new Uri(openFileDialog.FileName);
                     FileInfo fileInf = new FileInfo(file);
                     Audio audio = new Audio(fileInf.Name.TrimEnd(new char[] {'.','m','p','3'}), file);
                     audios.Add(audio);
-
                 }    
             }
+
+            if(!mediaPlayerIsPlaying)
+                audiosList.SelectedIndex = 0;
         }
 
-        //Выбор песен из списка
+        //Выбор аудио из списка
         private void Selected_Audio(object sender, EventArgs e)
         {
             Audio audio = audiosList.SelectedItem as Audio;
@@ -154,6 +159,7 @@ namespace MusicPlayer
             mePlayer.Source = new Uri(audio.Path);
         }
 
+        //Команда на активацию цикла для аудио
         private void CycleAudioList_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             if (cycleAudioList)
@@ -168,6 +174,7 @@ namespace MusicPlayer
             }
         }
 
+        //Команда перехода на след. аудио
         private void NextAudio_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             if (cycleAudioList)
@@ -186,6 +193,7 @@ namespace MusicPlayer
             }
         }
 
+        //Команда перехода на пред. аудио
         private void PrevAudio_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             if (cycleAudioList)
