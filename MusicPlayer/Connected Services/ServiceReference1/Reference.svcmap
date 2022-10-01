@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="858674ff-c172-4d9a-839e-85544033b9da" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8080/AudioPlayerServiceLib/AudioPlayerService/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="Microsoft.ServiceModel.Samples.wsdl" MetadataType="Wsdl" ID="55103658-638d-401b-8715-c210efbb5eef" SourceId="1" SourceUrl="http://localhost:8080/AudioPlayerServiceLib/AudioPlayerService/mex" />
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="b4ecdda5-ba94-4235-831b-001de9352370" SourceId="1" SourceUrl="http://localhost:8080/AudioPlayerServiceLib/AudioPlayerService/mex" />
+    <MetadataFile FileName="Microsoft.ServiceModel.Samples.xsd" MetadataType="Schema" ID="e47ede34-a06a-4de3-aabd-63d4a8875d91" SourceId="1" SourceUrl="http://localhost:8080/AudioPlayerServiceLib/AudioPlayerService/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="3c41c3c2-8ab9-4ef2-89b8-ac371c6ea48e" SourceId="1" SourceUrl="http://localhost:8080/AudioPlayerServiceLib/AudioPlayerService/mex" />
+    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="fafc3a28-5c2d-4cb1-a615-552acf57edfc" SourceId="1" SourceUrl="http://localhost:8080/AudioPlayerServiceLib/AudioPlayerService/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
