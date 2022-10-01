@@ -10,11 +10,6 @@ namespace MusicPlayer
     {
         public string Title { get; set; }
         public string Path { get; set; }
-        public Audio(string Title, string Path)
-        {
-            this.Title = Title;
-            this.Path = Path;
-        }
 
     }
 }

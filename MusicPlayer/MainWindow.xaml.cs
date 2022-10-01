@@ -18,6 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using MusicPlayer.ServiceReference1;
 
 namespace MusicPlayer
 {
@@ -31,8 +32,22 @@ namespace MusicPlayer
         public MainWindow()
         {
             InitializeComponent();
-
             DataContext = audios;
+
+            AudioPlayerServiceClient client = new AudioPlayerServiceClient();
+
+            string[] listAudio = client.GetListAudio();
+
+            foreach (var s in listAudio)
+            {
+               FileInfo fileInfo = new FileInfo(s);
+               audios.Add(new Audio
+               {
+                   Title = fileInfo.Name,
+                   Path = s
+               });
+            }
+            
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += timer_Tick;
 
@@ -141,7 +156,7 @@ namespace MusicPlayer
                 foreach(var file in openFileDialog.FileNames)
                 {
                     FileInfo fileInf = new FileInfo(file);
-                    Audio audio = new Audio(fileInf.Name.TrimEnd(new char[] {'.','m','p','3'}), file);
+                    Audio audio = new Audio { Title = fileInf.Name.TrimEnd(new char[] { '.', 'm', 'p', '3' }), Path = file };
                     audios.Add(audio);
                 }    
             }
