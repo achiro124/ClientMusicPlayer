@@ -18,7 +18,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using MusicPlayer.ServiceReference1;
+using MusicPlayer.ServiceAudio;
+using System.Windows.Markup;
 
 namespace MusicPlayer
 {
@@ -27,32 +28,30 @@ namespace MusicPlayer
         private bool mediaPlayerIsPlaying = false;
         private bool userIsDraggingSlider = false;
         private bool cycleAudioList = false;
-        ObservableCollection<Audio> audios = new ObservableCollection<Audio>();
-        DispatcherTimer timer = new DispatcherTimer();
+        private DispatcherTimer timer = new DispatcherTimer();
+        private ServiceAudioPlayerClient client;
+        private ObservableCollection<Audio> audios;
+
+        //AudioPlayer
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = audios;
-
-            AudioPlayerServiceClient client = new AudioPlayerServiceClient();
-
-            string[] listAudio = client.GetListAudio();
-
-            foreach (var s in listAudio)
-            {
-               FileInfo fileInfo = new FileInfo(s);
-               audios.Add(new Audio
-               {
-                   Title = fileInfo.Name,
-                   Path = s
-               });
-            }
-            
+            //DataContext = audios;
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += timer_Tick;
 
-            audiosList.ItemsSource = audios;
+            
         }
+
+        //Инициализация службы во время загрузки окна приложения
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            client = new ServiceAudioPlayerClient(new System.ServiceModel.InstanceContext(this));
+            audios = new ObservableCollection<Audio>(client.GetAudioList().ToList());
+            audiosList.ItemsSource = audios;
+            //audiosList.Items.Refresh();
+        }
+
         //Пауза или старт аудио
         private void Play_Or_Pause_Executed(object sender, ExecutedRoutedEventArgs e)
         {
@@ -160,16 +159,23 @@ namespace MusicPlayer
                     audios.Add(audio);
                 }    
             }
+            audiosList.SelectedIndex = audiosList.Items.Count - 1;
 
-            if(!mediaPlayerIsPlaying)
-                audiosList.SelectedIndex = 0;
+          //  if(!mediaPlayerIsPlaying)
+          //      audiosList.SelectedIndex = 0;
         }
 
         //Выбор аудио из списка
         private void Selected_Audio(object sender, EventArgs e)
         {
             Audio audio = audiosList.SelectedItem as Audio;
-            if (audio is null) return;
+            if (audio is null) 
+                return;
+            if(audio.Path == null)
+            {
+                byte[] compressAudio = client.GetAudioFile(audio.Title);
+                File.WriteAllBytes(audio.Title, compressAudio);
+            }
             textBlock_Title.Text = audio.Title;
             mePlayer.Source = new Uri(audio.Path);
         }

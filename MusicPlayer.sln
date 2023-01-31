@@ -5,6 +5,10 @@ VisualStudioVersion = 17.3.32811.315
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicPlayer", "MusicPlayer\MusicPlayer.csproj", "{C67D4216-982E-49E2-8321-42543B358DB2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioPlayerService", "AudioPlayerService\AudioPlayerService.csproj", "{F698986B-2B43-4A2D-BA1A-71EF978C7533}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioPlayerHost", "AudioPlayerHost\AudioPlayerHost.csproj", "{FBC0FD50-9FD3-46C9-ADAD-83340532DA1E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{C67D4216-982E-49E2-8321-42543B358DB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C67D4216-982E-49E2-8321-42543B358DB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C67D4216-982E-49E2-8321-42543B358DB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F698986B-2B43-4A2D-BA1A-71EF978C7533}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F698986B-2B43-4A2D-BA1A-71EF978C7533}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F698986B-2B43-4A2D-BA1A-71EF978C7533}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F698986B-2B43-4A2D-BA1A-71EF978C7533}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBC0FD50-9FD3-46C9-ADAD-83340532DA1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBC0FD50-9FD3-46C9-ADAD-83340532DA1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBC0FD50-9FD3-46C9-ADAD-83340532DA1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBC0FD50-9FD3-46C9-ADAD-83340532DA1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
