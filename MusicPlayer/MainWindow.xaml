@@ -18,6 +18,7 @@
 
     <Window.Resources>
         <local:DateTimeToDateConverter x:Key="myDateConverter"/>
+        <local:ImageConverter x:Key="myImgConverter"/>
     </Window.Resources>
 
     <Grid>
@@ -66,13 +67,13 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0" Orientation="Horizontal" Background="Gray" Width="Auto">
-                    <Image Width="65" Height="50" Margin="0,0,7,6" Source="Image/1.jpg"/>
+                <StackPanel x:Name="spInfAudio" Grid.Column="0" Orientation="Horizontal" Background="Gray" Width="Auto">
+                    <Image x:Name="mainImage" Width="65" Height="50" Margin="0,0,7,6" Source="{Binding Image, Converter={StaticResource myImgConverter}}"/>
                     <StackPanel>
-                        <TextBlock x:Name="textBlock_Title"> Пустенько...</TextBlock>
-                        <TextBlock x:Name="textBlock_Musician"> Группа будет!</TextBlock>
+                        <TextBlock x:Name="textBlock_Title" FontSize="14"> Пустенько...</TextBlock>
+                        <TextBlock x:Name="textBlock_Musician" FontSize="11" Text="{Binding Group}"/>
                     </StackPanel>
-                    <Button Grid.Column="1" Width="40" Height="42"  Background="Gray" Margin="7,3,5,3">
+                    <Button Grid.Column="1" Width="40" Height="42"  Background="Gray" Margin="15,3,5,3">
                         <Image Source="Image/RedHeart.png" Width="25" Height="25"/>
                     </Button>
                 </StackPanel>
@@ -124,8 +125,12 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="Image/1.jpg" Width="50" Height="50" Margin="0,0,10,0"/>
-                            <TextBlock Text="{Binding Title}" FontSize="16" VerticalAlignment="Center" />
+                            <Image Source="{Binding Image, Converter={StaticResource myImgConverter}}" Width="50" Height="50" Margin="0,0,10,0"/>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Title}" FontSize="16" VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding Group}" FontSize="12" VerticalAlignment="Center" />
+                            </StackPanel>
+                            
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

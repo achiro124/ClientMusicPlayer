@@ -31,12 +31,12 @@ namespace MusicPlayer
         private DispatcherTimer timer = new DispatcherTimer();
         private ServiceAudioPlayerClient client;
         private ObservableCollection<Audio> audios;
+        private string lastAudio = "";
 
         //AudioPlayer
         public MainWindow()
         {
             InitializeComponent();
-            //DataContext = audios;
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += timer_Tick;
 
@@ -49,7 +49,6 @@ namespace MusicPlayer
             client = new ServiceAudioPlayerClient(new System.ServiceModel.InstanceContext(this));
             audios = new ObservableCollection<Audio>(client.GetAudioList().ToList());
             audiosList.ItemsSource = audios;
-            //audiosList.Items.Refresh();
         }
 
         //Пауза или старт аудио
@@ -91,16 +90,12 @@ namespace MusicPlayer
                 if (cycleAudioList)
                 {
                     audiosList.SelectedIndex = audiosList.SelectedIndex != audios.Count - 1 ? ++audiosList.SelectedIndex : 0;
-                    mePlayer.Source = new Uri(audios[audiosList.SelectedIndex].Path);
-                    textBlock_Title.Text = audios[audiosList.SelectedIndex].Title;
                 }
                 else
                 {
                     if (audiosList.SelectedIndex == audios.Count - 1)
                         return;
                     audiosList.SelectedIndex = audiosList.SelectedIndex + 1;
-                    mePlayer.Source = new Uri(audios[audiosList.SelectedIndex].Path);
-                    textBlock_Title.Text = audios[audiosList.SelectedIndex].Title;
                 }
             }
         }
@@ -159,25 +154,27 @@ namespace MusicPlayer
                     audios.Add(audio);
                 }    
             }
-            audiosList.SelectedIndex = audiosList.Items.Count - 1;
-
-          //  if(!mediaPlayerIsPlaying)
-          //      audiosList.SelectedIndex = 0;
         }
 
         //Выбор аудио из списка
+        //Обращение к серверу в целях получить аудиозапись
         private void Selected_Audio(object sender, EventArgs e)
         {
             Audio audio = audiosList.SelectedItem as Audio;
             if (audio is null) 
                 return;
-            if(audio.Path == null)
+
+            if (audio.Path == null)
             {
                 byte[] compressAudio = client.GetAudioFile(audio.Title);
-                File.WriteAllBytes(audio.Title, compressAudio);
+                File.WriteAllBytes(@"Audios\" + audio.Title + ".mp3", compressAudio);
+                FileInfo fileInfo = new FileInfo(@"Audios\" + audio.Title + ".mp3");
+                audio.Path = fileInfo.FullName;
             }
-            textBlock_Title.Text = audio.Title;
             mePlayer.Source = new Uri(audio.Path);
+            lastAudio = audio.Title;
+            textBlock_Title.Text = audio.Title;
+            spInfAudio.DataContext = audios[audiosList.SelectedIndex];
         }
 
         //Команда на активацию цикла для аудио
@@ -201,16 +198,12 @@ namespace MusicPlayer
             if (cycleAudioList)
             {
                 audiosList.SelectedIndex = audiosList.SelectedIndex != audios.Count - 1 ? ++audiosList.SelectedIndex : 0;
-                mePlayer.Source = new Uri(audios[audiosList.SelectedIndex].Path);
-                textBlock_Title.Text = audios[audiosList.SelectedIndex].Title;
             }
             else
             {
                 if (audiosList.SelectedIndex == audios.Count - 1)
                     return;
                 audiosList.SelectedIndex = audiosList.SelectedIndex + 1;
-                mePlayer.Source = new Uri(audios[audiosList.SelectedIndex].Path);
-                textBlock_Title.Text = audios[audiosList.SelectedIndex].Title;
             }
         }
 
@@ -220,17 +213,32 @@ namespace MusicPlayer
             if (cycleAudioList)
             {
                 audiosList.SelectedIndex = audiosList.SelectedIndex != 0 ? --audiosList.SelectedIndex : audiosList.SelectedIndex = audios.Count - 1;
-                mePlayer.Source = new Uri(audios[audiosList.SelectedIndex].Path);
-                textBlock_Title.Text = audios[audiosList.SelectedIndex].Title;
             }
             else
             {
                 if (audiosList.SelectedIndex == 0)
                     return;
                 audiosList.SelectedIndex = audiosList.SelectedIndex - 1;
-                mePlayer.Source = new Uri(audios[audiosList.SelectedIndex].Path);
-                textBlock_Title.Text = audios[audiosList.SelectedIndex].Title;
             }
         }
+
+        //Очистка кеша перед закрытием
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            DirectoryInfo di = new DirectoryInfo("Audios");
+
+            foreach (FileInfo file in di.GetFiles())
+            {
+                file.Delete();
+            }
+        }
+
+      // private void Window_KeyDown(object sender, KeyEventArgs e)
+      // {
+      //     if(e.Key == Key.Space)
+      //     {
+      //         //ButtonStart.tr;
+      //     }
+      // }
     }
 }

@@ -40,13 +40,13 @@ namespace AudioPlayerService
 
         public byte[] GetAudioFile(string title)
         {
-            string pathSourceFile = @"D:\Audios\" + title;
-            string pathCompressedFile = @"D:\Audios\" + title + ".gz";
-            GZip zip = new GZip
-            {
-                SourceFile = pathSourceFile,
-                CompressedFile = pathCompressedFile
-            };
+            string pathSourceFile = @"D:\Audios\" + title + ".mp3";
+           // string pathCompressedFile = @"D:\Audios\" + title + ".gz";
+           // GZip zip = new GZip
+           // {
+           //     SourceFile = pathSourceFile,
+           //     CompressedFile = pathCompressedFile
+           // };
 
             //zip.Compress();
             byte[] compressAudio = File.ReadAllBytes(pathSourceFile);
