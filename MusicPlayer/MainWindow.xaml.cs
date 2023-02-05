@@ -28,10 +28,13 @@ namespace MusicPlayer
         private bool mediaPlayerIsPlaying = false;
         private bool userIsDraggingSlider = false;
         private bool cycleAudioList = false;
+
         private DispatcherTimer timer = new DispatcherTimer();
         private ServiceAudioPlayerClient client;
         private ObservableCollection<Audio> audios;
-        private string lastAudio = "";
+        //private string lastAudio = "";
+        private int countAudio = 0;
+        private int userId;
 
         //AudioPlayer
         public MainWindow()
@@ -49,6 +52,8 @@ namespace MusicPlayer
             client = new ServiceAudioPlayerClient(new System.ServiceModel.InstanceContext(this));
             audios = new ObservableCollection<Audio>(client.GetAudioList().ToList());
             audiosList.ItemsSource = audios;
+
+            userId = client.Registration("FadeevMaxim","515255gg");
         }
 
         //Пауза или старт аудио
@@ -170,9 +175,17 @@ namespace MusicPlayer
                 File.WriteAllBytes(@"Audios\" + audio.Title + ".mp3", compressAudio);
                 FileInfo fileInfo = new FileInfo(@"Audios\" + audio.Title + ".mp3");
                 audio.Path = fileInfo.FullName;
+                countAudio++;
             }
+
+            if (countAudio == 15)
+            {
+                DeleteAudios();
+                countAudio = 0;
+            }
+
             mePlayer.Source = new Uri(audio.Path);
-            lastAudio = audio.Title;
+            //lastAudio = audio.Title;
             textBlock_Title.Text = audio.Title;
             spInfAudio.DataContext = audios[audiosList.SelectedIndex];
         }
@@ -225,11 +238,20 @@ namespace MusicPlayer
         //Очистка кеша перед закрытием
         private void Window_Closed(object sender, EventArgs e)
         {
+            DeleteAudios();
+        }
+        void DeleteAudios()
+        {
             DirectoryInfo di = new DirectoryInfo("Audios");
 
             foreach (FileInfo file in di.GetFiles())
             {
                 file.Delete();
+            }
+
+            foreach (var audio in audios)
+            {
+                audio.Path = null;
             }
         }
 

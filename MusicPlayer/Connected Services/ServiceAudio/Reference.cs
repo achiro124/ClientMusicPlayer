@@ -26,6 +26,12 @@ namespace MusicPlayer.ServiceAudio {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/GetAudioFile", ReplyAction="http://tempuri.org/IServiceAudioPlayer/GetAudioFileResponse")]
         System.Threading.Tasks.Task<byte[]> GetAudioFileAsync(string title);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/Registration", ReplyAction="http://tempuri.org/IServiceAudioPlayer/RegistrationResponse")]
+        int Registration(string login, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/Registration", ReplyAction="http://tempuri.org/IServiceAudioPlayer/RegistrationResponse")]
+        System.Threading.Tasks.Task<int> RegistrationAsync(string login, string password);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -69,6 +75,14 @@ namespace MusicPlayer.ServiceAudio {
         
         public System.Threading.Tasks.Task<byte[]> GetAudioFileAsync(string title) {
             return base.Channel.GetAudioFileAsync(title);
+        }
+        
+        public int Registration(string login, string password) {
+            return base.Channel.Registration(login, password);
+        }
+        
+        public System.Threading.Tasks.Task<int> RegistrationAsync(string login, string password) {
+            return base.Channel.RegistrationAsync(login, password);
         }
     }
 }

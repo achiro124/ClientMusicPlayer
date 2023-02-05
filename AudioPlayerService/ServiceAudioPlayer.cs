@@ -17,6 +17,8 @@ namespace AudioPlayerService
         SqlCommand sqlCommand;
         SqlConnectionStringBuilder connectionStringBuilder;
         List<Audio> audios= new List<Audio>();
+        List<User> users= new List<User>();
+        int nextUserId = 0;
 
         public ServiceAudioPlayer()
         {
@@ -79,6 +81,44 @@ namespace AudioPlayerService
             catch (Exception)
             {
 
+                throw;
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    connection.Close();
+                }
+            }
+        }
+
+        public int Registration(string login, string password)
+        {
+            try
+            {
+                User user = new User
+                {
+                    UserId = nextUserId,
+                    Login = login,
+                    Password = password
+                };
+                users.Add(user);
+                nextUserId++;
+
+                sqlCommand = connection.CreateCommand();
+                sqlCommand.CommandText = "INSERT INTO AudioPlayerUser VALUES(@UserId, @Login, @Password, null)";
+                sqlCommand.Parameters.AddWithValue("UserId", user.UserId);
+                sqlCommand.Parameters.AddWithValue("Login", user.Login);
+                sqlCommand.Parameters.AddWithValue("Password", user.Password);
+
+                sqlCommand.CommandType = System.Data.CommandType.Text;
+                connection.Open();
+                sqlCommand.ExecuteNonQuery();
+
+                return user.UserId;
+            }
+            catch (Exception)
+            {
                 throw;
             }
             finally

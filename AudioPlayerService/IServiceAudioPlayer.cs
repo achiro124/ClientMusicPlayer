@@ -14,8 +14,12 @@ namespace AudioPlayerService
     {
         [OperationContract]
         List<Audio> GetAudioList();
+
         [OperationContract]
         byte[] GetAudioFile(string title);
+
+        [OperationContract]
+        int Registration(string login, string password);
 
     }
     public interface IServerAudioCallback
