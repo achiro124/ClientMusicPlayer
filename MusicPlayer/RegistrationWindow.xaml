@@ -1,0 +1,16 @@
+﻿<Window x:Class="MusicPlayer.RegistrationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MusicPlayer"
+        mc:Ignorable="d"
+        Title="RegistrationWindow" Height="438" Width="475" ResizeMode="CanMinimize">
+    <Grid>
+        <Button Content="Button" Margin="126,334,126,44" Click="Button_Click"/>
+        <TextBox HorizontalAlignment="Center" Margin="0,163,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="268" Height="42"/>
+        <TextBox HorizontalAlignment="Center" Margin="0,84,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="268" Height="42"/>
+        <TextBox HorizontalAlignment="Center" Margin="0,246,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="269" Height="42"/>
+
+    </Grid>
+</Window>

@@ -25,25 +25,25 @@ namespace MusicPlayer
 {
     public partial class MainWindow : Window
     {
+
+
         private bool mediaPlayerIsPlaying = false;
         private bool userIsDraggingSlider = false;
         private bool cycleAudioList = false;
 
         private DispatcherTimer timer = new DispatcherTimer();
-        private ServiceAudioPlayerClient client;
+        public ServiceAudioPlayerClient client { get; set; }
         private ObservableCollection<Audio> audios;
         //private string lastAudio = "";
         private int countAudio = 0;
         private int userId;
 
-        //AudioPlayer
+
         public MainWindow()
         {
             InitializeComponent();
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += timer_Tick;
-
-            
         }
 
         //Инициализация службы во время загрузки окна приложения
@@ -53,7 +53,7 @@ namespace MusicPlayer
             audios = new ObservableCollection<Audio>(client.GetAudioList().ToList());
             audiosList.ItemsSource = audios;
 
-            userId = client.Registration("FadeevMaxim","515255gg");
+            //userId = client.Registration("FadeevMaxim", "515255gg");
         }
 
         //Пауза или старт аудио
@@ -90,7 +90,7 @@ namespace MusicPlayer
                 sliProgress.Minimum = 0;
                 sliProgress.Maximum = mePlayer.NaturalDuration.TimeSpan.TotalSeconds;
             }
-            if(sliProgress.Value == sliProgress.Maximum)
+            if (sliProgress.Value == sliProgress.Maximum)
             {
                 if (cycleAudioList)
                 {
@@ -130,7 +130,7 @@ namespace MusicPlayer
         {
             mePlayer.Volume = slVolume.Value;
             textBlockVolumeStatus.Text = (Math.Floor(slVolume.Value * 100)).ToString();
-            if(slVolume.Value == 0)
+            if (slVolume.Value == 0)
             {
                 imageVolume.Source = new BitmapImage(new Uri(@"/MusicPlayer;component/Image/Mute.png", UriKind.RelativeOrAbsolute));
             }
@@ -152,12 +152,12 @@ namespace MusicPlayer
             openFileDialog.Filter = "Media files (*.mp3;*.mpg;*.mpeg)|*.mp3;*.mpg;*.mpeg|All files (*.*)|*.*";
             if (openFileDialog.ShowDialog() == true)
             {
-                foreach(var file in openFileDialog.FileNames)
+                foreach (var file in openFileDialog.FileNames)
                 {
                     FileInfo fileInf = new FileInfo(file);
                     Audio audio = new Audio { Title = fileInf.Name.TrimEnd(new char[] { '.', 'm', 'p', '3' }), Path = file };
                     audios.Add(audio);
-                }    
+                }
             }
         }
 
@@ -166,7 +166,7 @@ namespace MusicPlayer
         private void Selected_Audio(object sender, EventArgs e)
         {
             Audio audio = audiosList.SelectedItem as Audio;
-            if (audio is null) 
+            if (audio is null)
                 return;
 
             if (audio.Path == null)
@@ -255,12 +255,18 @@ namespace MusicPlayer
             }
         }
 
-      // private void Window_KeyDown(object sender, KeyEventArgs e)
-      // {
-      //     if(e.Key == Key.Space)
-      //     {
-      //         //ButtonStart.tr;
-      //     }
-      // }
+        private void btnUser_Click(object sender, RoutedEventArgs e)
+        {
+            RegistrationWindow registration = new RegistrationWindow(client);
+            registration.Owner = this;
+
+            registration.Show();
+
+            if(registration.DialogResult == true)
+            {
+
+            }
+        }
+
     }
 }

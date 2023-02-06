@@ -98,7 +98,7 @@ namespace AudioPlayerService
             {
                 User user = new User
                 {
-                    UserId = nextUserId,
+                    UserId = 10,
                     Login = login,
                     Password = password
                 };

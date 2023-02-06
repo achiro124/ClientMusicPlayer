@@ -7,8 +7,8 @@
         xmlns:local="clr-namespace:MusicPlayer"
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="MusicPlayer.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="479" Width="727"
-        Background="Gray" Loaded="Window_Loaded">
+        Title="MainWindow" Height="497" Width="811" Loaded="Window_Loaded"
+        Background="Gray">
     <Window.CommandBindings>
         <CommandBinding Command="local:MediaPlayerCommands.PlayOrPause"  Executed="Play_Or_Pause_Executed"/>
         <CommandBinding Command="local:MediaPlayerCommands.CycleAudioList"  Executed="CycleAudioList_Executed"/>
@@ -20,7 +20,6 @@
         <local:DateTimeToDateConverter x:Key="myDateConverter"/>
         <local:ImageConverter x:Key="myImgConverter"/>
     </Window.Resources>
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.3*" MaxWidth="170"/>
@@ -31,11 +30,39 @@
             <RowDefinition Height="76" MaxHeight="76"/>
         </Grid.RowDefinitions>
 
-        <StackPanel x:Name="StackPanel1" Grid.Row="0" Background="Gray">
-            <Button x:Name="button2" Content="Главная" Margin="0,10,0,0"  Background="White" MinHeight="40"/>
-            <Button x:Name="button1" Content="Добавить аудио" Background="White" MinHeight="40" Click="NewAudio_Click"/>
-            <Button x:Name="button3" Content="Подкаст" Background="White" MinHeight="40"/>
-        </StackPanel>
+
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel x:Name="StackPanel1" Grid.Row="0" Background="Gray">
+                <Button x:Name="button2" Content="Главная" Margin="0,10,0,0"  Background="White" MinHeight="40"/>
+                <Button x:Name="button1" Content="Добавить аудио" Background="White" MinHeight="40" Click="NewAudio_Click"/>
+            </StackPanel>
+
+
+
+            <StackPanel Grid.Row="2">
+                <Button x:Name="btnUser"  Margin="0,0,0,10"  Background="White" MinHeight="40" HorizontalContentAlignment="Left" Click="btnUser_Click">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Ellipse Width="35" Height ="35">
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="Image/1.jpg" Stretch="UniformToFill"/>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <TextBlock Text="User" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+
+        </Grid>
+
+
 
         <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
@@ -130,12 +157,12 @@
                                 <TextBlock Text="{Binding Title}" FontSize="16" VerticalAlignment="Center" />
                                 <TextBlock Text="{Binding Group}" FontSize="12" VerticalAlignment="Center" />
                             </StackPanel>
-                            
+
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
         </Grid>
-
     </Grid>
+
 </Window>
