@@ -19,7 +19,10 @@ namespace AudioPlayerService
         byte[] GetAudioFile(string title);
 
         [OperationContract]
-        int Registration(string login, string password);
+        User Registration(string login, string password);
+
+        [OperationContract]
+        User Authorization(string login, string password);
 
     }
     public interface IServerAudioCallback

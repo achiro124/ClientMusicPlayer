@@ -45,16 +45,16 @@
 
 
 
-            <StackPanel Grid.Row="2">
+            <StackPanel x:Name="spUser" Grid.Row="2">
                 <Button x:Name="btnUser"  Margin="0,0,0,10"  Background="White" MinHeight="40" HorizontalContentAlignment="Left" Click="btnUser_Click">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
                             <Ellipse Width="35" Height ="35">
                                 <Ellipse.Fill>
-                                    <ImageBrush ImageSource="Image/1.jpg" Stretch="UniformToFill"/>
+                                    <ImageBrush ImageSource="{Binding Icon, Converter={StaticResource myImgConverter}}" Stretch="UniformToFill"/>
                                 </Ellipse.Fill>
                             </Ellipse>
-                            <TextBlock Text="User" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                            <TextBlock Text="{Binding Login}" VerticalAlignment="Center" Margin="10,0,0,0" FontWeight="Bold"/>
                         </StackPanel>
                     </Button.Content>
                 </Button>

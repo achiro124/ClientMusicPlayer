@@ -20,6 +20,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using MusicPlayer.ServiceAudio;
 using System.Windows.Markup;
+using AudioPlayerService;
 
 namespace MusicPlayer
 {
@@ -32,28 +33,29 @@ namespace MusicPlayer
         private bool cycleAudioList = false;
 
         private DispatcherTimer timer = new DispatcherTimer();
-        public ServiceAudioPlayerClient client { get; set; }
+        public ServiceAudioPlayerClient client;
         private ObservableCollection<Audio> audios;
         //private string lastAudio = "";
         private int countAudio = 0;
-        private int userId;
+        private User user;
 
 
-        public MainWindow()
+        public MainWindow(ServiceAudioPlayerClient client, User user)
         {
             InitializeComponent();
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += timer_Tick;
+
+            this.client = client;
+            this.user = user;
         }
 
         //Инициализация службы во время загрузки окна приложения
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            client = new ServiceAudioPlayerClient(new System.ServiceModel.InstanceContext(this));
             audios = new ObservableCollection<Audio>(client.GetAudioList().ToList());
             audiosList.ItemsSource = audios;
-
-            //userId = client.Registration("FadeevMaxim", "515255gg");
+            spUser.DataContext = user;
         }
 
         //Пауза или старт аудио
@@ -257,15 +259,13 @@ namespace MusicPlayer
 
         private void btnUser_Click(object sender, RoutedEventArgs e)
         {
-            RegistrationWindow registration = new RegistrationWindow(client);
-            registration.Owner = this;
-
-            registration.Show();
-
-            if(registration.DialogResult == true)
-            {
-
-            }
+           // RegistrationWindow registration = new RegistrationWindow(client);
+           // registration.Owner = this;
+           //
+           // if(registration.ShowDialog() == true)
+           // {
+           //     user = registration.user;
+           // }
         }
 
     }

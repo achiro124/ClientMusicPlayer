@@ -28,10 +28,16 @@ namespace MusicPlayer.ServiceAudio {
         System.Threading.Tasks.Task<byte[]> GetAudioFileAsync(string title);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/Registration", ReplyAction="http://tempuri.org/IServiceAudioPlayer/RegistrationResponse")]
-        int Registration(string login, string password);
+        AudioPlayerService.User Registration(string login, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/Registration", ReplyAction="http://tempuri.org/IServiceAudioPlayer/RegistrationResponse")]
-        System.Threading.Tasks.Task<int> RegistrationAsync(string login, string password);
+        System.Threading.Tasks.Task<AudioPlayerService.User> RegistrationAsync(string login, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/Authorization", ReplyAction="http://tempuri.org/IServiceAudioPlayer/AuthorizationResponse")]
+        AudioPlayerService.User Authorization(string login, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/Authorization", ReplyAction="http://tempuri.org/IServiceAudioPlayer/AuthorizationResponse")]
+        System.Threading.Tasks.Task<AudioPlayerService.User> AuthorizationAsync(string login, string password);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -77,12 +83,20 @@ namespace MusicPlayer.ServiceAudio {
             return base.Channel.GetAudioFileAsync(title);
         }
         
-        public int Registration(string login, string password) {
+        public AudioPlayerService.User Registration(string login, string password) {
             return base.Channel.Registration(login, password);
         }
         
-        public System.Threading.Tasks.Task<int> RegistrationAsync(string login, string password) {
+        public System.Threading.Tasks.Task<AudioPlayerService.User> RegistrationAsync(string login, string password) {
             return base.Channel.RegistrationAsync(login, password);
+        }
+        
+        public AudioPlayerService.User Authorization(string login, string password) {
+            return base.Channel.Authorization(login, password);
+        }
+        
+        public System.Threading.Tasks.Task<AudioPlayerService.User> AuthorizationAsync(string login, string password) {
+            return base.Channel.AuthorizationAsync(login, password);
         }
     }
 }

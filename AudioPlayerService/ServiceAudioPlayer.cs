@@ -23,6 +23,7 @@ namespace AudioPlayerService
         public ServiceAudioPlayer()
         {
             ConnectToBd();
+            GetAllUsers();
         }
 
         public void ConnectToBd()
@@ -39,6 +40,45 @@ namespace AudioPlayerService
 
             connection = new SqlConnection(connectionStringBuilder.ToString());
         }
+
+        public void GetAllUsers()
+        {
+            try
+            {
+                sqlCommand = connection.CreateCommand();
+                sqlCommand.CommandText = "SELECT * FROM AudioPlayerUser";
+                sqlCommand.CommandType = System.Data.CommandType.Text;
+
+                connection.Open();
+                SqlDataReader reader = sqlCommand.ExecuteReader();
+                while (reader.Read())
+                {
+                    users.Add(new User
+                    {
+                        UserId = Convert.ToInt32(reader[0]),
+                        Login = reader[1].ToString(),
+                        Icon = (byte[])reader[3],
+                        Password = reader[2].ToString(),
+                    });
+                    nextUserId = Convert.ToInt32(reader[0]) + 1;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    connection.Close();
+                }
+            }
+        }
+
+
+
 
         public byte[] GetAudioFile(string title)
         {
@@ -92,30 +132,37 @@ namespace AudioPlayerService
             }
         }
 
-        public int Registration(string login, string password)
+        public User Registration(string login, string password)
         {
+
+            if(users.FirstOrDefault(u => u.Login == login) != null)
+            {
+                return null;
+            }
+
             try
             {
                 User user = new User
                 {
-                    UserId = 10,
+                    UserId = nextUserId,
                     Login = login,
-                    Password = password
+                    Password = password,
+                    Icon = File.ReadAllBytes(@"C:\\Users\\navfa\\source\\repos\\ClientMusicPlayer\\MusicPlayer\\Image\\1.jpg")
                 };
                 users.Add(user);
                 nextUserId++;
 
                 sqlCommand = connection.CreateCommand();
-                sqlCommand.CommandText = "INSERT INTO AudioPlayerUser VALUES(@UserId, @Login, @Password, null)";
+                sqlCommand.CommandText = "INSERT INTO AudioPlayerUser VALUES(@UserId, @Login, @Password, @Icon)";
                 sqlCommand.Parameters.AddWithValue("UserId", user.UserId);
                 sqlCommand.Parameters.AddWithValue("Login", user.Login);
                 sqlCommand.Parameters.AddWithValue("Password", user.Password);
-
+                sqlCommand.Parameters.AddWithValue("Icon", user.Icon);
                 sqlCommand.CommandType = System.Data.CommandType.Text;
                 connection.Open();
                 sqlCommand.ExecuteNonQuery();
 
-                return user.UserId;
+                return user;
             }
             catch (Exception)
             {
@@ -129,5 +176,21 @@ namespace AudioPlayerService
                 }
             }
         }
+
+
+        public User Authorization(string login, string password)
+        {
+            if(users.FirstOrDefault(u => u.Login == login) != null && users.FirstOrDefault(u => u.Login == login).Password == password)
+            {
+                return users.FirstOrDefault(u => u.Login == login);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+
+
     }
 }
