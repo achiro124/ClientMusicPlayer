@@ -24,6 +24,9 @@ namespace AudioPlayerService
         [OperationContract]
         User Authorization(string login, string password);
 
+        [OperationContract]
+        void EditUserIcon(int userId, byte[] icon);
+
     }
     public interface IServerAudioCallback
     {

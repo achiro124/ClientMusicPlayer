@@ -190,7 +190,30 @@ namespace AudioPlayerService
             }
         }
 
+        public void EditUserIcon(int userId, byte[] Icon)
+        {
+            try
+            {
+                sqlCommand = connection.CreateCommand();
+                sqlCommand.CommandText = "UPDATE AudioPlayerUser SET Icon = @Icon WHERE UserId = @UserId";
+                sqlCommand.Parameters.AddWithValue("UserId", userId);
+                sqlCommand.Parameters.AddWithValue("Icon", Icon);
 
-
+                sqlCommand.CommandType = System.Data.CommandType.Text;
+                connection.Open();
+                sqlCommand.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    connection.Close();
+                }
+            }
+        }
     }
 }

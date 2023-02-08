@@ -259,13 +259,8 @@ namespace MusicPlayer
 
         private void btnUser_Click(object sender, RoutedEventArgs e)
         {
-           // RegistrationWindow registration = new RegistrationWindow(client);
-           // registration.Owner = this;
-           //
-           // if(registration.ShowDialog() == true)
-           // {
-           //     user = registration.user;
-           // }
+            UserWindow userWindow = new UserWindow(client,user);
+            userWindow.Show();
         }
 
     }

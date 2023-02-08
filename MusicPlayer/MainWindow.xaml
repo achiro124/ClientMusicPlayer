@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:MusicPlayer"
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="MusicPlayer.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="497" Width="811" Loaded="Window_Loaded"
+        Title="Аудиоплеер" Height="497" Width="811" Loaded="Window_Loaded"
         Background="Gray">
     <Window.CommandBindings>
         <CommandBinding Command="local:MediaPlayerCommands.PlayOrPause"  Executed="Play_Or_Pause_Executed"/>

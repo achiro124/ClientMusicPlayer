@@ -32,6 +32,12 @@
   <wsdl:message name="IServiceAudioPlayer_Authorization_OutputMessage">
     <wsdl:part name="parameters" element="tns:AuthorizationResponse" />
   </wsdl:message>
+  <wsdl:message name="IServiceAudioPlayer_EditUserIcon_InputMessage">
+    <wsdl:part name="parameters" element="tns:EditUserIcon" />
+  </wsdl:message>
+  <wsdl:message name="IServiceAudioPlayer_EditUserIcon_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EditUserIconResponse" />
+  </wsdl:message>
   <wsdl:portType name="IServiceAudioPlayer">
     <wsdl:operation name="GetAudioList">
       <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/GetAudioList" message="tns:IServiceAudioPlayer_GetAudioList_InputMessage" />
@@ -48,6 +54,10 @@
     <wsdl:operation name="Authorization">
       <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/Authorization" message="tns:IServiceAudioPlayer_Authorization_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IServiceAudioPlayer/AuthorizationResponse" message="tns:IServiceAudioPlayer_Authorization_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EditUserIcon">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/EditUserIcon" message="tns:IServiceAudioPlayer_EditUserIcon_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceAudioPlayer/EditUserIconResponse" message="tns:IServiceAudioPlayer_EditUserIcon_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IServiceAudioPlayer" type="tns:IServiceAudioPlayer">
@@ -81,6 +91,15 @@
     </wsdl:operation>
     <wsdl:operation name="Authorization">
       <soap:operation soapAction="http://tempuri.org/IServiceAudioPlayer/Authorization" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EditUserIcon">
+      <soap:operation soapAction="http://tempuri.org/IServiceAudioPlayer/EditUserIcon" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

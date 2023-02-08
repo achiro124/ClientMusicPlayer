@@ -38,6 +38,12 @@ namespace MusicPlayer.ServiceAudio {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/Authorization", ReplyAction="http://tempuri.org/IServiceAudioPlayer/AuthorizationResponse")]
         System.Threading.Tasks.Task<AudioPlayerService.User> AuthorizationAsync(string login, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/EditUserIcon", ReplyAction="http://tempuri.org/IServiceAudioPlayer/EditUserIconResponse")]
+        void EditUserIcon(int userId, byte[] icon);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/EditUserIcon", ReplyAction="http://tempuri.org/IServiceAudioPlayer/EditUserIconResponse")]
+        System.Threading.Tasks.Task EditUserIconAsync(int userId, byte[] icon);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -97,6 +103,14 @@ namespace MusicPlayer.ServiceAudio {
         
         public System.Threading.Tasks.Task<AudioPlayerService.User> AuthorizationAsync(string login, string password) {
             return base.Channel.AuthorizationAsync(login, password);
+        }
+        
+        public void EditUserIcon(int userId, byte[] icon) {
+            base.Channel.EditUserIcon(userId, icon);
+        }
+        
+        public System.Threading.Tasks.Task EditUserIconAsync(int userId, byte[] icon) {
+            return base.Channel.EditUserIconAsync(userId, icon);
         }
     }
 }

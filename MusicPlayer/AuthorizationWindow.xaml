@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MusicPlayer"
         mc:Ignorable="d"
-        Title="AuthorizationWindow" Height="351" Width="420" ResizeMode="NoResize" Loaded="Window_Loaded"  WindowStartupLocation="CenterScreen">
+        Title="Окно авторизации" Height="351" Width="420" ResizeMode="NoResize" Loaded="Window_Loaded"  WindowStartupLocation="CenterScreen">
     <Grid Width="420" Height="341" VerticalAlignment="Top">
         <Button Content="Авторизоваться" Margin="0,239,0,0" Click="Button_Click" HorizontalAlignment="Center" Width="224" Height="44" VerticalAlignment="Top"/>
         <TextBox x:Name="txtBoxLogin" HorizontalAlignment="Center" Margin="0,94,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="268" Height="27" FontSize="14"/>

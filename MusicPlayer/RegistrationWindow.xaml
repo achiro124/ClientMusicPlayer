@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MusicPlayer"
         mc:Ignorable="d"
-        Title="RegistrationWindow" Height="420" Width="420" ResizeMode="NoResize" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
+        Title="Окно регистрации" Height="420" Width="420" ResizeMode="NoResize" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
     <Grid Height="420" Width="420">
         <Button Content="Зарегистрироваться" Margin="92,308,0,0" Click="Button_Click" HorizontalAlignment="Left" Width="224" Height="44" VerticalAlignment="Top"/>
         <TextBox x:Name="txtBoxLogin" HorizontalAlignment="Center" Margin="0,94,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="268" Height="27" FontSize="14"/>
