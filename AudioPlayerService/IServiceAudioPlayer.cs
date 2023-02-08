@@ -13,7 +13,7 @@ namespace AudioPlayerService
     public interface IServiceAudioPlayer
     {
         [OperationContract]
-        List<Audio> GetAudioList();
+        List<Audio> GetAudioList(int userId);
 
         [OperationContract]
         byte[] GetAudioFile(string title);
@@ -24,8 +24,13 @@ namespace AudioPlayerService
         [OperationContract]
         User Authorization(string login, string password);
 
-        [OperationContract]
+        [OperationContract(IsOneWay = true)]
         void EditUserIcon(int userId, byte[] icon);
+
+        [OperationContract(IsOneWay = true)]
+        void AddFavoriteAudio(int userId,int audioId);
+
+
 
     }
     public interface IServerAudioCallback

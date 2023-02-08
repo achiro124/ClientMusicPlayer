@@ -35,6 +35,7 @@ namespace MusicPlayer
         private DispatcherTimer timer = new DispatcherTimer();
         public ServiceAudioPlayerClient client;
         private ObservableCollection<Audio> audios;
+        private ObservableCollection<Audio> favoritesAudios;
         //private string lastAudio = "";
         private int countAudio = 0;
         private User user;
@@ -53,7 +54,7 @@ namespace MusicPlayer
         //Инициализация службы во время загрузки окна приложения
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            audios = new ObservableCollection<Audio>(client.GetAudioList().ToList());
+            audios = new ObservableCollection<Audio>(client.GetAudioList(user.UserId).ToList());
             audiosList.ItemsSource = audios;
             spUser.DataContext = user;
         }
@@ -263,5 +264,28 @@ namespace MusicPlayer
             userWindow.Show();
         }
 
+        private void favorites_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnFavorite_Click(object sender, RoutedEventArgs e)
+        {
+            if(audiosList.SelectedIndex != -1)
+            {
+                int audioId = audios[audiosList.SelectedIndex].Id;
+                if (!audios[audiosList.SelectedIndex].Favorite)
+                {
+                    audios[audiosList.SelectedIndex].Favorite = true;
+                    client.AddFavoriteAudio(user.UserId, audioId);
+                }
+                else
+                {
+                    //Удаление из избранного
+                }
+
+
+            }
+        }
     }
 }

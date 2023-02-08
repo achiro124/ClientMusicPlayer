@@ -16,10 +16,10 @@ namespace MusicPlayer.ServiceAudio {
     public interface IServiceAudioPlayer {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/GetAudioList", ReplyAction="http://tempuri.org/IServiceAudioPlayer/GetAudioListResponse")]
-        MusicPlayer.Audio[] GetAudioList();
+        MusicPlayer.Audio[] GetAudioList(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/GetAudioList", ReplyAction="http://tempuri.org/IServiceAudioPlayer/GetAudioListResponse")]
-        System.Threading.Tasks.Task<MusicPlayer.Audio[]> GetAudioListAsync();
+        System.Threading.Tasks.Task<MusicPlayer.Audio[]> GetAudioListAsync(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/GetAudioFile", ReplyAction="http://tempuri.org/IServiceAudioPlayer/GetAudioFileResponse")]
         byte[] GetAudioFile(string title);
@@ -39,11 +39,17 @@ namespace MusicPlayer.ServiceAudio {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/Authorization", ReplyAction="http://tempuri.org/IServiceAudioPlayer/AuthorizationResponse")]
         System.Threading.Tasks.Task<AudioPlayerService.User> AuthorizationAsync(string login, string password);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/EditUserIcon", ReplyAction="http://tempuri.org/IServiceAudioPlayer/EditUserIconResponse")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServiceAudioPlayer/EditUserIcon")]
         void EditUserIcon(int userId, byte[] icon);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/EditUserIcon", ReplyAction="http://tempuri.org/IServiceAudioPlayer/EditUserIconResponse")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServiceAudioPlayer/EditUserIcon")]
         System.Threading.Tasks.Task EditUserIconAsync(int userId, byte[] icon);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServiceAudioPlayer/AddFavoriteAudio")]
+        void AddFavoriteAudio(int userId, int audioId);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServiceAudioPlayer/AddFavoriteAudio")]
+        System.Threading.Tasks.Task AddFavoriteAudioAsync(int userId, int audioId);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -73,12 +79,12 @@ namespace MusicPlayer.ServiceAudio {
                 base(binding, remoteAddress) {
         }
         
-        public MusicPlayer.Audio[] GetAudioList() {
-            return base.Channel.GetAudioList();
+        public MusicPlayer.Audio[] GetAudioList(int userId) {
+            return base.Channel.GetAudioList(userId);
         }
         
-        public System.Threading.Tasks.Task<MusicPlayer.Audio[]> GetAudioListAsync() {
-            return base.Channel.GetAudioListAsync();
+        public System.Threading.Tasks.Task<MusicPlayer.Audio[]> GetAudioListAsync(int userId) {
+            return base.Channel.GetAudioListAsync(userId);
         }
         
         public byte[] GetAudioFile(string title) {
@@ -111,6 +117,14 @@ namespace MusicPlayer.ServiceAudio {
         
         public System.Threading.Tasks.Task EditUserIconAsync(int userId, byte[] icon) {
             return base.Channel.EditUserIconAsync(userId, icon);
+        }
+        
+        public void AddFavoriteAudio(int userId, int audioId) {
+            base.Channel.AddFavoriteAudio(userId, audioId);
+        }
+        
+        public System.Threading.Tasks.Task AddFavoriteAudioAsync(int userId, int audioId) {
+            return base.Channel.AddFavoriteAudioAsync(userId, audioId);
         }
     }
 }

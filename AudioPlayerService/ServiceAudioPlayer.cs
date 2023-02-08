@@ -79,7 +79,7 @@ namespace AudioPlayerService
 
 
 
-
+        //Отправка пользователю аудиозаписи в виде байтов
         public byte[] GetAudioFile(string title)
         {
             string pathSourceFile = @"D:\Audios\" + title + ".mp3";
@@ -95,7 +95,9 @@ namespace AudioPlayerService
             return compressAudio;
         }
 
-        public List<Audio> GetAudioList()
+
+        //Получение пользователем списка с музыкой
+        public List<Audio> GetAudioList(int userId)
         {
             try
             {
@@ -105,6 +107,7 @@ namespace AudioPlayerService
 
                 connection.Open();
                 SqlDataReader reader = sqlCommand.ExecuteReader();
+
                 while (reader.Read())
                 {
                     audios.Add(new Audio
@@ -113,9 +116,24 @@ namespace AudioPlayerService
                         Title = reader[1].ToString(),
                         Image = (byte[])reader[2],
                         Group = reader[3].ToString(),
-                        Genre = (GenreType)reader[4]
+                        Genre = (GenreType)reader[4],
                     });
                 }
+
+                List<int> idFavoriteAudio = GetIdFavoriteAudio(userId);
+                
+
+                foreach(var aud in audios)
+                {
+                    foreach(var f in idFavoriteAudio)
+                    {
+                        if(aud.Id == f)
+                        {
+                            aud.Favorite = true;
+                        }
+                    }
+                }
+
                 return audios;
             }
             catch (Exception)
@@ -132,6 +150,7 @@ namespace AudioPlayerService
             }
         }
 
+        //Регистрация пользователя
         public User Registration(string login, string password)
         {
 
@@ -178,6 +197,8 @@ namespace AudioPlayerService
         }
 
 
+
+        //Авторизация пользователя
         public User Authorization(string login, string password)
         {
             if(users.FirstOrDefault(u => u.Login == login) != null && users.FirstOrDefault(u => u.Login == login).Password == password)
@@ -190,6 +211,7 @@ namespace AudioPlayerService
             }
         }
 
+        //Редактирование иконки пользователя
         public void EditUserIcon(int userId, byte[] Icon)
         {
             try
@@ -215,5 +237,65 @@ namespace AudioPlayerService
                 }
             }
         }
+
+        public void AddFavoriteAudio(int userId, int audioId)
+        {
+            try
+            {
+                sqlCommand = connection.CreateCommand();
+                sqlCommand.CommandText = "INSERT INTO FavoriteAudio VALUES(@UserId, @AudioId)";
+                sqlCommand.Parameters.AddWithValue("UserId", userId);
+                sqlCommand.Parameters.AddWithValue("AudioId", audioId);
+                sqlCommand.CommandType = System.Data.CommandType.Text;
+                connection.Open();
+                sqlCommand.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    connection.Close();
+                }
+            }
+        }
+
+
+        public List<int> GetIdFavoriteAudio(int userId)
+        {
+            try
+            {
+                List<int> idFavorite = new List<int>();
+                sqlCommand = connection.CreateCommand();
+                sqlCommand.CommandText = "SELECT AudioId FROM FavoriteAudio";
+                sqlCommand.CommandType = System.Data.CommandType.Text;
+
+                //connection.Open();
+                SqlDataReader reader = sqlCommand.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    idFavorite.Add(Convert.ToInt32(reader[0]));
+                }
+
+                return idFavorite;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    connection.Close();
+                }
+            }
+        }
+
     }
 }

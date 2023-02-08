@@ -8,6 +8,7 @@
   <xs:element name="ArrayOfAudio" nillable="true" type="tns:ArrayOfAudio" />
   <xs:complexType name="Audio">
     <xs:sequence>
+      <xs:element minOccurs="0" name="Favorite" type="xs:boolean" />
       <xs:element minOccurs="0" name="Genre" type="tns:GenreType" />
       <xs:element minOccurs="0" name="Group" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Id" type="xs:int" />

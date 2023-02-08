@@ -27,6 +27,9 @@ namespace MusicPlayer
 
         [DataMember]
         public string Path { get; set; }
+
+        [DataMember]
+        public bool Favorite { get; set; } = false;
     }
 
     public enum GenreType
