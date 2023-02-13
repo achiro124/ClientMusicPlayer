@@ -60,6 +60,7 @@
     <Compile Include="AuthorizationWindow.xaml.cs">
       <DependentUpon>AuthorizationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ImgFavoriteConverter.cs" />
     <Compile Include="RegistrationWindow.xaml.cs">
       <DependentUpon>RegistrationWindow.xaml</DependentUpon>
     </Compile>
@@ -147,8 +148,6 @@
     <Resource Include="Image\ButtonPlay.png" />
     <Resource Include="Image\ButtonNext.png" />
     <Resource Include="Image\ButtonPrev.png" />
-    <Resource Include="Image\BlackHeart.png" />
-    <Resource Include="Image\RedHeart.png" />
     <Resource Include="Image\Mute.png" />
     <Resource Include="Image\Volume.png" />
   </ItemGroup>
@@ -184,6 +183,18 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\BlackHeart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Red_Heart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\conturHeart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\darkHeart.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

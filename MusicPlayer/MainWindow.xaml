@@ -8,7 +8,7 @@
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="MusicPlayer.MainWindow"
         mc:Ignorable="d"
         Title="Аудиоплеер" Height="497" Width="811" Loaded="Window_Loaded"
-        Background="Gray">
+        Background="Gray" x:Name="windowMain">
     <Window.CommandBindings>
         <CommandBinding Command="local:MediaPlayerCommands.PlayOrPause"  Executed="Play_Or_Pause_Executed"/>
         <CommandBinding Command="local:MediaPlayerCommands.CycleAudioList"  Executed="CycleAudioList_Executed"/>
@@ -19,6 +19,7 @@
     <Window.Resources>
         <local:DateTimeToDateConverter x:Key="myDateConverter"/>
         <local:ImageConverter x:Key="myImgConverter"/>
+        <local:ImgFavoriteConverter x:Key="myImgFavoriteConverter"/>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -90,23 +91,23 @@
                 </Button>
                 <MediaElement Name="mePlayer" LoadedBehavior="Manual" Stretch="None" />
             </StackPanel>
-            <Grid Grid.Column="1" Grid.Row="1" Background="Gray" MouseWheel="Grid_MouseWheel">
+            <Grid x:Name="gridInfAudio" Grid.Column="1" Grid.Row="1" Background="Gray" MouseWheel="Grid_MouseWheel">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="0.05*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <StackPanel x:Name="spInfAudio" Grid.Column="0" Orientation="Horizontal" Background="Gray" Width="Auto">
+                <StackPanel x:Name="spInfAudio" Grid.Column="0" Orientation="Horizontal" Background="Gray" Width="Auto" MinWidth="200">
                     <Image x:Name="mainImage" Width="65" Height="50" Margin="0,0,7,6" Source="{Binding Image, Converter={StaticResource myImgConverter}}"/>
                     <StackPanel>
-                        <TextBlock x:Name="textBlock_Title" FontSize="14"> Пустенько...</TextBlock>
+                        <TextBlock x:Name="textBlock_Title" FontWeight="Bold" FontSize="14"> Пустенько...</TextBlock>
                         <TextBlock x:Name="textBlock_Musician" FontSize="11" Text="{Binding Group}"/>
                     </StackPanel>
-                    <Button x:Name="btnFavorite" Grid.Column="1" Width="40" Height="42"  Background="Gray" Margin="15,3,5,3" Click="btnFavorite_Click">
-                        <Image Source="Image/RedHeart.png" Width="25" Height="25"/>
-                    </Button>
                 </StackPanel>
-
-                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Grid.Row="1" Grid.Column="1" MinWidth="100" MaxWidth="150">
+                <Button x:Name="btnFavorite" Grid.Column="1" Grid.Row="1" Width="44" Height="42" Margin="5,0,0,0" BorderThickness="0"  Background="Gray"  Click="btnFavorite_Click">
+                    <Image Source="{Binding Favorite, Converter={StaticResource myImgFavoriteConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Width="25" Height="25"/>
+                </Button>
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Grid.Row="1" Grid.Column="2" MinWidth="100" MaxWidth="150">
                     <Image x:Name="imageVolume" Source="Image/Volume.png" Width="25" Height="25" HorizontalAlignment="Center"/>
                     <TextBlock x:Name="textBlockVolumeStatus" Margin="0,18,0,0" MinWidth="20" TextAlignment="Center">
                         50
@@ -149,17 +150,50 @@
                 <TextBlock Text="Поиск" FontSize="20" Margin="8,5,5,5" />
                 <TextBox TextAlignment="Justify" FontSize="16"  HorizontalAlignment="Stretch" Margin="9,5,20,5" MinHeight="25"/>
             </StackPanel>
-            <ListBox Grid.Row="1" Grid.Column="1" x:Name="audiosList" SelectionChanged ="Selected_Audio">
+            <ListBox Grid.Row="1" Grid.Column="1" x:Name="audiosList" SelectionChanged ="Selected_Audio" HorizontalContentAlignment="Stretch">
+                <ListBox.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Red"/>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Red"/>
+                </ListBox.Resources>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True" >
+                                <Setter Property="FontWeight" Value="Bold" />
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="Foreground" Value="Black" />
+                            </Trigger>
+                        </Style.Triggers>
+                        <Style.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
+                        </Style.Resources>
+                    </Style>
+                </ListBox.ItemContainerStyle>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <Image Source="{Binding Image, Converter={StaticResource myImgConverter}}" Width="50" Height="50" Margin="0,0,10,0"/>
-                            <StackPanel>
-                                <TextBlock Text="{Binding Title}" FontSize="16" VerticalAlignment="Center" />
-                                <TextBlock Text="{Binding Group}" FontSize="12" VerticalAlignment="Center" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="0.05*"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <StackPanel Orientation="Horizontal" Grid.Column="0">
+                                <Image Source="{Binding Image, Converter={StaticResource myImgConverter}}" Width="50" Height="50" Margin="0,0,10,0"/>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Title}" FontSize="16" VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding Group}" FontSize="12" VerticalAlignment="Center" />
+                                </StackPanel>
                             </StackPanel>
 
-                        </StackPanel>
+                            <Button Grid.Column="1" Width="42" Height="44" Background="White" BorderThickness="0">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="20"/>
+                                    </Style>
+                                </Button.Resources>
+                                <Image Source="{Binding Favorite, Converter={StaticResource myImgFavoriteConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Width="25" Height="25"/>
+                            </Button>
+                        </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

@@ -50,6 +50,12 @@ namespace MusicPlayer.ServiceAudio {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServiceAudioPlayer/AddFavoriteAudio")]
         System.Threading.Tasks.Task AddFavoriteAudioAsync(int userId, int audioId);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServiceAudioPlayer/DeleteFavoriteAudio")]
+        void DeleteFavoriteAudio(int userId, int audioId);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServiceAudioPlayer/DeleteFavoriteAudio")]
+        System.Threading.Tasks.Task DeleteFavoriteAudioAsync(int userId, int audioId);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -125,6 +131,14 @@ namespace MusicPlayer.ServiceAudio {
         
         public System.Threading.Tasks.Task AddFavoriteAudioAsync(int userId, int audioId) {
             return base.Channel.AddFavoriteAudioAsync(userId, audioId);
+        }
+        
+        public void DeleteFavoriteAudio(int userId, int audioId) {
+            base.Channel.DeleteFavoriteAudio(userId, audioId);
+        }
+        
+        public System.Threading.Tasks.Task DeleteFavoriteAudioAsync(int userId, int audioId) {
+            return base.Channel.DeleteFavoriteAudioAsync(userId, audioId);
         }
     }
 }

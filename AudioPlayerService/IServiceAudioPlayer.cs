@@ -30,6 +30,9 @@ namespace AudioPlayerService
         [OperationContract(IsOneWay = true)]
         void AddFavoriteAudio(int userId,int audioId);
 
+        [OperationContract(IsOneWay = true)]
+        void DeleteFavoriteAudio(int userId, int audioId);
+
 
 
     }

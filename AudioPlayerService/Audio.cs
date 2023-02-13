@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,8 +10,11 @@ using System.Threading.Tasks;
 namespace MusicPlayer
 {
     [DataContract]
-    public class Audio
+    public class Audio: INotifyPropertyChanged
     {
+        [DataMember]
+        private bool favorite = false;
+
         [DataMember]
         public int Id { get; set; }
 
@@ -29,7 +34,28 @@ namespace MusicPlayer
         public string Path { get; set; }
 
         [DataMember]
-        public bool Favorite { get; set; } = false;
+        public bool Favorite
+        {
+            get
+            {
+                return favorite;
+            }
+            set
+            {
+                favorite = value;
+                PropertyChange("Favorite");
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void PropertyChange([CallerMemberName] string prop = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+            }
+        }
     }
 
     public enum GenreType

@@ -15,7 +15,7 @@
         <TextBlock TextWrapping="Wrap" Margin="78,70,299,331" FontSize="14" FontStyle="Italic"><Run Language="ru-ru" Text="Логин"/></TextBlock>
         <PasswordBox x:Name="pswBox1" HorizontalAlignment="Left" Margin="76,159,0,0" VerticalAlignment="Top" Width="268" Height="27" FontSize="14"/>
         <PasswordBox x:Name="pswBox2" HorizontalAlignment="Center" Margin="0,231,0,0" VerticalAlignment="Top" Width="268" Height="27" FontSize="14"/>
-        <TextBlock x:Name="txtBlockError" TextWrapping="Wrap" Margin="76,272,76,117" FontSize="14" TextDecorations="Underline"><Run Language="ru-ru"/></TextBlock>
+        <TextBlock x:Name="txtBlockError" TextAlignment="Center" TextWrapping="Wrap" Margin="50,272,50,117" FontSize="14" TextDecorations="Underline"><Run Language="ru-ru"/></TextBlock>
         <TextBlock TextWrapping="Wrap" Margin="106,357,118,43"><Run Language="ru-ru" Text="Уже есть аккаунт?"/>
             <Hyperlink Click="Hyperlink_Click">Авторизоваться</Hyperlink>
         </TextBlock>

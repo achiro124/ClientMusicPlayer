@@ -263,6 +263,31 @@ namespace AudioPlayerService
             }
         }
 
+        public void DeleteFavoriteAudio(int userId, int audioId)
+        {
+            try
+            {
+                sqlCommand = connection.CreateCommand();
+                sqlCommand.CommandText = "DELETE FROM FavoriteAudio WHERE UserId = @UserId AND AudioId = @AudioId";
+                sqlCommand.Parameters.AddWithValue("UserId", userId);
+                sqlCommand.Parameters.AddWithValue("AudioId", audioId);
+                sqlCommand.CommandType = System.Data.CommandType.Text;
+                connection.Open();
+                sqlCommand.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    connection.Close();
+                }
+            }
+        }
+
 
         public List<int> GetIdFavoriteAudio(int userId)
         {
@@ -270,10 +295,11 @@ namespace AudioPlayerService
             {
                 List<int> idFavorite = new List<int>();
                 sqlCommand = connection.CreateCommand();
-                sqlCommand.CommandText = "SELECT AudioId FROM FavoriteAudio";
+                sqlCommand.CommandText = "SELECT AudioId FROM FavoriteAudio WHERE UserId = @UserId";
+                sqlCommand.Parameters.AddWithValue("UserId", userId);
                 sqlCommand.CommandType = System.Data.CommandType.Text;
 
-                //connection.Open();
+
                 SqlDataReader reader = sqlCommand.ExecuteReader();
 
                 while (reader.Read())
@@ -296,6 +322,5 @@ namespace AudioPlayerService
                 }
             }
         }
-
     }
 }

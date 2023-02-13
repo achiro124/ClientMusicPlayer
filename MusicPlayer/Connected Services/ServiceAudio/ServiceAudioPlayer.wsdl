@@ -38,6 +38,9 @@
   <wsdl:message name="IServiceAudioPlayer_AddFavoriteAudio_InputMessage">
     <wsdl:part name="parameters" element="tns:AddFavoriteAudio" />
   </wsdl:message>
+  <wsdl:message name="IServiceAudioPlayer_DeleteFavoriteAudio_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteFavoriteAudio" />
+  </wsdl:message>
   <wsdl:portType name="IServiceAudioPlayer">
     <wsdl:operation name="GetAudioList">
       <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/GetAudioList" message="tns:IServiceAudioPlayer_GetAudioList_InputMessage" />
@@ -60,6 +63,9 @@
     </wsdl:operation>
     <wsdl:operation name="AddFavoriteAudio">
       <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/AddFavoriteAudio" message="tns:IServiceAudioPlayer_AddFavoriteAudio_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFavoriteAudio">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/DeleteFavoriteAudio" message="tns:IServiceAudioPlayer_DeleteFavoriteAudio_InputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IServiceAudioPlayer" type="tns:IServiceAudioPlayer">
@@ -108,6 +114,12 @@
     </wsdl:operation>
     <wsdl:operation name="AddFavoriteAudio">
       <soap:operation soapAction="http://tempuri.org/IServiceAudioPlayer/AddFavoriteAudio" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFavoriteAudio">
+      <soap:operation soapAction="http://tempuri.org/IServiceAudioPlayer/DeleteFavoriteAudio" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

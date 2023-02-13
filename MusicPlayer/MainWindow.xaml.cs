@@ -21,6 +21,8 @@ using System.Windows.Threading;
 using MusicPlayer.ServiceAudio;
 using System.Windows.Markup;
 using AudioPlayerService;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace MusicPlayer
 {
@@ -35,11 +37,10 @@ namespace MusicPlayer
         private DispatcherTimer timer = new DispatcherTimer();
         public ServiceAudioPlayerClient client;
         private ObservableCollection<Audio> audios;
-        private ObservableCollection<Audio> favoritesAudios;
+        //private ObservableCollection<Audio> favoritesAudios;
         //private string lastAudio = "";
         private int countAudio = 0;
         private User user;
-
 
         public MainWindow(ServiceAudioPlayerClient client, User user)
         {
@@ -190,7 +191,7 @@ namespace MusicPlayer
             mePlayer.Source = new Uri(audio.Path);
             //lastAudio = audio.Title;
             textBlock_Title.Text = audio.Title;
-            spInfAudio.DataContext = audios[audiosList.SelectedIndex];
+            gridInfAudio.DataContext = audios[audiosList.SelectedIndex];
         }
 
         //Команда на активацию цикла для аудио
@@ -281,7 +282,8 @@ namespace MusicPlayer
                 }
                 else
                 {
-                    //Удаление из избранного
+                    audios[audiosList.SelectedIndex].Favorite = false;
+                    client.DeleteFavoriteAudio(user.UserId, audioId);
                 }
 
 
