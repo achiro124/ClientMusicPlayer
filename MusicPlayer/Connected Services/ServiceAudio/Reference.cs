@@ -21,6 +21,12 @@ namespace MusicPlayer.ServiceAudio {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/GetAudioList", ReplyAction="http://tempuri.org/IServiceAudioPlayer/GetAudioListResponse")]
         System.Threading.Tasks.Task<MusicPlayer.Audio[]> GetAudioListAsync(int userId);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/GetFavoriteAudioList", ReplyAction="http://tempuri.org/IServiceAudioPlayer/GetFavoriteAudioListResponse")]
+        MusicPlayer.Audio[] GetFavoriteAudioList(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/GetFavoriteAudioList", ReplyAction="http://tempuri.org/IServiceAudioPlayer/GetFavoriteAudioListResponse")]
+        System.Threading.Tasks.Task<MusicPlayer.Audio[]> GetFavoriteAudioListAsync(int userId);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/GetAudioFile", ReplyAction="http://tempuri.org/IServiceAudioPlayer/GetAudioFileResponse")]
         byte[] GetAudioFile(string title);
         
@@ -91,6 +97,14 @@ namespace MusicPlayer.ServiceAudio {
         
         public System.Threading.Tasks.Task<MusicPlayer.Audio[]> GetAudioListAsync(int userId) {
             return base.Channel.GetAudioListAsync(userId);
+        }
+        
+        public MusicPlayer.Audio[] GetFavoriteAudioList(int userId) {
+            return base.Channel.GetFavoriteAudioList(userId);
+        }
+        
+        public System.Threading.Tasks.Task<MusicPlayer.Audio[]> GetFavoriteAudioListAsync(int userId) {
+            return base.Channel.GetFavoriteAudioListAsync(userId);
         }
         
         public byte[] GetAudioFile(string title) {

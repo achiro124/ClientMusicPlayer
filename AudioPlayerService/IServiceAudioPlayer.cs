@@ -16,6 +16,9 @@ namespace AudioPlayerService
         List<Audio> GetAudioList(int userId);
 
         [OperationContract]
+        List<Audio> GetFavoriteAudioList(int userId);
+
+        [OperationContract]
         byte[] GetAudioFile(string title);
 
         [OperationContract]

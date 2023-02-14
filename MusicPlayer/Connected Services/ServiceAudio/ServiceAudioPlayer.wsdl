@@ -14,6 +14,12 @@
   <wsdl:message name="IServiceAudioPlayer_GetAudioList_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetAudioListResponse" />
   </wsdl:message>
+  <wsdl:message name="IServiceAudioPlayer_GetFavoriteAudioList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFavoriteAudioList" />
+  </wsdl:message>
+  <wsdl:message name="IServiceAudioPlayer_GetFavoriteAudioList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFavoriteAudioListResponse" />
+  </wsdl:message>
   <wsdl:message name="IServiceAudioPlayer_GetAudioFile_InputMessage">
     <wsdl:part name="parameters" element="tns:GetAudioFile" />
   </wsdl:message>
@@ -46,6 +52,10 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/GetAudioList" message="tns:IServiceAudioPlayer_GetAudioList_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IServiceAudioPlayer/GetAudioListResponse" message="tns:IServiceAudioPlayer_GetAudioList_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="GetFavoriteAudioList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/GetFavoriteAudioList" message="tns:IServiceAudioPlayer_GetFavoriteAudioList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceAudioPlayer/GetFavoriteAudioListResponse" message="tns:IServiceAudioPlayer_GetFavoriteAudioList_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="GetAudioFile">
       <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/GetAudioFile" message="tns:IServiceAudioPlayer_GetAudioFile_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IServiceAudioPlayer/GetAudioFileResponse" message="tns:IServiceAudioPlayer_GetAudioFile_OutputMessage" />
@@ -72,6 +82,15 @@
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="GetAudioList">
       <soap:operation soapAction="http://tempuri.org/IServiceAudioPlayer/GetAudioList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFavoriteAudioList">
+      <soap:operation soapAction="http://tempuri.org/IServiceAudioPlayer/GetFavoriteAudioList" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

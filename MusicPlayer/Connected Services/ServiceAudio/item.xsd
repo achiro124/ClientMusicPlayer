@@ -16,6 +16,20 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="GetFavoriteAudioList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetFavoriteAudioListResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/MusicPlayer" minOccurs="0" name="GetFavoriteAudioListResult" nillable="true" type="q2:ArrayOfAudio" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="GetAudioFile">
     <xs:complexType>
       <xs:sequence>
@@ -41,7 +55,7 @@
   <xs:element name="RegistrationResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/AudioPlayerService" minOccurs="0" name="RegistrationResult" nillable="true" type="q2:User" />
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/AudioPlayerService" minOccurs="0" name="RegistrationResult" nillable="true" type="q3:User" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -56,7 +70,7 @@
   <xs:element name="AuthorizationResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/AudioPlayerService" minOccurs="0" name="AuthorizationResult" nillable="true" type="q3:User" />
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/AudioPlayerService" minOccurs="0" name="AuthorizationResult" nillable="true" type="q4:User" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

@@ -77,8 +77,6 @@ namespace AudioPlayerService
             }
         }
 
-
-
         //Отправка пользователю аудиозаписи в виде байтов
         public byte[] GetAudioFile(string title)
         {
@@ -149,6 +147,52 @@ namespace AudioPlayerService
                 }
             }
         }
+
+
+        public List<Audio> GetFavoriteAudioList(int userId)
+        {
+            try
+            {
+                sqlCommand = connection.CreateCommand();
+                sqlCommand.CommandText = "SELECT * FROM Audio,FavoriteAudio WHERE UserId = @UserId and Audio.Id = FavoriteAudio.AudioId";
+                sqlCommand.Parameters.AddWithValue("UserId", userId);
+                sqlCommand.CommandType = System.Data.CommandType.Text;
+
+                connection.Open();
+                SqlDataReader reader = sqlCommand.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    audios.Add(new Audio
+                    {
+                        Id = Convert.ToInt32(reader[0]),
+                        Title = reader[1].ToString(),
+                        Image = (byte[])reader[2],
+                        Group = reader[3].ToString(),
+                        Genre = (GenreType)reader[4],
+                        Favorite = true
+                    });
+                }
+                return audios;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    connection.Close();
+                }
+            }
+        }
+
+
+
+
+
 
         //Регистрация пользователя
         public User Registration(string login, string password)

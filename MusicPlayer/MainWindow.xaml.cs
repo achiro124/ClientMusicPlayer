@@ -23,6 +23,7 @@ using System.Windows.Markup;
 using AudioPlayerService;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Reflection.Emit;
 
 namespace MusicPlayer
 {
@@ -37,10 +38,11 @@ namespace MusicPlayer
         private DispatcherTimer timer = new DispatcherTimer();
         public ServiceAudioPlayerClient client;
         private ObservableCollection<Audio> audios;
-        //private ObservableCollection<Audio> favoritesAudios;
-        //private string lastAudio = "";
+        private ObservableCollection<Audio> favoritesAudios;
+        private int selectedAudioId;
         private int countAudio = 0;
         private User user;
+        private int selectedItem;
 
         public MainWindow(ServiceAudioPlayerClient client, User user)
         {
@@ -56,6 +58,12 @@ namespace MusicPlayer
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             audios = new ObservableCollection<Audio>(client.GetAudioList(user.UserId).ToList());
+            
+            
+            favoritesAudios = new ObservableCollection<Audio>(client.GetFavoriteAudioList(user.UserId).ToList());
+            favoritesAudios.Reverse();
+
+
             audiosList.ItemsSource = audios;
             spUser.DataContext = user;
         }
@@ -189,9 +197,9 @@ namespace MusicPlayer
             }
 
             mePlayer.Source = new Uri(audio.Path);
-            //lastAudio = audio.Title;
+            selectedAudioId = audio.Id;
             textBlock_Title.Text = audio.Title;
-            gridInfAudio.DataContext = audios[audiosList.SelectedIndex];
+            gridInfAudio.DataContext = audio;
         }
 
         //Команда на активацию цикла для аудио
@@ -267,26 +275,66 @@ namespace MusicPlayer
 
         private void favorites_Click(object sender, RoutedEventArgs e)
         {
+            audiosList.ItemsSource = favoritesAudios;
+            //audiosList.Items.Refresh();
+        }
 
+        private void btnMain_Click(object sender, RoutedEventArgs e)
+        {
+            audiosList.ItemsSource = audios;
         }
 
         private void btnFavorite_Click(object sender, RoutedEventArgs e)
         {
             if(audiosList.SelectedIndex != -1)
             {
-                int audioId = audios[audiosList.SelectedIndex].Id;
-                if (!audios[audiosList.SelectedIndex].Favorite)
+                int audioId = audios.FirstOrDefault(x => x.Id == selectedAudioId).Id;
+                if (!audios.FirstOrDefault(x => x.Id == selectedAudioId).Favorite)
                 {
-                    audios[audiosList.SelectedIndex].Favorite = true;
+                    audios.FirstOrDefault(x => x.Id == selectedAudioId).Favorite = true;
                     client.AddFavoriteAudio(user.UserId, audioId);
+                    favoritesAudios.Insert(0, audios.FirstOrDefault(x => x.Id == selectedAudioId));
                 }
                 else
                 {
-                    audios[audiosList.SelectedIndex].Favorite = false;
+                    audios.FirstOrDefault(x => x.Id == selectedAudioId).Favorite = false;
                     client.DeleteFavoriteAudio(user.UserId, audioId);
+                    favoritesAudios.Remove(favoritesAudios.FirstOrDefault(x => x.Id == selectedAudioId));
                 }
+            }
+        }
+
+        private void btnAddFavorite_Click(object sender, RoutedEventArgs e)
+        {
+            Audio audio = audiosList.Items[selectedItem] as Audio;
+
+            if (!audio.Favorite)
+            {
+                audios.FirstOrDefault(x => x.Id == audio.Id).Favorite = true;
+                client.AddFavoriteAudio(user.UserId, audio.Id);
+                favoritesAudios.Insert(0, audios.FirstOrDefault(x => x.Id == audio.Id));
+            }
+            else
+            {
+                audios.FirstOrDefault(x => x.Id == audio.Id).Favorite = false;
+                client.DeleteFavoriteAudio(user.UserId, audio.Id);
+                favoritesAudios.Remove(favoritesAudios.FirstOrDefault(x => x.Id == audio.Id));
+            }
 
 
+        }
+
+        private void audiosList_MouseMove(object sender, MouseEventArgs e)
+        {
+            var item = VisualTreeHelper.HitTest(audiosList, Mouse.GetPosition(audiosList)).VisualHit;
+
+            // find ListViewItem (or null)
+            while (item != null && !(item is ListBoxItem))
+                item = VisualTreeHelper.GetParent(item);
+
+            if (item != null)
+            {
+                selectedItem = audiosList.Items.IndexOf(((ListBoxItem)item).DataContext);
             }
         }
     }

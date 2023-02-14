@@ -16,7 +16,7 @@ namespace MusicPlayer
             BitmapImage bitmapImage;
             if ((bool)value)
             {
-                bitmapImage = new BitmapImage(new Uri(@"/MusicPlayer;component/Image/darkHeart.png", UriKind.RelativeOrAbsolute));
+                bitmapImage = new BitmapImage(new Uri(@"/MusicPlayer;component/Image/Red_Heart.png", UriKind.RelativeOrAbsolute));
                 return bitmapImage;
             }
             else
