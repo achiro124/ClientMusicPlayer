@@ -276,12 +276,14 @@ namespace MusicPlayer
         private void favorites_Click(object sender, RoutedEventArgs e)
         {
             audiosList.ItemsSource = favoritesAudios;
+            txtBlock.Text = "Избранное";
             //audiosList.Items.Refresh();
         }
 
         private void btnMain_Click(object sender, RoutedEventArgs e)
         {
             audiosList.ItemsSource = audios;
+            txtBlock.Text = "Главная";
         }
 
         private void btnFavorite_Click(object sender, RoutedEventArgs e)
@@ -335,6 +337,19 @@ namespace MusicPlayer
             if (item != null)
             {
                 selectedItem = audiosList.Items.IndexOf(((ListBoxItem)item).DataContext);
+            }
+        }
+
+        private void TxtBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if(txtBoxSearch.Text == string.Empty)
+            {
+                audiosList.ItemsSource = audios;
+            }
+            else
+            {
+                audiosList.ItemsSource = audios.Where(x =>  x.Group.ToLower().Contains(txtBoxSearch.Text.ToLower()) ||  
+                                                            x.Title.ToLower().Contains(txtBoxSearch.Text.ToLower()));
             }
         }
     }

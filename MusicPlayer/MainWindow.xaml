@@ -8,7 +8,7 @@
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="MusicPlayer.MainWindow"
         mc:Ignorable="d"
         Title="Аудиоплеер" Height="497" Width="811" Loaded="Window_Loaded"
-        Background="Gray" x:Name="windowMain">
+        Background="White" x:Name="windowMain">
     <Window.CommandBindings>
         <CommandBinding Command="local:MediaPlayerCommands.PlayOrPause"  Executed="Play_Or_Pause_Executed"/>
         <CommandBinding Command="local:MediaPlayerCommands.CycleAudioList"  Executed="CycleAudioList_Executed"/>
@@ -32,7 +32,7 @@
         </Grid.RowDefinitions>
 
 
-        <Grid Grid.Column="0">
+        <Grid Grid.Column="0" Background="Gray">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -144,17 +144,19 @@
         <Grid Grid.Column ="1" ShowGridLines="False">
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.25*" MaxHeight="75"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Background="White">
                 <TextBlock Text="Поиск" FontSize="20" Margin="8,5,5,5" />
-                <TextBox TextAlignment="Justify" FontSize="16"  HorizontalAlignment="Stretch" Margin="9,5,20,5" MinHeight="25"/>
+                <TextBox x:Name="txtBoxSearch" TextAlignment="Justify" FontSize="16"  HorizontalAlignment="Stretch" Margin="9,5,20,5" MinHeight="25" TextChanged="TxtBoxSearch_TextChanged" />
             </StackPanel>
-            <ListBox Grid.Row="1" Grid.Column="1" x:Name="audiosList" SelectionChanged ="Selected_Audio" HorizontalContentAlignment="Stretch" MouseMove="audiosList_MouseMove">
-                <ListBox.Resources>
-                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Red"/>
-                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Red"/>
-                </ListBox.Resources>
+
+            <TextBlock x:Name="txtBlock" Grid.Row="1" Text="Главная" FontSize="30" Margin="8,5,5,5" Background="White"/>
+
+
+
+            <ListBox Grid.Row="2" Grid.Column="1" x:Name="audiosList" SelectionChanged ="Selected_Audio" HorizontalContentAlignment="Stretch" MouseMove="audiosList_MouseMove" BorderThickness="0">
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
                         <Style.Triggers>
