@@ -384,5 +384,10 @@ namespace MusicPlayer
             audiosList.ItemsSource = myAudiosList;
             txtBlock.Text = "Мои аудиозаписи";
         }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
     }
 }

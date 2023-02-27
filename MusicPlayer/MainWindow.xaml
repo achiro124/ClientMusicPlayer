@@ -180,16 +180,17 @@
                         </Button.Resources>
                         <Image Source="Image/sort.png" Width="25" Height="25"/>
                         <Button.ContextMenu>
-                            <ContextMenu>
+                            <ContextMenu Name="cmSort">
                                 <ContextMenu.Style>
                                     <Style TargetType="{x:Type ContextMenu}">
                                         <Setter Property="ItemsPanel" Value="{StaticResource MenuTPL}"/>
                                     </Style>
                                 </ContextMenu.Style>
-                                <MenuItem Header="Копировать"></MenuItem>
-                                <MenuItem Header="Вставить"></MenuItem>
-                                <MenuItem Header="Вырезать"></MenuItem>
-                                <MenuItem Header="Удалить"></MenuItem>
+                                <MenuItem Header="По названию" Click="MenuItem_Click"/>
+                                <MenuItem Header="По группе" Click="MenuItem_Click"/>
+                                <Separator/>
+                                <MenuItem Header="По возрастанию"/>
+                                <MenuItem Header="По убыванию"/>
                             </ContextMenu>
                         </Button.ContextMenu>
                     </Button>
