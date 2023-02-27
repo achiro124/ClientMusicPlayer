@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioPlayerService", "Audio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioPlayerHost", "AudioPlayerHost\AudioPlayerHost.csproj", "{FBC0FD50-9FD3-46C9-ADAD-83340532DA1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary", "ClassLibrary\ClassLibrary.csproj", "{78ADEAF5-A79E-48FB-8F31-348CC9EE5DDE}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{FBC0FD50-9FD3-46C9-ADAD-83340532DA1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBC0FD50-9FD3-46C9-ADAD-83340532DA1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBC0FD50-9FD3-46C9-ADAD-83340532DA1E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{78ADEAF5-A79E-48FB-8F31-348CC9EE5DDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{78ADEAF5-A79E-48FB-8F31-348CC9EE5DDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{78ADEAF5-A79E-48FB-8F31-348CC9EE5DDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{78ADEAF5-A79E-48FB-8F31-348CC9EE5DDE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

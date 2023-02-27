@@ -60,6 +60,9 @@
     <Compile Include="AuthorizationWindow.xaml.cs">
       <DependentUpon>AuthorizationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BtnVisibilityConverter.cs" />
+    <Compile Include="DateTimeToDateConverter.cs" />
+    <Compile Include="ImageConverter.cs" />
     <Compile Include="ImgFavoriteConverter.cs" />
     <Compile Include="RegistrationWindow.xaml.cs">
       <DependentUpon>RegistrationWindow.xaml</DependentUpon>
@@ -84,8 +87,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="DateTimeToDateConverter.cs" />
-    <Compile Include="ImageConverter.cs" />
     <Compile Include="MediaPlayerCommands.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -198,6 +199,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Image\DownoladFile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\sort.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

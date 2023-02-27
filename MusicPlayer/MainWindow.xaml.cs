@@ -67,8 +67,6 @@ namespace MusicPlayer
 
             audiosList.ItemsSource = audios;
             spUser.DataContext = user;
-            cbSort.SelectedIndex = 0;
-
         }
 
         //Пауза или старт аудио
