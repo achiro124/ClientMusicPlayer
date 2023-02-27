@@ -115,6 +115,7 @@ namespace AudioPlayerService
                         Image = (byte[])reader[2],
                         Group = reader[3].ToString(),
                         Genre = (GenreType)reader[4],
+                        NotAddAudio = true
                     });
                 }
 
@@ -132,7 +133,7 @@ namespace AudioPlayerService
                     }
                 }
 
-                return audios;
+                return audios.OrderBy(x => x.Title).ToList();
             }
             catch (Exception)
             {
@@ -170,10 +171,11 @@ namespace AudioPlayerService
                         Image = (byte[])reader[2],
                         Group = reader[3].ToString(),
                         Genre = (GenreType)reader[4],
-                        Favorite = true
+                        Favorite = true,
+                        NotAddAudio = true
                     });
                 }
-                return audios;
+                return audios.OrderBy(x => x.Title).ToList();
             }
             catch (Exception)
             {
@@ -282,6 +284,7 @@ namespace AudioPlayerService
             }
         }
 
+        //Добавление аудио в избранное
         public void AddFavoriteAudio(int userId, int audioId)
         {
             try
@@ -307,6 +310,7 @@ namespace AudioPlayerService
             }
         }
 
+        //Удаление аудио из избранного
         public void DeleteFavoriteAudio(int userId, int audioId)
         {
             try
@@ -332,7 +336,7 @@ namespace AudioPlayerService
             }
         }
 
-
+        //Получение списка id аудио записей с пометкой избранные
         public List<int> GetIdFavoriteAudio(int userId)
         {
             try

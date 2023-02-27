@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace MusicPlayer
 {
     [DataContract]
-    public class Audio: INotifyPropertyChanged
+    public class Audio : INotifyPropertyChanged
     {
         [DataMember]
         private bool favorite = false;
@@ -47,7 +47,12 @@ namespace MusicPlayer
             }
         }
 
+        [DataMember]
+        public bool NotAddAudio { get; set; }
+        
+
         public event PropertyChangedEventHandler PropertyChanged;
+
 
         private void PropertyChange([CallerMemberName] string prop = "")
         {

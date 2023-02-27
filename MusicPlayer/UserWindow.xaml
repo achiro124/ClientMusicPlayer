@@ -28,7 +28,7 @@
 
         <StackPanel Grid.Row="1" Orientation="Vertical">
             <Button x:Name="btnEdit" Content="Сменить иконку" Width="140" Height="30" Margin="10" Click="btnEdit_Click"/>
-            <Button x:Name="btnExit" Content="Выйти" Width="140" Height="30"/>
+            <Button x:Name="btnExit" Content="Выйти" Width="140" Height="30" Click="btnExit_Click"/>
         </StackPanel>
 
 

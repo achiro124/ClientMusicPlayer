@@ -54,5 +54,13 @@ namespace MusicPlayer
                 ElUserIcon.DataContext = user;
             }
         }
+
+        private void btnExit_Click(object sender, RoutedEventArgs e)
+        {
+            AuthorizationWindow authorizationWindow = new AuthorizationWindow();
+            authorizationWindow.Show();
+            this.Owner.Close();
+            this.Close();
+        }
     }
 }

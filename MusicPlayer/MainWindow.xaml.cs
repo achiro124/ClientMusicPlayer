@@ -39,6 +39,7 @@ namespace MusicPlayer
         public ServiceAudioPlayerClient client;
         private ObservableCollection<Audio> audios;
         private ObservableCollection<Audio> favoritesAudios;
+        private ObservableCollection<Audio> myAudiosList = new ObservableCollection<Audio>();
         private int selectedAudioId;
         private int countAudio = 0;
         private User user;
@@ -66,6 +67,8 @@ namespace MusicPlayer
 
             audiosList.ItemsSource = audios;
             spUser.DataContext = user;
+            cbSort.SelectedIndex = 0;
+
         }
 
         //Пауза или старт аудио
@@ -168,7 +171,7 @@ namespace MusicPlayer
                 {
                     FileInfo fileInf = new FileInfo(file);
                     Audio audio = new Audio { Title = fileInf.Name.TrimEnd(new char[] { '.', 'm', 'p', '3' }), Path = file };
-                    audios.Add(audio);
+                    myAudiosList.Add(audio);
                 }
             }
         }
@@ -270,6 +273,7 @@ namespace MusicPlayer
         private void btnUser_Click(object sender, RoutedEventArgs e)
         {
             UserWindow userWindow = new UserWindow(client,user);
+            userWindow.Owner = this;
             userWindow.Show();
         }
 
@@ -348,9 +352,39 @@ namespace MusicPlayer
             }
             else
             {
-                audiosList.ItemsSource = audios.Where(x =>  x.Group.ToLower().Contains(txtBoxSearch.Text.ToLower()) ||  
+                audiosList.ItemsSource = audios?.Where(x =>  x.Group.ToLower().Contains(txtBoxSearch.Text.ToLower()) ||  
                                                             x.Title.ToLower().Contains(txtBoxSearch.Text.ToLower()));
             }
+            txtBlock.Text = "Главная";
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+            switch (comboBox.SelectedIndex)
+            {
+                case 0:
+                    audiosList.Items.SortDescriptions.Clear();
+                    audiosList.Items.SortDescriptions.Add(new SortDescription("Title", ListSortDirection.Ascending));
+                    audiosList.Items.Refresh();
+                    break;
+                case 1:
+                    audiosList.Items.SortDescriptions.Clear();
+                    audiosList.Items.SortDescriptions.Add(new SortDescription("Title", ListSortDirection.Descending));
+                    audiosList.Items.Refresh();
+                    break;
+                case 2:
+                    audiosList.Items.SortDescriptions.Clear();
+                    audiosList.Items.SortDescriptions.Add(new SortDescription("Group", ListSortDirection.Ascending));
+                    audiosList.Items.Refresh();
+                    break;
+            }
+        }
+
+        private void myAudios_Click(object sender, RoutedEventArgs e)
+        {
+            audiosList.ItemsSource = myAudiosList;
+            txtBlock.Text = "Мои аудиозаписи";
         }
     }
 }
