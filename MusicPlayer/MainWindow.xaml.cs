@@ -40,6 +40,7 @@ namespace MusicPlayer
         private ObservableCollection<Audio> audios;
         private ObservableCollection<Audio> favoritesAudios;
         private ObservableCollection<Audio> myAudiosList = new ObservableCollection<Audio>();
+        private (string, ListSortDirection) typeSort = ("Title", ListSortDirection.Ascending);
         private int selectedAudioId;
         private int countAudio = 0;
         private User user;
@@ -64,7 +65,7 @@ namespace MusicPlayer
             favoritesAudios = new ObservableCollection<Audio>(client.GetFavoriteAudioList(user.UserId).ToList());
             favoritesAudios.Reverse();
 
-
+            btnAddAudio.Visibility = Visibility.Hidden;
             audiosList.ItemsSource = audios;
             spUser.DataContext = user;
         }
@@ -279,6 +280,7 @@ namespace MusicPlayer
         {
             audiosList.ItemsSource = favoritesAudios;
             txtBlock.Text = "Избранное";
+            btnAddAudio.Visibility = Visibility.Hidden;
             //audiosList.Items.Refresh();
         }
 
@@ -286,6 +288,14 @@ namespace MusicPlayer
         {
             audiosList.ItemsSource = audios;
             txtBlock.Text = "Главная";
+            btnAddAudio.Visibility = Visibility.Hidden;
+        }
+
+        private void myAudios_Click(object sender, RoutedEventArgs e)
+        {
+            audiosList.ItemsSource = myAudiosList;
+            txtBlock.Text = "Мои аудиозаписи";
+            btnAddAudio.Visibility = Visibility.Visible;
         }
 
         private void btnFavorite_Click(object sender, RoutedEventArgs e)
@@ -356,38 +366,70 @@ namespace MusicPlayer
             txtBlock.Text = "Главная";
         }
 
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            ComboBox comboBox = sender as ComboBox;
-            switch (comboBox.SelectedIndex)
+            MenuItem item = sender as MenuItem;
+            MenuItem menuItem;
+            if (item != null) 
             {
-                case 0:
-                    audiosList.Items.SortDescriptions.Clear();
-                    audiosList.Items.SortDescriptions.Add(new SortDescription("Title", ListSortDirection.Ascending));
-                    audiosList.Items.Refresh();
-                    break;
-                case 1:
-                    audiosList.Items.SortDescriptions.Clear();
-                    audiosList.Items.SortDescriptions.Add(new SortDescription("Title", ListSortDirection.Descending));
-                    audiosList.Items.Refresh();
-                    break;
-                case 2:
-                    audiosList.Items.SortDescriptions.Clear();
-                    audiosList.Items.SortDescriptions.Add(new SortDescription("Group", ListSortDirection.Ascending));
-                    audiosList.Items.Refresh();
-                    break;
+                int k = cmSort.Items.IndexOf(item);
+                switch (k)
+                {
+                    case 0:
+                        menuItem = (MenuItem)cmSort.Items[0];
+                        menuItem.FontWeight = FontWeights.Bold;
+                        menuItem = (MenuItem)cmSort.Items[1];
+                        menuItem.FontWeight = FontWeights.Normal;
+
+
+                        typeSort.Item1 = "Title";
+                        audiosList.Items.SortDescriptions.Clear();
+                        audiosList.Items.SortDescriptions.Add(new SortDescription(typeSort.Item1, typeSort.Item2));
+                        audiosList.Items.Refresh();
+                        break;
+                    case 1:
+                        menuItem = (MenuItem)cmSort.Items[1];
+                        menuItem.FontWeight = FontWeights.Bold;
+                        menuItem = (MenuItem)cmSort.Items[0];
+                        menuItem.FontWeight = FontWeights.Normal;
+
+
+                        typeSort.Item1 = "Group";
+                        audiosList.Items.SortDescriptions.Clear();
+                        audiosList.Items.SortDescriptions.Add(new SortDescription(typeSort.Item1, typeSort.Item2));
+                        audiosList.Items.Refresh();
+                        break;
+                    case 3:
+                        menuItem = (MenuItem)cmSort.Items[3];
+                        menuItem.FontWeight = FontWeights.Bold;
+                        menuItem = (MenuItem)cmSort.Items[4];
+                        menuItem.FontWeight = FontWeights.Normal;
+
+
+                        typeSort.Item2 = ListSortDirection.Ascending;
+                        audiosList.Items.SortDescriptions.Clear();
+                        audiosList.Items.SortDescriptions.Add(new SortDescription(typeSort.Item1, typeSort.Item2));
+                        audiosList.Items.Refresh();
+                        break;
+                    case 4:
+                        menuItem = (MenuItem)cmSort.Items[4];
+                        menuItem.FontWeight = FontWeights.Bold;
+                        menuItem = (MenuItem)cmSort.Items[3];
+                        menuItem.FontWeight = FontWeights.Normal;
+
+
+                        typeSort.Item2 = ListSortDirection.Descending;
+                        audiosList.Items.SortDescriptions.Clear();
+                        audiosList.Items.SortDescriptions.Add(new SortDescription(typeSort.Item1, typeSort.Item2));
+                        audiosList.Items.Refresh();
+                        break;
+                }
             }
         }
 
-        private void myAudios_Click(object sender, RoutedEventArgs e)
+        private void btnSort_MouseEnter(object sender, MouseEventArgs e)
         {
-            audiosList.ItemsSource = myAudiosList;
-            txtBlock.Text = "Мои аудиозаписи";
-        }
-
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            
+            cmSort.IsOpen = true;
         }
     }
 }
