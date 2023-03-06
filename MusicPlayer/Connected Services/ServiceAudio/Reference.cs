@@ -16,16 +16,52 @@ namespace MusicPlayer.ServiceAudio {
     public interface IServiceAudioPlayer {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/GetAudioList", ReplyAction="http://tempuri.org/IServiceAudioPlayer/GetAudioListResponse")]
-        MusicPlayer.Audio[] GetAudioList();
+        MusicPlayer.Audio[] GetAudioList(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/GetAudioList", ReplyAction="http://tempuri.org/IServiceAudioPlayer/GetAudioListResponse")]
-        System.Threading.Tasks.Task<MusicPlayer.Audio[]> GetAudioListAsync();
+        System.Threading.Tasks.Task<MusicPlayer.Audio[]> GetAudioListAsync(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/GetFavoriteAudioList", ReplyAction="http://tempuri.org/IServiceAudioPlayer/GetFavoriteAudioListResponse")]
+        MusicPlayer.Audio[] GetFavoriteAudioList(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/GetFavoriteAudioList", ReplyAction="http://tempuri.org/IServiceAudioPlayer/GetFavoriteAudioListResponse")]
+        System.Threading.Tasks.Task<MusicPlayer.Audio[]> GetFavoriteAudioListAsync(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/GetAudioFile", ReplyAction="http://tempuri.org/IServiceAudioPlayer/GetAudioFileResponse")]
         byte[] GetAudioFile(string title);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/GetAudioFile", ReplyAction="http://tempuri.org/IServiceAudioPlayer/GetAudioFileResponse")]
         System.Threading.Tasks.Task<byte[]> GetAudioFileAsync(string title);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/Registration", ReplyAction="http://tempuri.org/IServiceAudioPlayer/RegistrationResponse")]
+        AudioPlayerService.User Registration(string login, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/Registration", ReplyAction="http://tempuri.org/IServiceAudioPlayer/RegistrationResponse")]
+        System.Threading.Tasks.Task<AudioPlayerService.User> RegistrationAsync(string login, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/Authorization", ReplyAction="http://tempuri.org/IServiceAudioPlayer/AuthorizationResponse")]
+        AudioPlayerService.User Authorization(string login, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/Authorization", ReplyAction="http://tempuri.org/IServiceAudioPlayer/AuthorizationResponse")]
+        System.Threading.Tasks.Task<AudioPlayerService.User> AuthorizationAsync(string login, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServiceAudioPlayer/EditUserIcon")]
+        void EditUserIcon(int userId, byte[] icon);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServiceAudioPlayer/EditUserIcon")]
+        System.Threading.Tasks.Task EditUserIconAsync(int userId, byte[] icon);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServiceAudioPlayer/AddFavoriteAudio")]
+        void AddFavoriteAudio(int userId, int audioId);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServiceAudioPlayer/AddFavoriteAudio")]
+        System.Threading.Tasks.Task AddFavoriteAudioAsync(int userId, int audioId);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServiceAudioPlayer/DeleteFavoriteAudio")]
+        void DeleteFavoriteAudio(int userId, int audioId);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServiceAudioPlayer/DeleteFavoriteAudio")]
+        System.Threading.Tasks.Task DeleteFavoriteAudioAsync(int userId, int audioId);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -55,12 +91,20 @@ namespace MusicPlayer.ServiceAudio {
                 base(binding, remoteAddress) {
         }
         
-        public MusicPlayer.Audio[] GetAudioList() {
-            return base.Channel.GetAudioList();
+        public MusicPlayer.Audio[] GetAudioList(int userId) {
+            return base.Channel.GetAudioList(userId);
         }
         
-        public System.Threading.Tasks.Task<MusicPlayer.Audio[]> GetAudioListAsync() {
-            return base.Channel.GetAudioListAsync();
+        public System.Threading.Tasks.Task<MusicPlayer.Audio[]> GetAudioListAsync(int userId) {
+            return base.Channel.GetAudioListAsync(userId);
+        }
+        
+        public MusicPlayer.Audio[] GetFavoriteAudioList(int userId) {
+            return base.Channel.GetFavoriteAudioList(userId);
+        }
+        
+        public System.Threading.Tasks.Task<MusicPlayer.Audio[]> GetFavoriteAudioListAsync(int userId) {
+            return base.Channel.GetFavoriteAudioListAsync(userId);
         }
         
         public byte[] GetAudioFile(string title) {
@@ -69,6 +113,46 @@ namespace MusicPlayer.ServiceAudio {
         
         public System.Threading.Tasks.Task<byte[]> GetAudioFileAsync(string title) {
             return base.Channel.GetAudioFileAsync(title);
+        }
+        
+        public AudioPlayerService.User Registration(string login, string password) {
+            return base.Channel.Registration(login, password);
+        }
+        
+        public System.Threading.Tasks.Task<AudioPlayerService.User> RegistrationAsync(string login, string password) {
+            return base.Channel.RegistrationAsync(login, password);
+        }
+        
+        public AudioPlayerService.User Authorization(string login, string password) {
+            return base.Channel.Authorization(login, password);
+        }
+        
+        public System.Threading.Tasks.Task<AudioPlayerService.User> AuthorizationAsync(string login, string password) {
+            return base.Channel.AuthorizationAsync(login, password);
+        }
+        
+        public void EditUserIcon(int userId, byte[] icon) {
+            base.Channel.EditUserIcon(userId, icon);
+        }
+        
+        public System.Threading.Tasks.Task EditUserIconAsync(int userId, byte[] icon) {
+            return base.Channel.EditUserIconAsync(userId, icon);
+        }
+        
+        public void AddFavoriteAudio(int userId, int audioId) {
+            base.Channel.AddFavoriteAudio(userId, audioId);
+        }
+        
+        public System.Threading.Tasks.Task AddFavoriteAudioAsync(int userId, int audioId) {
+            return base.Channel.AddFavoriteAudioAsync(userId, audioId);
+        }
+        
+        public void DeleteFavoriteAudio(int userId, int audioId) {
+            base.Channel.DeleteFavoriteAudio(userId, audioId);
+        }
+        
+        public System.Threading.Tasks.Task DeleteFavoriteAudioAsync(int userId, int audioId) {
+            return base.Channel.DeleteFavoriteAudioAsync(userId, audioId);
         }
     }
 }

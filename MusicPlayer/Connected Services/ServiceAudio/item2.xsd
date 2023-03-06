@@ -8,12 +8,14 @@
   <xs:element name="ArrayOfAudio" nillable="true" type="tns:ArrayOfAudio" />
   <xs:complexType name="Audio">
     <xs:sequence>
+      <xs:element minOccurs="0" name="Favorite" type="xs:boolean" />
       <xs:element minOccurs="0" name="Genre" type="tns:GenreType" />
       <xs:element minOccurs="0" name="Group" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Id" type="xs:int" />
       <xs:element minOccurs="0" name="Image" nillable="true" type="xs:base64Binary" />
       <xs:element minOccurs="0" name="Path" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Title" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="favorite" type="xs:boolean" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Audio" nillable="true" type="tns:Audio" />

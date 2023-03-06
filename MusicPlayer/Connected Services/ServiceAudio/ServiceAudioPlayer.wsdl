@@ -5,6 +5,7 @@
       <xsd:import schemaLocation="http://localhost:8301/?xsd=xsd0" namespace="http://tempuri.org/" />
       <xsd:import schemaLocation="http://localhost:8301/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import schemaLocation="http://localhost:8301/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/MusicPlayer" />
+      <xsd:import schemaLocation="http://localhost:8301/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/AudioPlayerService" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IServiceAudioPlayer_GetAudioList_InputMessage">
@@ -13,26 +14,83 @@
   <wsdl:message name="IServiceAudioPlayer_GetAudioList_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetAudioListResponse" />
   </wsdl:message>
+  <wsdl:message name="IServiceAudioPlayer_GetFavoriteAudioList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFavoriteAudioList" />
+  </wsdl:message>
+  <wsdl:message name="IServiceAudioPlayer_GetFavoriteAudioList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFavoriteAudioListResponse" />
+  </wsdl:message>
   <wsdl:message name="IServiceAudioPlayer_GetAudioFile_InputMessage">
     <wsdl:part name="parameters" element="tns:GetAudioFile" />
   </wsdl:message>
   <wsdl:message name="IServiceAudioPlayer_GetAudioFile_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetAudioFileResponse" />
   </wsdl:message>
+  <wsdl:message name="IServiceAudioPlayer_Registration_InputMessage">
+    <wsdl:part name="parameters" element="tns:Registration" />
+  </wsdl:message>
+  <wsdl:message name="IServiceAudioPlayer_Registration_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RegistrationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServiceAudioPlayer_Authorization_InputMessage">
+    <wsdl:part name="parameters" element="tns:Authorization" />
+  </wsdl:message>
+  <wsdl:message name="IServiceAudioPlayer_Authorization_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AuthorizationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServiceAudioPlayer_EditUserIcon_InputMessage">
+    <wsdl:part name="parameters" element="tns:EditUserIcon" />
+  </wsdl:message>
+  <wsdl:message name="IServiceAudioPlayer_AddFavoriteAudio_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddFavoriteAudio" />
+  </wsdl:message>
+  <wsdl:message name="IServiceAudioPlayer_DeleteFavoriteAudio_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteFavoriteAudio" />
+  </wsdl:message>
   <wsdl:portType name="IServiceAudioPlayer">
     <wsdl:operation name="GetAudioList">
       <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/GetAudioList" message="tns:IServiceAudioPlayer_GetAudioList_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IServiceAudioPlayer/GetAudioListResponse" message="tns:IServiceAudioPlayer_GetAudioList_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="GetFavoriteAudioList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/GetFavoriteAudioList" message="tns:IServiceAudioPlayer_GetFavoriteAudioList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceAudioPlayer/GetFavoriteAudioListResponse" message="tns:IServiceAudioPlayer_GetFavoriteAudioList_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="GetAudioFile">
       <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/GetAudioFile" message="tns:IServiceAudioPlayer_GetAudioFile_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IServiceAudioPlayer/GetAudioFileResponse" message="tns:IServiceAudioPlayer_GetAudioFile_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Registration">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/Registration" message="tns:IServiceAudioPlayer_Registration_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceAudioPlayer/RegistrationResponse" message="tns:IServiceAudioPlayer_Registration_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Authorization">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/Authorization" message="tns:IServiceAudioPlayer_Authorization_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceAudioPlayer/AuthorizationResponse" message="tns:IServiceAudioPlayer_Authorization_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EditUserIcon">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/EditUserIcon" message="tns:IServiceAudioPlayer_EditUserIcon_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddFavoriteAudio">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/AddFavoriteAudio" message="tns:IServiceAudioPlayer_AddFavoriteAudio_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFavoriteAudio">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/DeleteFavoriteAudio" message="tns:IServiceAudioPlayer_DeleteFavoriteAudio_InputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IServiceAudioPlayer" type="tns:IServiceAudioPlayer">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="GetAudioList">
       <soap:operation soapAction="http://tempuri.org/IServiceAudioPlayer/GetAudioList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFavoriteAudioList">
+      <soap:operation soapAction="http://tempuri.org/IServiceAudioPlayer/GetFavoriteAudioList" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -48,6 +106,42 @@
       <wsdl:output>
         <soap:body use="literal" />
       </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Registration">
+      <soap:operation soapAction="http://tempuri.org/IServiceAudioPlayer/Registration" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Authorization">
+      <soap:operation soapAction="http://tempuri.org/IServiceAudioPlayer/Authorization" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EditUserIcon">
+      <soap:operation soapAction="http://tempuri.org/IServiceAudioPlayer/EditUserIcon" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="AddFavoriteAudio">
+      <soap:operation soapAction="http://tempuri.org/IServiceAudioPlayer/AddFavoriteAudio" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFavoriteAudio">
+      <soap:operation soapAction="http://tempuri.org/IServiceAudioPlayer/DeleteFavoriteAudio" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="ServiceAudioPlayer">
