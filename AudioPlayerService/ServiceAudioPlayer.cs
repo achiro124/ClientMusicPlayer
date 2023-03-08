@@ -18,8 +18,6 @@ namespace AudioPlayerService
         DbAudioPlayerContext _context = new DbAudioPlayerContext();
         public ServiceAudioPlayer()
         {
-          //  Database.SetInitializer(
-          //  new DropCreateDatabaseIfModelChanges<DbAudioPlayerContext>());
         }
 
         //Отправка пользователю аудиозаписи в виде байтов
@@ -37,9 +35,11 @@ namespace AudioPlayerService
             List<Audio> audioList = new List<Audio>();
             foreach(var item in _context.Audios.Include(x => x.Users))
             {
+                item.Path = "";
                 audioList.Add(item);
                 audioList.Last().IsFavorites = _context.Users.FirstOrDefault(x => x.UserId == userId)?.FavoriteAudio
                                                              .FirstOrDefault(x => x.AudioId == item.AudioId) != null;
+                
             }
             return audioList;
         }

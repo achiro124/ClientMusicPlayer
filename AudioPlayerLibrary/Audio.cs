@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -54,6 +55,9 @@ namespace AudioPlayerLibrary
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
             }
         }
+
+        [DataMember]
+        public string Path { get; set; } = "";
     }
 
     public enum GenreType

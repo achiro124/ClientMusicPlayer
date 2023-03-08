@@ -16,7 +16,7 @@ namespace AudioPlayerService
     {
         public DbAudioPlayerContext() : base()
         {
-            this.Database.Connection.ConnectionString = @"Data Source = (localdb)\MSSQLLocalDB; Initial Catalog = AudioPlayer; Integrated Security = True; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False; MultipleActiveResultSets=True";
+            this.Database.Connection.ConnectionString = @"Data Source = (localdb)\MSSQLLocalDB; Initial Catalog = AudioPlayer1; Integrated Security = True; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False; MultipleActiveResultSets=True";
 
 
         }

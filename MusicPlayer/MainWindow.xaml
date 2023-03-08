@@ -229,7 +229,31 @@
                                 <Image Source="{Binding Image, Converter={StaticResource myImgConverter}}" Width="50" Height="50" Margin="0,0,10,0"/>
                                 <StackPanel>
                                     <TextBlock Text="{Binding Title}" FontSize="16" VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding Group}" FontSize="12" VerticalAlignment="Center" FontStyle="Italic" />
+                                    <TextBlock Text="{Binding Group}" FontSize="12" VerticalAlignment="Center" FontStyle="Italic" PreviewMouseLeftButtonDown="TextBlock_PreviewMouseLeftButtonDown">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Cursor" Value="Hand" />
+                                                    </Trigger>
+                                                    <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <ColorAnimation Duration="0:0:0.1" Storyboard.TargetProperty="Foreground.Color" To="CornflowerBlue" />
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </EventTrigger>
+                                                    <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <ColorAnimation Duration="0:0:0.1" Storyboard.TargetProperty="Foreground.Color" To="Black" />
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </EventTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
                                 </StackPanel>
                             </StackPanel>
 
