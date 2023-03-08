@@ -1,31 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MusicPlayer
+namespace AudioPlayerLibrary
 {
+    [DataContract]
     public class Audio : INotifyPropertyChanged
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DataMember]
+        public int AudioId { get; set; }
+        [DataMember]
+        public string Title { get; set; } = "";
+        [DataMember]
+        public byte[] Image { get; set; }
+        [DataMember]
+        public string Group { get; set; } = "";
+        [DataMember]
+        public GenreType GenreType { get; set; }
+
+        [DataMember]
         private bool favorite = false;
 
-        public int Id { get; set; }
-
-        public string Title { get; set; }
-
-        public byte[] Image { get; set; }
-
-        public string Group { set; get; }
-
-        public GenreType Genre { get; set; }
-
-        public string Path { get; set; }
-
-        public bool Favorite
+        [DataMember]
+        public bool IsFavorites
         {
             get
             {
@@ -34,16 +40,13 @@ namespace MusicPlayer
             set
             {
                 favorite = value;
-                PropertyChange("Favorite");
+                PropertyChange("IsFavorites");
             }
         }
-
-        public bool NotAddAudio { get; set; }
-        
+        [DataMember]
+        public List<User> Users { get; set; } = new List<User>();
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-
         private void PropertyChange([CallerMemberName] string prop = "")
         {
             if (PropertyChanged != null)
@@ -55,11 +58,9 @@ namespace MusicPlayer
 
     public enum GenreType
     {
-        Blues,
-        Country,
-        Electronic,
         Pop,
         Rock,
-        Hip_Hop
+        Hip_Hop,
+        Jazz
     }
 }
