@@ -8,24 +8,24 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MusicPlayer.ServiceAudio {
+namespace MusicPlayer.AudioPlayerService {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceAudio.IServiceAudioPlayer")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="AudioPlayerService.IServiceAudioPlayer")]
     public interface IServiceAudioPlayer {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/GetAudioList", ReplyAction="http://tempuri.org/IServiceAudioPlayer/GetAudioListResponse")]
-        MusicPlayer.Audio[] GetAudioList(int userId);
+        AudioPlayerLibrary.Audio[] GetAudioList(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/GetAudioList", ReplyAction="http://tempuri.org/IServiceAudioPlayer/GetAudioListResponse")]
-        System.Threading.Tasks.Task<MusicPlayer.Audio[]> GetAudioListAsync(int userId);
+        System.Threading.Tasks.Task<AudioPlayerLibrary.Audio[]> GetAudioListAsync(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/GetFavoriteAudioList", ReplyAction="http://tempuri.org/IServiceAudioPlayer/GetFavoriteAudioListResponse")]
-        MusicPlayer.Audio[] GetFavoriteAudioList(int userId);
+        AudioPlayerLibrary.Audio[] GetFavoriteAudioList(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/GetFavoriteAudioList", ReplyAction="http://tempuri.org/IServiceAudioPlayer/GetFavoriteAudioListResponse")]
-        System.Threading.Tasks.Task<MusicPlayer.Audio[]> GetFavoriteAudioListAsync(int userId);
+        System.Threading.Tasks.Task<AudioPlayerLibrary.Audio[]> GetFavoriteAudioListAsync(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/GetAudioFile", ReplyAction="http://tempuri.org/IServiceAudioPlayer/GetAudioFileResponse")]
         byte[] GetAudioFile(string title);
@@ -34,16 +34,16 @@ namespace MusicPlayer.ServiceAudio {
         System.Threading.Tasks.Task<byte[]> GetAudioFileAsync(string title);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/Registration", ReplyAction="http://tempuri.org/IServiceAudioPlayer/RegistrationResponse")]
-        AudioPlayerService.User Registration(string login, string password);
+        AudioPlayerLibrary.User Registration(string login, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/Registration", ReplyAction="http://tempuri.org/IServiceAudioPlayer/RegistrationResponse")]
-        System.Threading.Tasks.Task<AudioPlayerService.User> RegistrationAsync(string login, string password);
+        System.Threading.Tasks.Task<AudioPlayerLibrary.User> RegistrationAsync(string login, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/Authorization", ReplyAction="http://tempuri.org/IServiceAudioPlayer/AuthorizationResponse")]
-        AudioPlayerService.User Authorization(string login, string password);
+        AudioPlayerLibrary.User Authorization(string login, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/Authorization", ReplyAction="http://tempuri.org/IServiceAudioPlayer/AuthorizationResponse")]
-        System.Threading.Tasks.Task<AudioPlayerService.User> AuthorizationAsync(string login, string password);
+        System.Threading.Tasks.Task<AudioPlayerLibrary.User> AuthorizationAsync(string login, string password);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServiceAudioPlayer/EditUserIcon")]
         void EditUserIcon(int userId, byte[] icon);
@@ -65,12 +65,12 @@ namespace MusicPlayer.ServiceAudio {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IServiceAudioPlayerChannel : MusicPlayer.ServiceAudio.IServiceAudioPlayer, System.ServiceModel.IClientChannel {
+    public interface IServiceAudioPlayerChannel : MusicPlayer.AudioPlayerService.IServiceAudioPlayer, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class ServiceAudioPlayerClient : System.ServiceModel.ClientBase<MusicPlayer.ServiceAudio.IServiceAudioPlayer>, MusicPlayer.ServiceAudio.IServiceAudioPlayer {
+    public partial class ServiceAudioPlayerClient : System.ServiceModel.ClientBase<MusicPlayer.AudioPlayerService.IServiceAudioPlayer>, MusicPlayer.AudioPlayerService.IServiceAudioPlayer {
         
         public ServiceAudioPlayerClient(System.ServiceModel.InstanceContext instanceContext) {
         }
@@ -91,19 +91,19 @@ namespace MusicPlayer.ServiceAudio {
                 base(binding, remoteAddress) {
         }
         
-        public MusicPlayer.Audio[] GetAudioList(int userId) {
+        public AudioPlayerLibrary.Audio[] GetAudioList(int userId) {
             return base.Channel.GetAudioList(userId);
         }
         
-        public System.Threading.Tasks.Task<MusicPlayer.Audio[]> GetAudioListAsync(int userId) {
+        public System.Threading.Tasks.Task<AudioPlayerLibrary.Audio[]> GetAudioListAsync(int userId) {
             return base.Channel.GetAudioListAsync(userId);
         }
         
-        public MusicPlayer.Audio[] GetFavoriteAudioList(int userId) {
+        public AudioPlayerLibrary.Audio[] GetFavoriteAudioList(int userId) {
             return base.Channel.GetFavoriteAudioList(userId);
         }
         
-        public System.Threading.Tasks.Task<MusicPlayer.Audio[]> GetFavoriteAudioListAsync(int userId) {
+        public System.Threading.Tasks.Task<AudioPlayerLibrary.Audio[]> GetFavoriteAudioListAsync(int userId) {
             return base.Channel.GetFavoriteAudioListAsync(userId);
         }
         
@@ -115,19 +115,19 @@ namespace MusicPlayer.ServiceAudio {
             return base.Channel.GetAudioFileAsync(title);
         }
         
-        public AudioPlayerService.User Registration(string login, string password) {
+        public AudioPlayerLibrary.User Registration(string login, string password) {
             return base.Channel.Registration(login, password);
         }
         
-        public System.Threading.Tasks.Task<AudioPlayerService.User> RegistrationAsync(string login, string password) {
+        public System.Threading.Tasks.Task<AudioPlayerLibrary.User> RegistrationAsync(string login, string password) {
             return base.Channel.RegistrationAsync(login, password);
         }
         
-        public AudioPlayerService.User Authorization(string login, string password) {
+        public AudioPlayerLibrary.User Authorization(string login, string password) {
             return base.Channel.Authorization(login, password);
         }
         
-        public System.Threading.Tasks.Task<AudioPlayerService.User> AuthorizationAsync(string login, string password) {
+        public System.Threading.Tasks.Task<AudioPlayerLibrary.User> AuthorizationAsync(string login, string password) {
             return base.Channel.AuthorizationAsync(login, password);
         }
         

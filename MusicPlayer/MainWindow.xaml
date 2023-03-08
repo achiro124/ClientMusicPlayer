@@ -108,7 +108,7 @@
                     </StackPanel>
                 </StackPanel>
                 <Button x:Name="btnFavorite" Grid.Column="1" Grid.Row="1" Width="44" Height="42" Margin="5,0,0,0" BorderThickness="0"  Background="Gray"  Click="btnFavorite_Click" Visibility="{Binding NotAddAudio, Converter={StaticResource myBtnVisibilityConverter}}">
-                    <Image Source="{Binding Favorite, Converter={StaticResource myImgFavoriteConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Width="25" Height="25"/>
+                    <Image Source="{Binding IsFavorites, Converter={StaticResource myImgFavoriteConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Width="25" Height="25"/>
                 </Button>
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Grid.Row="1" Grid.Column="2" MinWidth="100" MaxWidth="150">
                     <Image x:Name="imageVolume" Source="Image/Volume.png" Width="25" Height="25" HorizontalAlignment="Center"/>
@@ -172,7 +172,7 @@
                         </Button.Resources>
                         <Image Source="Image/DownoladFile.png" Width="25" Height="25"/>
                     </Button>
-                    <Button x:Name="btnSort" Grid.Column="1" Width="35" Height="35" Background="White" BorderThickness="0" Margin="10,0,0,0" MouseEnter="btnSort_MouseEnter">
+                    <Button x:Name="btnSort" Grid.Column="1" Width="35" Height="35" Background="White" BorderThickness="0" Margin="10,0,0,0" PreviewMouseLeftButtonDown="btnSort_PreviewMouseLeftButtonDown" >
                         <Button.Resources>
                             <Style TargetType="Border" >
                                 <Setter Property="CornerRadius" Value="20"/>
@@ -229,17 +229,41 @@
                                 <Image Source="{Binding Image, Converter={StaticResource myImgConverter}}" Width="50" Height="50" Margin="0,0,10,0"/>
                                 <StackPanel>
                                     <TextBlock Text="{Binding Title}" FontSize="16" VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding Group}" FontSize="12" VerticalAlignment="Center" FontStyle="Italic" />
+                                    <TextBlock Text="{Binding Group}" FontSize="12" VerticalAlignment="Center" FontStyle="Italic" PreviewMouseLeftButtonDown="TextBlock_PreviewMouseLeftButtonDown">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Cursor" Value="Hand" />
+                                                    </Trigger>
+                                                    <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <ColorAnimation Duration="0:0:0.1" Storyboard.TargetProperty="Foreground.Color" To="CornflowerBlue" />
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </EventTrigger>
+                                                    <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <ColorAnimation Duration="0:0:0.1" Storyboard.TargetProperty="Foreground.Color" To="Black" />
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </EventTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
                                 </StackPanel>
                             </StackPanel>
 
-                            <Button Grid.Column="1" Width="35" Height="35" Background="White" BorderThickness="0" Click="btnAddFavorite_Click" Visibility="{Binding NotAddAudio, Converter={StaticResource myBtnVisibilityConverter}}">
+                            <Button Grid.Column="1" Width="35" Height="35" Background="White" BorderThickness="0" Click="btnAddFavorite_Click">
                                 <Button.Resources>
                                     <Style TargetType="Border">
                                         <Setter Property="CornerRadius" Value="20"/>
                                     </Style>
                                 </Button.Resources>
-                                <Image Source="{Binding Favorite, Converter={StaticResource myImgFavoriteConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Width="25" Height="25"/>
+                                <Image Source="{Binding IsFavorites, Converter={StaticResource myImgFavoriteConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Width="25" Height="25"/>
                             </Button>
                         </Grid>
                     </DataTemplate>

@@ -1,6 +1,5 @@
 ﻿using AudioPlayerService;
 using Microsoft.Win32;
-using MusicPlayer.ServiceAudio;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,14 +22,14 @@ namespace MusicPlayer
     /// </summary>
     public partial class UserWindow : Window
     {
-        public User user { get; set; }
-        public ServiceAudioPlayerClient client;
-        public UserWindow(ServiceAudioPlayerClient client, User user)
+        //public User user { get; set; }
+       // public ServiceAudioPlayerClient client;
+        public UserWindow()
         {
             InitializeComponent();
-            this.user = user;
-            this.client = client;
-            spUser.DataContext = user;
+           // this.user = user;
+           // this.client = client;
+           // spUser.DataContext = user;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -40,19 +39,19 @@ namespace MusicPlayer
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Multiselect = true;
-            openFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
-            openFileDialog.RestoreDirectory = true;
-            openFileDialog.Filter = "Images files (*.jpeg;*.jpg;*.png)|*.jpg;*.png;*.jpeg|All files (*.*)|*.*";
-            if (openFileDialog.ShowDialog() == true)
-            {
-                FileInfo fileInf = new FileInfo(openFileDialog.FileName);
-                byte[] icon = File.ReadAllBytes(fileInf.FullName);
-                user.Icon = icon;
-                client.EditUserIcon(user.UserId,icon);
-                ElUserIcon.DataContext = user;
-            }
+          //  OpenFileDialog openFileDialog = new OpenFileDialog();
+          //  openFileDialog.Multiselect = true;
+          //  openFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
+          //  openFileDialog.RestoreDirectory = true;
+          //  openFileDialog.Filter = "Images files (*.jpeg;*.jpg;*.png)|*.jpg;*.png;*.jpeg|All files (*.*)|*.*";
+          //  if (openFileDialog.ShowDialog() == true)
+          //  {
+          //      FileInfo fileInf = new FileInfo(openFileDialog.FileName);
+          //      byte[] icon = File.ReadAllBytes(fileInf.FullName);
+          //      user.Icon = icon;
+          //      client.EditUserIcon(user.UserId,icon);
+          //      ElUserIcon.DataContext = user;
+          //  }
         }
 
         private void btnExit_Click(object sender, RoutedEventArgs e)

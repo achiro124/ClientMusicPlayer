@@ -1,5 +1,6 @@
-﻿using AudioPlayerService;
-using MusicPlayer.ServiceAudio;
+﻿using AudioPlayerLibrary;
+using AudioPlayerService;
+using MusicPlayer.AudioPlayerService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,6 @@ namespace MusicPlayer
     /// </summary>
     public partial class AuthorizationWindow : Window
     {
-
         public User user { get; set; }
         ServiceAudioPlayerClient client;
 

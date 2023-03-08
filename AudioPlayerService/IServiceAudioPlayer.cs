@@ -1,4 +1,4 @@
-﻿using MusicPlayer;
+﻿using AudioPlayerLibrary;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,18 +13,22 @@ namespace AudioPlayerService
     public interface IServiceAudioPlayer
     {
         [OperationContract]
+        [CyclicReferencesAware(true)]
         List<Audio> GetAudioList(int userId);
 
         [OperationContract]
+        [CyclicReferencesAware(true)]
         List<Audio> GetFavoriteAudioList(int userId);
 
         [OperationContract]
         byte[] GetAudioFile(string title);
 
         [OperationContract]
+        [CyclicReferencesAware(true)]
         User Registration(string login, string password);
 
         [OperationContract]
+        [CyclicReferencesAware(true)]
         User Authorization(string login, string password);
 
         [OperationContract(IsOneWay = true)]

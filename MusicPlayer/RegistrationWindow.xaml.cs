@@ -1,5 +1,6 @@
-﻿using AudioPlayerService;
-using MusicPlayer.ServiceAudio;
+﻿using AudioPlayerLibrary;
+using AudioPlayerService;
+using MusicPlayer.AudioPlayerService;
 using System;
 using System.Collections.Generic;
 using System.IO;
