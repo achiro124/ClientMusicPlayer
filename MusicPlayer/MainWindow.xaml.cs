@@ -64,6 +64,7 @@ namespace MusicPlayer
 
             btnAddAudio.Visibility = Visibility.Hidden;
             audiosList.ItemsSource = audios;
+            audiosListFavorites.ItemsSource = favoritesAudios;
             spUser.DataContext = user;
 
             countAudio = new DirectoryInfo(@"Audios").GetFiles().Length;
@@ -79,6 +80,8 @@ namespace MusicPlayer
 
                 Image image = new Image();
                 image.Source = new BitmapImage(new Uri(@"/MusicPlayer;component/Image/ButtonPlay.png", UriKind.RelativeOrAbsolute));
+                image.Height = 28;
+                image.Width = 40;
                 ButtonStart.Content = image;
 
             }
@@ -89,6 +92,8 @@ namespace MusicPlayer
 
                 Image image = new Image();
                 image.Source = new BitmapImage(new Uri(@"/MusicPlayer;component/Image/ButtonPause.png", UriKind.RelativeOrAbsolute));
+                image.Height = 28;
+                image.Width = 40;
                 ButtonStart.Content = image;
                 timer.Start();
             }
@@ -276,13 +281,18 @@ namespace MusicPlayer
 
         private void favorites_Click(object sender, RoutedEventArgs e)
         {
-            audiosList.ItemsSource = favoritesAudios;
+            // audiosList.ItemsSource = favoritesAudios;
+            audiosList.Visibility = Visibility.Hidden;
+            audiosListFavorites.Visibility = Visibility.Visible;
             txtBlock.Text = "Избранное";
             btnAddAudio.Visibility = Visibility.Hidden;
         }
 
         private void btnMain_Click(object sender, RoutedEventArgs e)
         {
+            audiosList.Visibility = Visibility.Visible;
+            audiosListFavorites.Visibility = Visibility.Hidden;
+
             audiosList.ItemsSource = audios;
             txtBlock.Text = "Главная";
             btnAddAudio.Visibility = Visibility.Hidden;

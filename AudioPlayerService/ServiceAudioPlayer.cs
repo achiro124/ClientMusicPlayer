@@ -61,13 +61,16 @@ namespace AudioPlayerService
         //Регистрация пользователя
         public User Registration(string login, string password)
         {
-             User user = new User
-             {
-                 Login = login,
-                 Password = password,
-                 Icon = File.ReadAllBytes(@"D:\Diplom\MusicPlayer\Image\1.jpg")
-             };
-             _context.Users.Add(user);
+            if (_context.Users.FirstOrDefault(x => x.Login == login) != null)
+                return null;
+            
+            User user = new User
+            {
+                Login = login,
+                Password = password,
+                Icon = File.ReadAllBytes(@"D:\Diplom\MusicPlayer\Image\1.jpg")
+            };
+            _context.Users.Add(user);
             _context.SaveChanges();
             return user;
         }
