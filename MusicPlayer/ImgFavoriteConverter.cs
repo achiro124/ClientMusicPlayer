@@ -21,7 +21,7 @@ namespace MusicPlayer
             }
             else
             {
-                bitmapImage = new BitmapImage(new Uri(@"/MusicPlayer;component/Image/conturHeart.png", UriKind.RelativeOrAbsolute));
+                bitmapImage = new BitmapImage(new Uri(@"/MusicPlayer;component/Image/conturHeart1.png", UriKind.RelativeOrAbsolute));
                 return bitmapImage;
             }
         }

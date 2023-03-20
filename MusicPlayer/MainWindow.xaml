@@ -8,7 +8,7 @@
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="MusicPlayer.MainWindow"
         mc:Ignorable="d"
         Title="Аудиоплеер" Height="497" Width="811" Loaded="Window_Loaded"
-        Background="White" x:Name="windowMain">
+        Background="#3B2A3F" x:Name="windowMain">
     <Window.CommandBindings>
         <CommandBinding Command="local:MediaPlayerCommands.PlayOrPause"  Executed="Play_Or_Pause_Executed"/>
         <CommandBinding Command="local:MediaPlayerCommands.CycleAudioList"  Executed="CycleAudioList_Executed"/>
@@ -24,6 +24,11 @@
         <ItemsPanelTemplate x:Key="MenuTPL">
             <StackPanel Margin="-20,0,0,0" Background="White"/>
         </ItemsPanelTemplate>
+        <Style TargetType="TextBlock" >
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+
+
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -36,19 +41,19 @@
         </Grid.RowDefinitions>
 
 
-        <Grid Grid.Column="0" Background="Gray">
+        <Grid Grid.Column="0" Background="#2D252F">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <StackPanel x:Name="StackPanel1" Grid.Row="0" Background="Gray">
-                <Button x:Name="btnMain" Content="Главная" Margin="0,10,0,0"  Style="{StaticResource MaterialDesignFlatMidBgButton}" MinHeight="40" Click="btnMain_Click"/>
-                <Button x:Name="favorites" Content="Избранное" Style="{StaticResource MaterialDesignPaperDarkButton}" MinHeight="40" Click="favorites_Click"/>
-                <Button x:Name="myAudios" Content="Мои аудио" Style="{StaticResource MaterialDesignPaperDarkButton}" MinHeight="40" Click="myAudios_Click"/>
+            <StackPanel x:Name="StackPanel1" Grid.Row="0">
+                <Button x:Name="btnMain" Content="Главная" Margin="0,10,0,0"  Style="{StaticResource MaterialDesignOutlinedDarkButton}" Foreground="White" MinHeight="40" Click="btnMain_Click"/>
+                <Button x:Name="favorites" Content="Избранное" Style="{StaticResource MaterialDesignOutlinedDarkButton}" MinHeight="40" Margin="0,2,0,2" Foreground="White" Click="favorites_Click"/>
+                <Button x:Name="myAudios" Content="Мои аудио" Style="{StaticResource MaterialDesignOutlinedDarkButton}" MinHeight="40" Foreground="White" Click="myAudios_Click"/>
             </StackPanel>
-            <Expander Grid.Row="1" IsExpanded="False"  Margin="0,2,0,0" Background="Gray">
+            <Expander Grid.Row="1" IsExpanded="False"  Margin="0,2,0,0" Background="#2D252F" Visibility="Hidden">
                 <Expander.Header>
                     <TextBlock Text="Мои альбомы" Background="White"/>
                 </Expander.Header>
@@ -68,7 +73,7 @@
 
 
 
-            <StackPanel x:Name="spUser" Grid.Row="2">
+            <StackPanel x:Name="spUser" Grid.Row="2" Visibility="Hidden">
                 <Button x:Name="btnUser"  Margin="0,0,0,10"  Background="White" MinHeight="40" HorizontalContentAlignment="Left" Click="btnUser_Click">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
@@ -87,7 +92,7 @@
 
 
 
-        <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">
+        <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Background="#2D252F">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" MaxWidth="270"/>
                 <ColumnDefinition Width="*"/>
@@ -99,20 +104,20 @@
 
             <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal">
                 <Button x:Name="ButtonPrev" Height="40" Width="50" Style="{StaticResource MaterialDesignOutlinedDarkButton}" Margin="17,3,5,3" Command="local:MediaPlayerCommands.PrevAudio" Padding="0">
-                    <Image Source="Image/ButtonPrev.png" Width="40" Height="28" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <Image Source="Image/ButtonPrev.png" Width="24" Height="26" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </Button>
                 <Button x:Name="ButtonStart"  Height="40" Width="50" Style="{StaticResource MaterialDesignOutlinedDarkButton}" Margin="0,3,5,3" Command="local:MediaPlayerCommands.PlayOrPause" Padding="0">
-                    <Image Source="Image/ButtonPlay.png" Width="40" Height="28" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <Image Source="Image/ButtonPlay.png" Width="36" Height="38" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </Button>
                 <Button x:Name="ButtonNext"  Height="40" Width="50" Style="{StaticResource MaterialDesignOutlinedDarkButton}"  Margin="0,3,5,3" Command="local:MediaPlayerCommands.NextAudio" Padding="0">
-                    <Image Source="Image/ButtonNext.png" Width="32" Height="30"  VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <Image Source="Image/ButtonNext.png" Width="24" Height="26"  VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </Button>
                 <Button x:Name="ButtonCycle"  Height="40" Width="50" Style="{StaticResource MaterialDesignOutlinedDarkButton}" Margin="0,3,5,3" Command="local:MediaPlayerCommands.CycleAudioList" Padding="0">
                     <Image Source="Image/ButtonCycle.png" Width="33" Height="30"  VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </Button>
                 <MediaElement Name="mePlayer" LoadedBehavior="Manual" Stretch="None" />
             </StackPanel>
-            <Grid x:Name="gridInfAudio" Grid.Column="1" Grid.Row="1" Background="White" MouseWheel="Grid_MouseWheel">
+            <Grid x:Name="gridInfAudio" Grid.Column="1" Grid.Row="1" MouseWheel="Grid_MouseWheel">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="0.05*"/>
@@ -141,7 +146,7 @@
             <StatusBar Grid.Column="0" Grid.ColumnSpan="2">
                 <StatusBar.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <Grid>
+                        <Grid Background="#2D252F">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0.075*" MaxWidth="37"/>
                                 <ColumnDefinition Width="0.73*"/>
@@ -162,16 +167,21 @@
             </StatusBar>
         </Grid>
 
-        <Grid Grid.Column ="1" ShowGridLines="False">
+        <Grid Grid.Column ="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.25*" MaxHeight="75"/>
+                <RowDefinition Height="Auto" MaxHeight="75"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" Background="White">
-                <TextBlock Text="Поиск" FontSize="20" Margin="8,5,5,5" />
-                <TextBox x:Name="txtBoxSearch" TextAlignment="Justify" FontSize="16"  HorizontalAlignment="Stretch" Margin="9,5,20,5" MinHeight="25" TextChanged="TxtBoxSearch_TextChanged" />
-            </StackPanel>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.05*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Image Source="Image/Search.png" Width="25" Height="25" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBox x:Name="txtBoxSearch" Grid.Column="1" materialDesign:HintAssist.Hint="Поиск" TextAlignment="Justify" FontSize="16"  HorizontalAlignment="Stretch" Margin="0,20,20,20" Foreground="White" MinHeight="25" TextChanged="TxtBoxSearch_TextChanged" />
+            </Grid>
 
 
             <Grid Grid.Row="1">
@@ -182,21 +192,12 @@
 
 
                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,30,0">
-                    <Button x:Name="btnAddAudio" Grid.Column="1" Width="35" Height="35" Background="White" BorderThickness="0" Click="NewAudio_Click">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="20"/>
-                            </Style>
-                        </Button.Resources>
-                        <Image Source="Image/DownoladFile.png" Width="4" Height="23"/>
+                    <Button x:Name="btnAddAudio" Style="{StaticResource MaterialDesignIconButton}" Grid.Column="1" Width="35" Height="35" BorderThickness="0" Click="NewAudio_Click" Padding="0">
+                        <Image Source="Image/DownoladFile1.png" Width="25" Height="28"/>
                     </Button>
-                    <Button x:Name="btnSort" Grid.Column="1" Width="35" Height="35" Background="White" BorderThickness="0" Margin="10,0,0,0" PreviewMouseLeftButtonDown="btnSort_PreviewMouseLeftButtonDown" Padding="0">
-                        <Button.Resources>
-                            <Style TargetType="Border" >
-                                <Setter Property="CornerRadius" Value="20"/>
-                            </Style>
-                        </Button.Resources>
-                        <Image Source="Image/sort.png" Width="25" Height="25"/>
+
+                    <Button x:Name="btnSort" Grid.Column="1" Width="35" Height="35" Background="#3B2A3F" Style="{StaticResource MaterialDesignIconButton}"  BorderThickness="0" Margin="10,0,0,0" PreviewMouseLeftButtonDown="btnSort_PreviewMouseLeftButtonDown" Padding="0">
+                        <Image Source="Image/sort1.png" Width="25" Height="25"/>
                         <Button.ContextMenu>
                             <ContextMenu Name="cmSort" >
                                 <ContextMenu.Style>
@@ -214,27 +215,13 @@
                     </Button>
                 </StackPanel>
 
-                <TextBlock x:Name="txtBlock" Grid.Column="0" Text="Главная" FontSize="30" Margin="8,5,5,5" Background="White" FontWeight="Bold"/>
+                <TextBlock x:Name="txtBlock" Grid.Column="0" Text="Главная" FontSize="30" Margin="8,5,5,5" FontWeight="Bold"/>
             </Grid>
 
 
 
 
-            <ListBox Grid.Row="2" Grid.Column="1" x:Name="audiosList" SelectionChanged ="Selected_Audio" HorizontalContentAlignment="Stretch" MouseMove="audiosList_MouseMove" BorderThickness="0">
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
-                        <Style.Triggers>
-                            <Trigger Property="IsSelected" Value="True" >
-                                <Setter Property="FontWeight" Value="Bold" />
-                                <Setter Property="Background" Value="Transparent" />
-                                <Setter Property="Foreground" Value="Black" />
-                            </Trigger>
-                        </Style.Triggers>
-                        <Style.Resources>
-                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
-                        </Style.Resources>
-                    </Style>
-                </ListBox.ItemContainerStyle>
+            <ListBox Grid.Row="2" Grid.Column="1" x:Name="audiosList" SelectionChanged ="Selected_Audio" HorizontalContentAlignment="Stretch" MouseMove="audiosList_MouseMove" BorderThickness="0" >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -246,8 +233,8 @@
                             <StackPanel Orientation="Horizontal" Grid.Column="0">
                                 <Image Source="{Binding Image, Converter={StaticResource myImgConverter}}" Width="50" Height="50" Margin="0,0,10,0"/>
                                 <StackPanel>
-                                    <TextBlock Text="{Binding Title}" FontSize="16" VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding Group}" FontSize="12" VerticalAlignment="Center" FontStyle="Italic" PreviewMouseLeftButtonDown="TextBlock_PreviewMouseLeftButtonDown">
+                                    <TextBlock Text="{Binding Title}" FontSize="16" VerticalAlignment="Center" Foreground="White"/>
+                                    <TextBlock Text="{Binding Group}" FontSize="12" VerticalAlignment="Center" FontStyle="Italic" PreviewMouseLeftButtonDown="TextBlock_PreviewMouseLeftButtonDown" Foreground="White">
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
                                                 <Style.Triggers>
@@ -264,7 +251,7 @@
                                                     <EventTrigger RoutedEvent="UIElement.MouseLeave">
                                                         <BeginStoryboard>
                                                             <Storyboard>
-                                                                <ColorAnimation Duration="0:0:0.1" Storyboard.TargetProperty="Foreground.Color" To="Black" />
+                                                                <ColorAnimation Duration="0:0:0.1" Storyboard.TargetProperty="Foreground.Color" To="White" />
                                                             </Storyboard>
                                                         </BeginStoryboard>
                                                     </EventTrigger>
@@ -275,7 +262,7 @@
                                 </StackPanel>
                             </StackPanel>
 
-                            <Button Grid.Column="1" Width="35" Height="35" Background="White" Style="{StaticResource MaterialDesignIconButton}"  BorderThickness="0"  Click="btnAddFavorite_Click" Padding="0">
+                            <Button Grid.Column="1" Width="35" Height="35" Background="#3B2A3F" Style="{StaticResource MaterialDesignIconButton}"  BorderThickness="0"  Click="btnAddFavorite_Click" Padding="0">
                                 <Button.Resources>
                                     <Style TargetType="Border">
                                         <Setter Property="CornerRadius" Value="20"/>
@@ -289,20 +276,6 @@
             </ListBox>
 
             <ListBox Grid.Row="2" Grid.Column="1" x:Name="audiosListFavorites" Visibility="Hidden" SelectionChanged ="Selected_Audio" HorizontalContentAlignment="Stretch" MouseMove="audiosList_MouseMove" BorderThickness="0">
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
-                        <Style.Triggers>
-                            <Trigger Property="IsSelected" Value="True" >
-                                <Setter Property="FontWeight" Value="Bold" />
-                                <Setter Property="Background" Value="Transparent" />
-                                <Setter Property="Foreground" Value="Black" />
-                            </Trigger>
-                        </Style.Triggers>
-                        <Style.Resources>
-                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
-                        </Style.Resources>
-                    </Style>
-                </ListBox.ItemContainerStyle>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -314,8 +287,8 @@
                             <StackPanel Orientation="Horizontal" Grid.Column="0">
                                 <Image Source="{Binding Image, Converter={StaticResource myImgConverter}}" Width="50" Height="50" Margin="0,0,10,0"/>
                                 <StackPanel>
-                                    <TextBlock Text="{Binding Title}" FontSize="16" VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding Group}" FontSize="12" VerticalAlignment="Center" FontStyle="Italic" PreviewMouseLeftButtonDown="TextBlock_PreviewMouseLeftButtonDown">
+                                    <TextBlock Text="{Binding Title}" FontSize="16" VerticalAlignment="Center" Foreground="White"/>
+                                    <TextBlock Text="{Binding Group}" FontSize="12" VerticalAlignment="Center" Foreground="White" FontStyle="Italic" PreviewMouseLeftButtonDown="TextBlock_PreviewMouseLeftButtonDown">
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
                                                 <Style.Triggers>
@@ -332,7 +305,7 @@
                                                     <EventTrigger RoutedEvent="UIElement.MouseLeave">
                                                         <BeginStoryboard>
                                                             <Storyboard>
-                                                                <ColorAnimation Duration="0:0:0.1" Storyboard.TargetProperty="Foreground.Color" To="Black" />
+                                                                <ColorAnimation Duration="0:0:0.1" Storyboard.TargetProperty="Foreground.Color" To="White" />
                                                             </Storyboard>
                                                         </BeginStoryboard>
                                                     </EventTrigger>
@@ -343,7 +316,7 @@
                                 </StackPanel>
                             </StackPanel>
 
-                            <Button Grid.Column="1" Width="35" Height="35" Background="White" Style="{StaticResource MaterialDesignIconButton}"  BorderThickness="0"  Click="btnAddFavorite_Click" Padding="0">
+                            <Button Grid.Column="1" Width="35" Height="35" Background="#3B2A3F" Style="{StaticResource MaterialDesignIconButton}"  BorderThickness="0"  Click="btnAddFavorite_Click" Padding="0">
                                 <Button.Resources>
                                     <Style TargetType="Border">
                                         <Setter Property="CornerRadius" Value="20"/>
@@ -355,7 +328,52 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            
+
+            <ListBox Grid.Row="2" Grid.Column="1" x:Name="audiosListUser" Visibility="Hidden" SelectionChanged ="Selected_Audio" HorizontalContentAlignment="Stretch" MouseMove="audiosList_MouseMove" BorderThickness="0">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="0.05*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Orientation="Horizontal" Grid.Column="0">
+                                <Image Source="{Binding Image, Converter={StaticResource myImgConverter}}" Width="50" Height="50" Margin="0,0,10,0"/>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Title}" FontSize="16" VerticalAlignment="Center" Foreground="White"/>
+                                    <TextBlock Text="{Binding Group}" FontSize="12" VerticalAlignment="Center" Foreground="White" FontStyle="Italic" PreviewMouseLeftButtonDown="TextBlock_PreviewMouseLeftButtonDown">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Cursor" Value="Hand" />
+                                                    </Trigger>
+                                                    <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <ColorAnimation Duration="0:0:0.1" Storyboard.TargetProperty="Foreground.Color" To="CornflowerBlue" />
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </EventTrigger>
+                                                    <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <ColorAnimation Duration="0:0:0.1" Storyboard.TargetProperty="Foreground.Color" To="White" />
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </EventTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
         </Grid>
     </Grid>
 
