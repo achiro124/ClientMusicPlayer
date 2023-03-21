@@ -26,5 +26,8 @@ namespace AudioPlayerLibrary
         public byte[] Icon { get; set; }
         [DataMember]
         public List<Audio> FavoriteAudio { get; set; } = new List<Audio>();
+
+        [DataMember]
+        public List<UserAlboms> UserAlboms { get; set; } = new List<UserAlboms>();
     }
 }

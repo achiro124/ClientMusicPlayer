@@ -34,6 +34,7 @@ namespace MusicPlayer
         private ObservableCollection<Audio> audios;
         private ObservableCollection<Audio> favoritesAudios;
         private ObservableCollection<Audio> myAudiosList = new ObservableCollection<Audio>();
+        private ObservableCollection<UserAlboms> userAlboms;
 
 
 
@@ -64,6 +65,9 @@ namespace MusicPlayer
         {
             audios = new ObservableCollection<Audio>(client.GetAudioList(user.UserId));
             favoritesAudios = new ObservableCollection<Audio>(client.GetFavoriteAudioList(user.UserId));
+            userAlboms = new ObservableCollection<UserAlboms>(client.GetUserAlboms(user.UserId));
+
+
 
             mainListBox = audiosList;
 
@@ -71,6 +75,8 @@ namespace MusicPlayer
             audiosList.ItemsSource = audios;
             audiosListFavorites.ItemsSource = favoritesAudios;
             spUser.DataContext = user;
+            listUserAlboms.ItemsSource = userAlboms;
+
 
             countAudio = new DirectoryInfo(@"Audios").GetFiles().Length;
         }
@@ -472,6 +478,16 @@ namespace MusicPlayer
             TextBlock textBlock = sender as TextBlock;
             string text = textBlock.Text;
             txtBoxSearch.Text = text;
+        }
+
+        private void NewAlbom_Click(object sender, EventArgs e)
+        {
+            NewAlbomWindow newAlbomWindow = new NewAlbomWindow();
+            newAlbomWindow.Owner = this;
+            if(newAlbomWindow.ShowDialog() == true)
+            {
+
+            }
         }
     }
 }

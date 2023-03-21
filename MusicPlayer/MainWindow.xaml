@@ -32,7 +32,7 @@
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.3*" MaxWidth="170"/>
+            <ColumnDefinition Width="0.35*" MaxWidth="175"/>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -53,21 +53,21 @@
                 <Button x:Name="favorites" Content="Избранное" Style="{StaticResource MaterialDesignOutlinedDarkButton}" MinHeight="40" Margin="0,2,0,2" Foreground="White" Click="favorites_Click"/>
                 <Button x:Name="myAudios" Content="Мои аудио" Style="{StaticResource MaterialDesignOutlinedDarkButton}" MinHeight="40" Foreground="White" Click="myAudios_Click"/>
             </StackPanel>
-            <Expander Grid.Row="1" IsExpanded="False"  Margin="0,2,0,0" Background="#2D252F" Visibility="Hidden">
+            <Expander Grid.Row="1" IsExpanded="False"  Margin="0,2,0,0" Background="#2D252F" Visibility="Visible">
                 <Expander.Header>
-                    <TextBlock Text="Мои альбомы" Background="White"/>
+                    <TextBlock Text="Мои альбомы" FontWeight="Bold" FontSize="12"/>
                 </Expander.Header>
+
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel x:Name="spMyAlbom">
-                        <Button Height="30" Content="1"/>
-                        <Button Height="30" Content="2"/>
-                        <Button Height="30" Content="3"/>
-                        <Button Height="30" Content="4"/>
-                        <Button Height="30" Content="5"/>
-                        <Button Height="30" Content="6"/>
-                        <Button Height="30" Content="7"/>
-                        <Button Height="30" Content="Добавить новый альбом"/>
-                    </StackPanel>
+                    <ListBox x:Name="listUserAlboms" HorizontalContentAlignment="Stretch">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Button HorizontalContentAlignment="Stretch" MinHeight="35">
+                                    <TextBox Text="{Binding Title}"/>
+                                </Button>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
                 </ScrollViewer>
             </Expander>
 
@@ -180,7 +180,7 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Image Source="Image/Search.png" Width="25" Height="25" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <TextBox x:Name="txtBoxSearch" Grid.Column="1" materialDesign:HintAssist.Hint="Поиск" TextAlignment="Justify" FontSize="16"  HorizontalAlignment="Stretch" Margin="0,20,20,20" Foreground="White" MinHeight="25" TextChanged="TxtBoxSearch_TextChanged" />
+                <TextBox x:Name="txtBoxSearch" Grid.Column="1" materialDesign:HintAssist.Hint="Поиск" TextAlignment="Justify" FontSize="16" Margin="0,20,20,20" Foreground="White" MinHeight="25" TextChanged="TxtBoxSearch_TextChanged" />
             </Grid>
 
 
@@ -194,6 +194,10 @@
                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,30,0">
                     <Button x:Name="btnAddAudio" Style="{StaticResource MaterialDesignIconButton}" Grid.Column="1" Width="35" Height="35" BorderThickness="0" Click="NewAudio_Click" Padding="0">
                         <Image Source="Image/DownoladFile1.png" Width="25" Height="28"/>
+                    </Button>
+
+                    <Button x:Name="bntPlayList" Style="{StaticResource MaterialDesignIconButton}" Grid.Column="1" Width="35" Height="35" BorderThickness="0" Click="NewAlbom_Click" Padding="0" Margin="10,0,0,0">
+                        <Image Source="Image/PlusIcon.png" Width="25" Height="28"/>
                     </Button>
 
                     <Button x:Name="btnSort" Grid.Column="1" Width="35" Height="35" Background="#3B2A3F" Style="{StaticResource MaterialDesignIconButton}"  BorderThickness="0" Margin="10,0,0,0" PreviewMouseLeftButtonDown="btnSort_PreviewMouseLeftButtonDown" Padding="0">

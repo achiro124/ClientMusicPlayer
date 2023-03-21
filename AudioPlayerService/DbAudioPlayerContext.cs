@@ -26,5 +26,8 @@ namespace AudioPlayerService
 
         [DataMember]
         public DbSet<User> Users { get; set; }
+
+        [DataMember]
+        public DbSet<UserAlboms> UserAlboms { get; set; }
     }
 }

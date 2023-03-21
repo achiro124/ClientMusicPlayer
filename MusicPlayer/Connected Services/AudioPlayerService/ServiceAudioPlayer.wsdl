@@ -46,6 +46,15 @@
   <wsdl:message name="IServiceAudioPlayer_DeleteFavoriteAudio_InputMessage">
     <wsdl:part name="parameters" element="tns:DeleteFavoriteAudio" />
   </wsdl:message>
+  <wsdl:message name="IServiceAudioPlayer_AddUserAlbom_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddUserAlbom" />
+  </wsdl:message>
+  <wsdl:message name="IServiceAudioPlayer_GetUserAlboms_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserAlboms" />
+  </wsdl:message>
+  <wsdl:message name="IServiceAudioPlayer_GetUserAlboms_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserAlbomsResponse" />
+  </wsdl:message>
   <wsdl:portType name="IServiceAudioPlayer">
     <wsdl:operation name="GetAudioList">
       <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/GetAudioList" message="tns:IServiceAudioPlayer_GetAudioList_InputMessage" />
@@ -75,6 +84,13 @@
     </wsdl:operation>
     <wsdl:operation name="DeleteFavoriteAudio">
       <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/DeleteFavoriteAudio" message="tns:IServiceAudioPlayer_DeleteFavoriteAudio_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddUserAlbom">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/AddUserAlbom" message="tns:IServiceAudioPlayer_AddUserAlbom_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserAlboms">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/GetUserAlboms" message="tns:IServiceAudioPlayer_GetUserAlboms_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceAudioPlayer/GetUserAlbomsResponse" message="tns:IServiceAudioPlayer_GetUserAlboms_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IServiceAudioPlayer" type="tns:IServiceAudioPlayer">
@@ -141,6 +157,21 @@
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="AddUserAlbom">
+      <soap:operation soapAction="http://tempuri.org/IServiceAudioPlayer/AddUserAlbom" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserAlboms">
+      <soap:operation soapAction="http://tempuri.org/IServiceAudioPlayer/GetUserAlboms" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="ServiceAudioPlayer">

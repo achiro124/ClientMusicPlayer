@@ -28,7 +28,6 @@ namespace AudioPlayerService
             return compressAudio;
         }
 
-
         //Получение пользователем списка с музыкой
         public List<Audio> GetAudioList(int userId)
         {
@@ -44,9 +43,8 @@ namespace AudioPlayerService
             return audioList;
         }
 
-
         //Возвращение списка избранных в обратном порядке добавления их в бд
-       public List<Audio> GetFavoriteAudioList(int userId)
+        public List<Audio> GetFavoriteAudioList(int userId)
        {
             List<Audio> favoriteAuidoList = new List<Audio>();
             foreach(var item in _context.Users.Include(x => x.FavoriteAudio).FirstOrDefault(x => x.UserId == userId).FavoriteAudio)
@@ -74,8 +72,6 @@ namespace AudioPlayerService
             _context.SaveChanges();
             return user;
         }
-
-
 
         //Авторизация пользователя
         public User Authorization(string login, string password)
@@ -117,6 +113,23 @@ namespace AudioPlayerService
             _context.Users.Include(st => st.FavoriteAudio).FirstOrDefault(x => x.UserId == userId).FavoriteAudio.Remove(audio);
             _context.Audios.Include(st => st.Users).FirstOrDefault(x => x.AudioId == audioId).Users.Remove(user);
             _context.SaveChanges();
+        }
+
+        public void AddUserAlbom(int userId, string title)
+        {
+            UserAlboms userAlboms = new UserAlboms
+            {
+                Title = title,
+                User = _context.Users.FirstOrDefault(x => x.UserId == userId)
+            };
+            _context.Users.FirstOrDefault(x => x.UserId == userId).UserAlboms.Add(userAlboms);
+            _context.UserAlboms.Add(userAlboms);
+            _context.SaveChanges();
+        }
+
+        public List<UserAlboms> GetUserAlboms(int userId)
+        {
+            return _context.UserAlboms.Include(x => x.User).ToList();
         }
     }
 }
