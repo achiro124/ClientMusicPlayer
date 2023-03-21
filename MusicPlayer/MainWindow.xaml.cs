@@ -34,6 +34,7 @@ namespace MusicPlayer
         private ObservableCollection<Audio> audios;
         private ObservableCollection<Audio> favoritesAudios;
         private ObservableCollection<Audio> myAudiosList = new ObservableCollection<Audio>();
+        private ObservableCollection<UserAlboms> userAlboms;
 
 
 
@@ -45,6 +46,9 @@ namespace MusicPlayer
         private int countAudio = 0;
         private User user;
         private int selectedItem;
+
+        ListBox mainListBox;
+
 
         public MainWindow(ServiceAudioPlayerClient client, User user)
         {
@@ -61,10 +65,18 @@ namespace MusicPlayer
         {
             audios = new ObservableCollection<Audio>(client.GetAudioList(user.UserId));
             favoritesAudios = new ObservableCollection<Audio>(client.GetFavoriteAudioList(user.UserId));
+            userAlboms = new ObservableCollection<UserAlboms>(client.GetUserAlboms(user.UserId));
+
+
+
+            mainListBox = audiosList;
 
             btnAddAudio.Visibility = Visibility.Hidden;
             audiosList.ItemsSource = audios;
+            audiosListFavorites.ItemsSource = favoritesAudios;
             spUser.DataContext = user;
+            listUserAlboms.ItemsSource = userAlboms;
+
 
             countAudio = new DirectoryInfo(@"Audios").GetFiles().Length;
         }
@@ -72,12 +84,16 @@ namespace MusicPlayer
         //Пауза или старт аудио
         private void Play_Or_Pause_Executed(object sender, ExecutedRoutedEventArgs e)
         {
+            Image image = new Image();
+            image.Height = 36;
+            image.Width = 38;
+            
             if (mediaPlayerIsPlaying)
             {
                 mePlayer.Pause();
                 mediaPlayerIsPlaying = false;
 
-                Image image = new Image();
+                
                 image.Source = new BitmapImage(new Uri(@"/MusicPlayer;component/Image/ButtonPlay.png", UriKind.RelativeOrAbsolute));
                 ButtonStart.Content = image;
 
@@ -86,10 +102,10 @@ namespace MusicPlayer
             {
                 mePlayer.Play();
                 mediaPlayerIsPlaying = true;
-
-                Image image = new Image();
                 image.Source = new BitmapImage(new Uri(@"/MusicPlayer;component/Image/ButtonPause.png", UriKind.RelativeOrAbsolute));
                 ButtonStart.Content = image;
+
+
                 timer.Start();
             }
         }
@@ -107,13 +123,13 @@ namespace MusicPlayer
             {
                 if (cycleAudioList)
                 {
-                    audiosList.SelectedIndex = audiosList.SelectedIndex != audios.Count - 1 ? ++audiosList.SelectedIndex : 0;
+                    mainListBox.SelectedIndex = mainListBox.SelectedIndex != audios.Count - 1 ? ++mainListBox.SelectedIndex : 0;
                 }
                 else
                 {
-                    if (audiosList.SelectedIndex == audios.Count - 1)
+                    if (mainListBox.SelectedIndex == audios.Count - 1)
                         return;
-                    audiosList.SelectedIndex = audiosList.SelectedIndex + 1;
+                    mainListBox.SelectedIndex = mainListBox.SelectedIndex + 1;
                 }
             }
         }
@@ -178,7 +194,8 @@ namespace MusicPlayer
         //Обращение к серверу в целях получить аудиозапись
         private void Selected_Audio(object sender, EventArgs e)
         {
-            Audio audio = audiosList.SelectedItem as Audio;
+            Audio audio = mainListBox.SelectedItem as Audio;
+
             if (audio is null)
                 return;
 
@@ -208,12 +225,12 @@ namespace MusicPlayer
             if (cycleAudioList)
             {
                 cycleAudioList = false;
-                ButtonCycle.Background = new SolidColorBrush(Colors.White);
+                ButtonCycle.Background = new SolidColorBrush(Color.FromRgb(45, 37, 47));
             }
             else
             {
                 cycleAudioList = true;
-                ButtonCycle.Background = new SolidColorBrush(Color.FromRgb(169, 169, 169));
+                ButtonCycle.Background = new SolidColorBrush(Color.FromRgb(95, 74, 100));
             }
         }
 
@@ -222,13 +239,13 @@ namespace MusicPlayer
         {
             if (cycleAudioList)
             {
-                audiosList.SelectedIndex = audiosList.SelectedIndex != audios.Count - 1 ? ++audiosList.SelectedIndex : 0;
+                mainListBox.SelectedIndex = mainListBox.SelectedIndex != audios.Count - 1 ? ++mainListBox.SelectedIndex : 0;
             }
             else
             {
-                if (audiosList.SelectedIndex == audios.Count - 1)
+                if (mainListBox.SelectedIndex == audios.Count - 1)
                     return;
-                audiosList.SelectedIndex = audiosList.SelectedIndex + 1;
+                mainListBox.SelectedIndex = mainListBox.SelectedIndex + 1;
             }
         }
 
@@ -237,13 +254,13 @@ namespace MusicPlayer
         {
             if (cycleAudioList)
             {
-                audiosList.SelectedIndex = audiosList.SelectedIndex != 0 ? --audiosList.SelectedIndex : audiosList.SelectedIndex = audios.Count - 1;
+                mainListBox.SelectedIndex = mainListBox.SelectedIndex != 0 ? --mainListBox.SelectedIndex : mainListBox.SelectedIndex = audios.Count - 1;
             }
             else
             {
-                if (audiosList.SelectedIndex == 0)
+                if (mainListBox.SelectedIndex == 0)
                     return;
-                audiosList.SelectedIndex = audiosList.SelectedIndex - 1;
+                mainListBox.SelectedIndex = mainListBox.SelectedIndex - 1;
             }
         }
 
@@ -276,23 +293,49 @@ namespace MusicPlayer
 
         private void favorites_Click(object sender, RoutedEventArgs e)
         {
-            audiosList.ItemsSource = favoritesAudios;
+            audiosList.Visibility = Visibility.Hidden;
+            audiosListUser.Visibility = Visibility.Hidden;
+            audiosListFavorites.Visibility = Visibility.Visible;
+
+            btnFavorite.Visibility = Visibility.Visible;
+
+
             txtBlock.Text = "Избранное";
             btnAddAudio.Visibility = Visibility.Hidden;
+
+            mainListBox = audiosListFavorites;
         }
 
         private void btnMain_Click(object sender, RoutedEventArgs e)
         {
+            audiosList.Visibility = Visibility.Visible;
+            audiosListUser.Visibility = Visibility.Hidden;
+            audiosListFavorites.Visibility = Visibility.Hidden;
+
+            btnFavorite.Visibility = Visibility.Visible;
+
+
+
             audiosList.ItemsSource = audios;
             txtBlock.Text = "Главная";
             btnAddAudio.Visibility = Visibility.Hidden;
+
+            mainListBox = audiosList;
         }
 
         private void myAudios_Click(object sender, RoutedEventArgs e)
         {
-            audiosList.ItemsSource = myAudiosList;
+            audiosList.Visibility = Visibility.Hidden;
+            audiosListFavorites.Visibility = Visibility.Hidden;
+            audiosListUser.Visibility = Visibility.Visible;
+            
+
+            btnFavorite.Visibility = Visibility.Hidden;
+
             txtBlock.Text = "Мои аудиозаписи";
             btnAddAudio.Visibility = Visibility.Visible;
+
+            mainListBox = audiosListUser;
         }
 
         private void btnFavorite_Click(object sender, RoutedEventArgs e)
@@ -435,6 +478,16 @@ namespace MusicPlayer
             TextBlock textBlock = sender as TextBlock;
             string text = textBlock.Text;
             txtBoxSearch.Text = text;
+        }
+
+        private void NewAlbom_Click(object sender, EventArgs e)
+        {
+            NewAlbomWindow newAlbomWindow = new NewAlbomWindow();
+            newAlbomWindow.Owner = this;
+            if(newAlbomWindow.ShowDialog() == true)
+            {
+
+            }
         }
     }
 }

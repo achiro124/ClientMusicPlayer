@@ -97,4 +97,26 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="AddUserAlbom">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userId" type="xs:int" />
+        <xs:element minOccurs="0" name="title" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetUserAlboms">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetUserAlbomsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/AudioPlayerLibrary" minOccurs="0" name="GetUserAlbomsResult" nillable="true" type="q5:ArrayOfUserAlboms" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>
