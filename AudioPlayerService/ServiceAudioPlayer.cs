@@ -49,6 +49,7 @@ namespace AudioPlayerService
             List<Audio> favoriteAuidoList = new List<Audio>();
             foreach(var item in _context.Users.Include(x => x.FavoriteAudio).FirstOrDefault(x => x.UserId == userId).FavoriteAudio)
             {
+                item.Path = "";
                 favoriteAuidoList.Add(item);
                 favoriteAuidoList.Last().IsFavorites = true;
             }

@@ -120,7 +120,7 @@
             <Grid x:Name="gridInfAudio" Grid.Column="1" Grid.Row="1" MouseWheel="Grid_MouseWheel">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="0.05*"/>
+                    <ColumnDefinition Width="0.05*" MinWidth="55"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel x:Name="spInfAudio" Grid.Column="0" Orientation="Horizontal" Width="Auto" MinWidth="200">
@@ -130,7 +130,7 @@
                         <TextBlock x:Name="textBlock_Musician" FontSize="11" Text="{Binding Group}" />
                     </StackPanel>
                 </StackPanel>
-                <Button x:Name="btnFavorite" Grid.Column="1" Grid.Row="1" Style="{StaticResource MaterialDesignOutlinedDarkButton}" BorderThickness="0" Width="44" Height="42" Margin="5,0,0,0"  Click="btnFavorite_Click" Visibility="{Binding NotAddAudio, Converter={StaticResource myBtnVisibilityConverter}}" Padding="0">
+                <Button x:Name="btnFavorite" Grid.Column="1" Grid.Row="1" Style="{StaticResource MaterialDesignOutlinedDarkButton}" BorderThickness="0" Width="44" Height="42" Margin="5"  Click="btnFavorite_Click" Visibility="{Binding NotAddAudio, Converter={StaticResource myBtnVisibilityConverter}}" Padding="0">
                     <Image Source="{Binding IsFavorites, Converter={StaticResource myImgFavoriteConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"  VerticalAlignment="Center" HorizontalAlignment="Center" Width="25" Height="25"/>
                 </Button>
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Grid.Row="1" Grid.Column="2" MinWidth="100" MaxWidth="150">
@@ -171,6 +171,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" MaxHeight="75"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
@@ -203,12 +204,7 @@
                     <Button x:Name="btnSort" Grid.Column="1" Width="35" Height="35" Background="#3B2A3F" Style="{StaticResource MaterialDesignIconButton}"  BorderThickness="0" Margin="10,0,0,0" PreviewMouseLeftButtonDown="btnSort_PreviewMouseLeftButtonDown" Padding="0">
                         <Image Source="Image/sort1.png" Width="25" Height="25"/>
                         <Button.ContextMenu>
-                            <ContextMenu Name="cmSort" >
-                                <ContextMenu.Style>
-                                    <Style TargetType="{x:Type ContextMenu}">
-                                        <Setter Property="ItemsPanel" Value="{StaticResource MenuTPL}"/>
-                                    </Style>
-                                </ContextMenu.Style>
+                            <ContextMenu Name="cmSort" Background="#2D252F" Foreground="White">
                                 <MenuItem Header="По названию" Click="MenuItem_Click" FontWeight="Bold" FontSize="14"/>
                                 <MenuItem Header="По группе" Click="MenuItem_Click" FontSize="14"/>
                                 <Separator/>
@@ -222,51 +218,59 @@
                 <TextBlock x:Name="txtBlock" Grid.Column="0" Text="Главная" FontSize="30" Margin="8,5,5,5" FontWeight="Bold"/>
             </Grid>
 
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MaxWidth="600" MinWidth="300"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
+                <TextBlock Text="ТРЕК" Grid.Column="0" FontSize="12" VerticalAlignment="Center" Margin="83,10,10,10" FontWeight="Bold"/>
+                <TextBlock  Text="ИСПОЛНИТЕЛЬ" Grid.Column="1" FontSize="12" VerticalAlignment="Center" Margin="9,10,10,10" FontWeight="Bold" />
+            </Grid>
 
-
-            <ListBox Grid.Row="2" Grid.Column="1" x:Name="audiosList" SelectionChanged ="Selected_Audio" HorizontalContentAlignment="Stretch" MouseMove="audiosList_MouseMove" BorderThickness="0" >
+            <ListBox Grid.Row="3" Grid.Column="1" x:Name="audiosList" SelectionChanged ="Selected_Audio" HorizontalContentAlignment="Stretch" MouseMove="audiosList_MouseMove" BorderThickness="0" >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" MaxWidth="600" MinWidth="300"/>
+                                <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="0.05*"/>
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Orientation="Horizontal" Grid.Column="0">
-                                <Image Source="{Binding Image, Converter={StaticResource myImgConverter}}" Width="50" Height="50" Margin="0,0,10,0"/>
-                                <StackPanel>
-                                    <TextBlock Text="{Binding Title}" FontSize="16" VerticalAlignment="Center" Foreground="White"/>
-                                    <TextBlock Text="{Binding Group}" FontSize="12" VerticalAlignment="Center" FontStyle="Italic" PreviewMouseLeftButtonDown="TextBlock_PreviewMouseLeftButtonDown" Foreground="White">
-                                        <TextBlock.Style>
-                                            <Style TargetType="TextBlock">
-                                                <Style.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Cursor" Value="Hand" />
-                                                    </Trigger>
-                                                    <EventTrigger RoutedEvent="UIElement.MouseEnter">
-                                                        <BeginStoryboard>
-                                                            <Storyboard>
-                                                                <ColorAnimation Duration="0:0:0.1" Storyboard.TargetProperty="Foreground.Color" To="CornflowerBlue" />
-                                                            </Storyboard>
-                                                        </BeginStoryboard>
-                                                    </EventTrigger>
-                                                    <EventTrigger RoutedEvent="UIElement.MouseLeave">
-                                                        <BeginStoryboard>
-                                                            <Storyboard>
-                                                                <ColorAnimation Duration="0:0:0.1" Storyboard.TargetProperty="Foreground.Color" To="White" />
-                                                            </Storyboard>
-                                                        </BeginStoryboard>
-                                                    </EventTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
-                                </StackPanel>
-                            </StackPanel>
+                                <Image Source="{Binding Image, Converter={StaticResource myImgConverter}}" Width="55" Height="55" Margin="10,0,10,0"/>
+                                <TextBlock Text="{Binding Title}" FontSize="16" VerticalAlignment="Center" Foreground="White"/>
+                             </StackPanel>
 
-                            <Button Grid.Column="1" Width="35" Height="35" Background="#3B2A3F" Style="{StaticResource MaterialDesignIconButton}"  BorderThickness="0"  Click="btnAddFavorite_Click" Padding="0">
+                            <TextBlock Text="{Binding Group}" Grid.Column="1" FontSize="12" VerticalAlignment="Center" PreviewMouseLeftButtonDown="TextBlock_PreviewMouseLeftButtonDown" Foreground="White">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Cursor" Value="Hand" />
+                                            </Trigger>
+                                            <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <ColorAnimation Duration="0:0:0.1" Storyboard.TargetProperty="Foreground.Color" To="CornflowerBlue" />
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                            <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <ColorAnimation Duration="0:0:0.1" Storyboard.TargetProperty="Foreground.Color" To="White" />
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+
+                            <Button Grid.Column="2" Width="35" Height="35" Background="#3B2A3F" Style="{StaticResource MaterialDesignIconButton}"  BorderThickness="0" HorizontalAlignment="Right" Margin="0,0,20,0" Click="btnAddFavorite_Click" Padding="0">
                                 <Button.Resources>
                                     <Style TargetType="Border">
                                         <Setter Property="CornerRadius" Value="20"/>
@@ -279,48 +283,48 @@
                 </ListBox.ItemTemplate>
             </ListBox>
 
-            <ListBox Grid.Row="2" Grid.Column="1" x:Name="audiosListFavorites" Visibility="Hidden" SelectionChanged ="Selected_Audio" HorizontalContentAlignment="Stretch" MouseMove="audiosList_MouseMove" BorderThickness="0">
+            <ListBox Grid.Row="3" Grid.Column="1" x:Name="audiosListFavorites" Visibility="Hidden" SelectionChanged ="Selected_Audio" HorizontalContentAlignment="Stretch" MouseMove="audiosList_MouseMove" BorderThickness="0">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" MaxWidth="600" MinWidth="300"/>
+                                <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="0.05*"/>
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Orientation="Horizontal" Grid.Column="0">
-                                <Image Source="{Binding Image, Converter={StaticResource myImgConverter}}" Width="50" Height="50" Margin="0,0,10,0"/>
-                                <StackPanel>
-                                    <TextBlock Text="{Binding Title}" FontSize="16" VerticalAlignment="Center" Foreground="White"/>
-                                    <TextBlock Text="{Binding Group}" FontSize="12" VerticalAlignment="Center" Foreground="White" FontStyle="Italic" PreviewMouseLeftButtonDown="TextBlock_PreviewMouseLeftButtonDown">
-                                        <TextBlock.Style>
-                                            <Style TargetType="TextBlock">
-                                                <Style.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Cursor" Value="Hand" />
-                                                    </Trigger>
-                                                    <EventTrigger RoutedEvent="UIElement.MouseEnter">
-                                                        <BeginStoryboard>
-                                                            <Storyboard>
-                                                                <ColorAnimation Duration="0:0:0.1" Storyboard.TargetProperty="Foreground.Color" To="CornflowerBlue" />
-                                                            </Storyboard>
-                                                        </BeginStoryboard>
-                                                    </EventTrigger>
-                                                    <EventTrigger RoutedEvent="UIElement.MouseLeave">
-                                                        <BeginStoryboard>
-                                                            <Storyboard>
-                                                                <ColorAnimation Duration="0:0:0.1" Storyboard.TargetProperty="Foreground.Color" To="White" />
-                                                            </Storyboard>
-                                                        </BeginStoryboard>
-                                                    </EventTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
-                                </StackPanel>
+                                <Image Source="{Binding Image, Converter={StaticResource myImgConverter}}" Width="55" Height="55" Margin="10,0,10,0"/>
+                                <TextBlock Text="{Binding Title}" FontSize="16" VerticalAlignment="Center" Foreground="White"/>
                             </StackPanel>
 
-                            <Button Grid.Column="1" Width="35" Height="35" Background="#3B2A3F" Style="{StaticResource MaterialDesignIconButton}"  BorderThickness="0"  Click="btnAddFavorite_Click" Padding="0">
+                            <TextBlock Text="{Binding Group}" Grid.Column="1" FontSize="12" VerticalAlignment="Center" PreviewMouseLeftButtonDown="TextBlock_PreviewMouseLeftButtonDown" Foreground="White">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Cursor" Value="Hand" />
+                                            </Trigger>
+                                            <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <ColorAnimation Duration="0:0:0.1" Storyboard.TargetProperty="Foreground.Color" To="CornflowerBlue" />
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                            <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <ColorAnimation Duration="0:0:0.1" Storyboard.TargetProperty="Foreground.Color" To="White" />
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+
+                            <Button Grid.Column="2" Width="35" Height="35" Background="#3B2A3F" Style="{StaticResource MaterialDesignIconButton}"  BorderThickness="0" HorizontalAlignment="Right" Margin="0,0,20,0" Click="btnAddFavorite_Click" Padding="0">
                                 <Button.Resources>
                                     <Style TargetType="Border">
                                         <Setter Property="CornerRadius" Value="20"/>
@@ -333,51 +337,19 @@
                 </ListBox.ItemTemplate>
             </ListBox>
 
-            <ListBox Grid.Row="2" Grid.Column="1" x:Name="audiosListUser" Visibility="Hidden" SelectionChanged ="Selected_Audio" HorizontalContentAlignment="Stretch" MouseMove="audiosList_MouseMove" BorderThickness="0">
+            <ListBox Grid.Row="3" Grid.Column="1" x:Name="audiosListUser" Visibility="Hidden" SelectionChanged ="Selected_Audio" HorizontalContentAlignment="Stretch" MouseMove="audiosList_MouseMove" BorderThickness="0">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="0.05*"/>
-                            </Grid.ColumnDefinitions>
-
                             <StackPanel Orientation="Horizontal" Grid.Column="0">
-                                <Image Source="{Binding Image, Converter={StaticResource myImgConverter}}" Width="50" Height="50" Margin="0,0,10,0"/>
-                                <StackPanel>
-                                    <TextBlock Text="{Binding Title}" FontSize="16" VerticalAlignment="Center" Foreground="White"/>
-                                    <TextBlock Text="{Binding Group}" FontSize="12" VerticalAlignment="Center" Foreground="White" FontStyle="Italic" PreviewMouseLeftButtonDown="TextBlock_PreviewMouseLeftButtonDown">
-                                        <TextBlock.Style>
-                                            <Style TargetType="TextBlock">
-                                                <Style.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Cursor" Value="Hand" />
-                                                    </Trigger>
-                                                    <EventTrigger RoutedEvent="UIElement.MouseEnter">
-                                                        <BeginStoryboard>
-                                                            <Storyboard>
-                                                                <ColorAnimation Duration="0:0:0.1" Storyboard.TargetProperty="Foreground.Color" To="CornflowerBlue" />
-                                                            </Storyboard>
-                                                        </BeginStoryboard>
-                                                    </EventTrigger>
-                                                    <EventTrigger RoutedEvent="UIElement.MouseLeave">
-                                                        <BeginStoryboard>
-                                                            <Storyboard>
-                                                                <ColorAnimation Duration="0:0:0.1" Storyboard.TargetProperty="Foreground.Color" To="White" />
-                                                            </Storyboard>
-                                                        </BeginStoryboard>
-                                                    </EventTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
-                                </StackPanel>
+                                <Image Source="{Binding Image, Converter={StaticResource myImgConverter}}" Width="55" Height="55" Margin="10,0,10,0"/>
+                                <TextBlock Text="{Binding Title}" FontSize="16" VerticalAlignment="Center" Foreground="White"/>
                             </StackPanel>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
+                
             </ListBox>
-
         </Grid>
     </Grid>
 

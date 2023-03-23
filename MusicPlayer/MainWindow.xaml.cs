@@ -76,6 +76,7 @@ namespace MusicPlayer
             audiosListFavorites.ItemsSource = favoritesAudios;
             spUser.DataContext = user;
             listUserAlboms.ItemsSource = userAlboms;
+            audiosListUser.ItemsSource = myAudiosList;
 
 
             countAudio = new DirectoryInfo(@"Audios").GetFiles().Length;
@@ -119,15 +120,15 @@ namespace MusicPlayer
                 sliProgress.Minimum = 0;
                 sliProgress.Maximum = mePlayer.NaturalDuration.TimeSpan.TotalSeconds;
             }
-            if (sliProgress.Value == sliProgress.Maximum)
+            if (sliProgress.Value == sliProgress.Maximum && !userIsDraggingSlider)
             {
                 if (cycleAudioList)
                 {
-                    mainListBox.SelectedIndex = mainListBox.SelectedIndex != audios.Count - 1 ? ++mainListBox.SelectedIndex : 0;
+                    mainListBox.SelectedIndex = mainListBox.SelectedIndex != mainListBox.Items.Count - 1 ? ++mainListBox.SelectedIndex : 0;
                 }
                 else
                 {
-                    if (mainListBox.SelectedIndex == audios.Count - 1)
+                    if (mainListBox.SelectedIndex == mainListBox.Items.Count - 1)
                         return;
                     mainListBox.SelectedIndex = mainListBox.SelectedIndex + 1;
                 }
@@ -211,10 +212,14 @@ namespace MusicPlayer
                 File.WriteAllBytes(@"Audios\" + audio.Title + ".mp3", compressAudio);
                 FileInfo fileInfo = new FileInfo(@"Audios\" + audio.Title + ".mp3");
                 audios.FirstOrDefault(x => x.AudioId == audio.AudioId).Path = fileInfo.FullName;
+
+                if(favoritesAudios.FirstOrDefault(x => x.AudioId == audio.AudioId) != null)
+                    favoritesAudios.FirstOrDefault(x => x.AudioId == audio.AudioId).Path = fileInfo.FullName;
+
+                audio.Path = fileInfo.FullName;
                 countAudio++;
             }
-          
-            mePlayer.Source = new Uri(audios.FirstOrDefault(x => x.AudioId == audio.AudioId).Path);
+            mePlayer.Source = new Uri(audio.Path);
             textBlock_Title.Text = audio.Title;
             gridInfAudio.DataContext = audio;
         }
@@ -239,11 +244,11 @@ namespace MusicPlayer
         {
             if (cycleAudioList)
             {
-                mainListBox.SelectedIndex = mainListBox.SelectedIndex != audios.Count - 1 ? ++mainListBox.SelectedIndex : 0;
+                mainListBox.SelectedIndex = mainListBox.SelectedIndex != mainListBox.Items.Count - 1 ? ++mainListBox.SelectedIndex : 0;
             }
             else
             {
-                if (mainListBox.SelectedIndex == audios.Count - 1)
+                if (mainListBox.SelectedIndex == mainListBox.Items.Count - 1)
                     return;
                 mainListBox.SelectedIndex = mainListBox.SelectedIndex + 1;
             }
@@ -254,7 +259,7 @@ namespace MusicPlayer
         {
             if (cycleAudioList)
             {
-                mainListBox.SelectedIndex = mainListBox.SelectedIndex != 0 ? --mainListBox.SelectedIndex : mainListBox.SelectedIndex = audios.Count - 1;
+                mainListBox.SelectedIndex = mainListBox.SelectedIndex != 0 ? --mainListBox.SelectedIndex : mainListBox.SelectedIndex = mainListBox.Items.Count - 1;
             }
             else
             {
@@ -297,9 +302,6 @@ namespace MusicPlayer
             audiosListUser.Visibility = Visibility.Hidden;
             audiosListFavorites.Visibility = Visibility.Visible;
 
-            btnFavorite.Visibility = Visibility.Visible;
-
-
             txtBlock.Text = "Избранное";
             btnAddAudio.Visibility = Visibility.Hidden;
 
@@ -311,9 +313,6 @@ namespace MusicPlayer
             audiosList.Visibility = Visibility.Visible;
             audiosListUser.Visibility = Visibility.Hidden;
             audiosListFavorites.Visibility = Visibility.Hidden;
-
-            btnFavorite.Visibility = Visibility.Visible;
-
 
 
             audiosList.ItemsSource = audios;
@@ -329,9 +328,6 @@ namespace MusicPlayer
             audiosListFavorites.Visibility = Visibility.Hidden;
             audiosListUser.Visibility = Visibility.Visible;
             
-
-            btnFavorite.Visibility = Visibility.Hidden;
-
             txtBlock.Text = "Мои аудиозаписи";
             btnAddAudio.Visibility = Visibility.Visible;
 
@@ -341,7 +337,7 @@ namespace MusicPlayer
         private void btnFavorite_Click(object sender, RoutedEventArgs e)
         {
             Audio audio = gridInfAudio.DataContext as Audio;
-            if (audio == null)
+            if (audio == null || audio.Group == "")
                 return;
 
             if (!audio.IsFavorites)
@@ -362,7 +358,7 @@ namespace MusicPlayer
 
         private void btnAddFavorite_Click(object sender, RoutedEventArgs e)
         {
-            Audio audio = audiosList.Items[selectedItem] as Audio;
+            Audio audio = mainListBox.Items[selectedItem] as Audio;
           
             if (!audio.IsFavorites)
             {
