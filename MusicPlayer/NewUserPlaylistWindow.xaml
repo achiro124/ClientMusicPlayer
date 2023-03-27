@@ -20,7 +20,7 @@
             <TextBlock Text="Придумайте название" Margin="18,0,0,18" FontSize="20" Foreground="White"/>
         </StackPanel>
 
-        <TextBox Grid.Row="1" Margin="20,5,20,5" BorderThickness="1,1,1,1" Foreground="White" FontSize="16"/>
+        <TextBox x:Name="txtBoxTitlePlaylist" Grid.Row="1" Margin="20,5,20,5" BorderThickness="1,1,1,1" Foreground="White" FontSize="16"/>
 
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">

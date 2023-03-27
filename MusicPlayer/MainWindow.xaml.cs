@@ -34,7 +34,7 @@ namespace MusicPlayer
         private ObservableCollection<Audio> audios;
         private ObservableCollection<Audio> favoritesAudios;
         private ObservableCollection<Audio> myAudiosList = new ObservableCollection<Audio>();
-        private ObservableCollection<UserAlboms> userAlboms;
+        private ObservableCollection<UserAlboms> userPlaylist;
 
 
 
@@ -65,7 +65,7 @@ namespace MusicPlayer
         {
             audios = new ObservableCollection<Audio>(client.GetAudioList(user.UserId));
             favoritesAudios = new ObservableCollection<Audio>(client.GetFavoriteAudioList(user.UserId));
-            userAlboms = new ObservableCollection<UserAlboms>(client.GetUserAlboms(user.UserId));
+            userPlaylist = new ObservableCollection<UserAlboms>(client.GetUserAudiolist(user.UserId));
 
 
 
@@ -75,7 +75,7 @@ namespace MusicPlayer
             audiosList.ItemsSource = audios;
             audiosListFavorites.ItemsSource = favoritesAudios;
             spUser.DataContext = user;
-            listUserAlboms.ItemsSource = userAlboms;
+            listUserAlboms.ItemsSource = userPlaylist;
             audiosListUser.ItemsSource = myAudiosList;
 
 
@@ -377,7 +377,7 @@ namespace MusicPlayer
 
         private void audiosList_MouseMove(object sender, MouseEventArgs e)
         {
-            var item = VisualTreeHelper.HitTest(audiosList, Mouse.GetPosition(audiosList))?.VisualHit;
+            var item = VisualTreeHelper.HitTest(mainListBox, Mouse.GetPosition(mainListBox))?.VisualHit;
 
             // find ListViewItem (or null)
             while (item != null && !(item is ListBoxItem))
@@ -385,7 +385,21 @@ namespace MusicPlayer
 
             if (item != null)
             {
-                selectedItem = audiosList.Items.IndexOf(((ListBoxItem)item).DataContext);
+                selectedItem = mainListBox.Items.IndexOf(((ListBoxItem)item).DataContext);
+            }
+        }
+
+        private void UserPlaylist_MouseMove(object sender, MouseEventArgs e)
+        {
+            var item = VisualTreeHelper.HitTest(listUserAlboms, Mouse.GetPosition(listUserAlboms))?.VisualHit;
+
+            // find ListViewItem (or null)
+            while (item != null && !(item is ListBoxItem))
+                item = VisualTreeHelper.GetParent(item);
+
+            if (item != null)
+            {
+                selectedItem = listUserAlboms.Items.IndexOf(((ListBoxItem)item).DataContext);
             }
         }
 
@@ -420,9 +434,9 @@ namespace MusicPlayer
 
 
                         typeSort.Item1 = "Title";
-                        audiosList.Items.SortDescriptions.Clear();
-                        audiosList.Items.SortDescriptions.Add(new SortDescription(typeSort.Item1, typeSort.Item2));
-                        audiosList.Items.Refresh();
+                        mainListBox.Items.SortDescriptions.Clear();
+                        mainListBox.Items.SortDescriptions.Add(new SortDescription(typeSort.Item1, typeSort.Item2));
+                        mainListBox.Items.Refresh();
                         break;
                     case 1:
                         menuItem = (MenuItem)cmSort.Items[1];
@@ -432,9 +446,9 @@ namespace MusicPlayer
 
 
                         typeSort.Item1 = "Group";
-                        audiosList.Items.SortDescriptions.Clear();
-                        audiosList.Items.SortDescriptions.Add(new SortDescription(typeSort.Item1, typeSort.Item2));
-                        audiosList.Items.Refresh();
+                        mainListBox.Items.SortDescriptions.Clear();
+                        mainListBox.Items.SortDescriptions.Add(new SortDescription(typeSort.Item1, typeSort.Item2));
+                        mainListBox.Items.Refresh();
                         break;
                     case 3:
                         menuItem = (MenuItem)cmSort.Items[3];
@@ -444,9 +458,9 @@ namespace MusicPlayer
 
 
                         typeSort.Item2 = ListSortDirection.Ascending;
-                        audiosList.Items.SortDescriptions.Clear();
-                        audiosList.Items.SortDescriptions.Add(new SortDescription(typeSort.Item1, typeSort.Item2));
-                        audiosList.Items.Refresh();
+                        mainListBox.Items.SortDescriptions.Clear();
+                        mainListBox.Items.SortDescriptions.Add(new SortDescription(typeSort.Item1, typeSort.Item2));
+                        mainListBox.Items.Refresh();
                         break;
                     case 4:
                         menuItem = (MenuItem)cmSort.Items[4];
@@ -456,9 +470,9 @@ namespace MusicPlayer
 
 
                         typeSort.Item2 = ListSortDirection.Descending;
-                        audiosList.Items.SortDescriptions.Clear();
-                        audiosList.Items.SortDescriptions.Add(new SortDescription(typeSort.Item1, typeSort.Item2));
-                        audiosList.Items.Refresh();
+                        mainListBox.Items.SortDescriptions.Clear();
+                        mainListBox.Items.SortDescriptions.Add(new SortDescription(typeSort.Item1, typeSort.Item2));
+                        mainListBox.Items.Refresh();
                         break;
                 }
             }
@@ -478,11 +492,30 @@ namespace MusicPlayer
 
         private void NewAlbom_Click(object sender, EventArgs e)
         {
-            NewAlbomWindow newAlbomWindow = new NewAlbomWindow();
-            newAlbomWindow.Owner = this;
-            if(newAlbomWindow.ShowDialog() == true)
+            NewAlbomWindow newUserPlaylistWindow = new NewAlbomWindow();
+            newUserPlaylistWindow.Owner = this;
+            if(newUserPlaylistWindow.ShowDialog() == true)
             {
+                UserAlboms newUserPlaylist = new UserAlboms
+                {
+                    User = this.user,
+                    Title = newUserPlaylistWindow.TitleUserPlaylist
+                };
+                newUserPlaylist.AlbomId = client.AddUserAudiolist(user.UserId, newUserPlaylistWindow.TitleUserPlaylist);
+                userPlaylist.Add(newUserPlaylist);
+                
 
+
+            }
+        }
+
+        private void DeleteUserPlaylistButton_Click(object sender, RoutedEventArgs e)
+        {
+            UserAlboms userAlboms = listUserAlboms.Items[selectedItem] as UserAlboms;
+            if(userAlboms != null)
+            {
+                userPlaylist.Remove(userAlboms);
+                client.DeleteUserAudiolist(user.UserId,userAlboms.AlbomId);
             }
         }
     }

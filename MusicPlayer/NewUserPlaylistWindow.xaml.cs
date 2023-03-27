@@ -19,6 +19,7 @@ namespace MusicPlayer
     /// </summary>
     public partial class NewAlbomWindow : Window
     {
+        public string TitleUserPlaylist { get; set; }
         public NewAlbomWindow()
         {
             InitializeComponent();
@@ -26,7 +27,12 @@ namespace MusicPlayer
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            DialogResult = true;
+            if(txtBoxTitlePlaylist.Text != "")
+            {
+                TitleUserPlaylist = txtBoxTitlePlaylist.Text;
+                DialogResult = true;
+            }
+
         }
     }
 }

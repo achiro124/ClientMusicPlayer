@@ -40,13 +40,17 @@ namespace AudioPlayerService
         [OperationContract(IsOneWay = true)]
         void DeleteFavoriteAudio(int userId, int audioId);
 
-        [OperationContract(IsOneWay = true)]
+        [OperationContract]
         [CyclicReferencesAware(true)]
-        void AddUserAlbom(int userId, string title);
+        int AddUserAudiolist(int userId, string title);
 
         [OperationContract]
         [CyclicReferencesAware(true)]
-        List<UserAlboms> GetUserAlboms(int userId);
+        List<UserAlboms> GetUserAudiolist(int userId);
+
+        [OperationContract(IsOneWay = true)]
+        void DeleteUserAudiolist(int userId, int audiolistId);
+
     }
     public interface IServerAudioCallback
     {

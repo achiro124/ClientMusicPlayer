@@ -32,7 +32,7 @@
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.35*" MaxWidth="175"/>
+            <ColumnDefinition Width="0.35*" MaxWidth="190"/>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -59,12 +59,25 @@
                 </Expander.Header>
 
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <ListBox x:Name="listUserAlboms" HorizontalContentAlignment="Stretch">
+                    <ListBox x:Name="listUserAlboms" HorizontalContentAlignment="Stretch" MouseMove="UserPlaylist_MouseMove">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Button HorizontalContentAlignment="Stretch" MinHeight="35">
-                                    <TextBox Text="{Binding Title}"/>
-                                </Button>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="0.25*"/>
+                                        <ColumnDefinition Width="0.25*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding Title}" Foreground="White" FontSize="14" HorizontalAlignment="Center"/>
+
+                                    <Button x:Name="btnDeleteAudioList" Grid.Column="1" Height="25" Width="25" Style="{StaticResource MaterialDesignFlatDarkButton}" Padding="0">
+                                        <Image Source="Image/edditButton.png" Width="15" Height="15"/>
+                                    </Button>
+
+                                    <Button Grid.Column="2" Height="25" Width="25" Style="{StaticResource MaterialDesignFlatDarkButton}" Padding="0" Click="DeleteUserPlaylistButton_Click">
+                                        <Image Source="Image/deleteButton.png" Width="15" Height="15"/>
+                                    </Button>
+                                </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>

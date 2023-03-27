@@ -63,17 +63,23 @@ namespace MusicPlayer.AudioPlayerService {
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServiceAudioPlayer/DeleteFavoriteAudio")]
         System.Threading.Tasks.Task DeleteFavoriteAudioAsync(int userId, int audioId);
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServiceAudioPlayer/AddUserAlbom")]
-        void AddUserAlbom(int userId, string title);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/AddUserAudiolist", ReplyAction="http://tempuri.org/IServiceAudioPlayer/AddUserAudiolistResponse")]
+        int AddUserAudiolist(int userId, string title);
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServiceAudioPlayer/AddUserAlbom")]
-        System.Threading.Tasks.Task AddUserAlbomAsync(int userId, string title);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/AddUserAudiolist", ReplyAction="http://tempuri.org/IServiceAudioPlayer/AddUserAudiolistResponse")]
+        System.Threading.Tasks.Task<int> AddUserAudiolistAsync(int userId, string title);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/GetUserAlboms", ReplyAction="http://tempuri.org/IServiceAudioPlayer/GetUserAlbomsResponse")]
-        AudioPlayerLibrary.UserAlboms[] GetUserAlboms(int userId);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/GetUserAudiolist", ReplyAction="http://tempuri.org/IServiceAudioPlayer/GetUserAudiolistResponse")]
+        AudioPlayerLibrary.UserAlboms[] GetUserAudiolist(int userId);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/GetUserAlboms", ReplyAction="http://tempuri.org/IServiceAudioPlayer/GetUserAlbomsResponse")]
-        System.Threading.Tasks.Task<AudioPlayerLibrary.UserAlboms[]> GetUserAlbomsAsync(int userId);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceAudioPlayer/GetUserAudiolist", ReplyAction="http://tempuri.org/IServiceAudioPlayer/GetUserAudiolistResponse")]
+        System.Threading.Tasks.Task<AudioPlayerLibrary.UserAlboms[]> GetUserAudiolistAsync(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServiceAudioPlayer/DeleteUserAudiolist")]
+        void DeleteUserAudiolist(int userId, int audiolistId);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServiceAudioPlayer/DeleteUserAudiolist")]
+        System.Threading.Tasks.Task DeleteUserAudiolistAsync(int userId, int audiolistId);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -167,20 +173,28 @@ namespace MusicPlayer.AudioPlayerService {
             return base.Channel.DeleteFavoriteAudioAsync(userId, audioId);
         }
         
-        public void AddUserAlbom(int userId, string title) {
-            base.Channel.AddUserAlbom(userId, title);
+        public int AddUserAudiolist(int userId, string title) {
+            return base.Channel.AddUserAudiolist(userId, title);
         }
         
-        public System.Threading.Tasks.Task AddUserAlbomAsync(int userId, string title) {
-            return base.Channel.AddUserAlbomAsync(userId, title);
+        public System.Threading.Tasks.Task<int> AddUserAudiolistAsync(int userId, string title) {
+            return base.Channel.AddUserAudiolistAsync(userId, title);
         }
         
-        public AudioPlayerLibrary.UserAlboms[] GetUserAlboms(int userId) {
-            return base.Channel.GetUserAlboms(userId);
+        public AudioPlayerLibrary.UserAlboms[] GetUserAudiolist(int userId) {
+            return base.Channel.GetUserAudiolist(userId);
         }
         
-        public System.Threading.Tasks.Task<AudioPlayerLibrary.UserAlboms[]> GetUserAlbomsAsync(int userId) {
-            return base.Channel.GetUserAlbomsAsync(userId);
+        public System.Threading.Tasks.Task<AudioPlayerLibrary.UserAlboms[]> GetUserAudiolistAsync(int userId) {
+            return base.Channel.GetUserAudiolistAsync(userId);
+        }
+        
+        public void DeleteUserAudiolist(int userId, int audiolistId) {
+            base.Channel.DeleteUserAudiolist(userId, audiolistId);
+        }
+        
+        public System.Threading.Tasks.Task DeleteUserAudiolistAsync(int userId, int audiolistId) {
+            return base.Channel.DeleteUserAudiolistAsync(userId, audiolistId);
         }
     }
 }
