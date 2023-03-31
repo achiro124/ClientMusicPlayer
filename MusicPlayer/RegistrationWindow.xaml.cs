@@ -36,6 +36,20 @@ namespace MusicPlayer
         {
             if(pswBox1.Password != string.Empty && pswBox2.Password != string.Empty && txtBoxLogin.Text != string.Empty)
             {
+
+                if(txtBoxLogin.Text.Length < 3)
+                {
+                    txtBlockError.Text = "Логин должен содержать как минимум 3 символа";
+                    return;
+                }
+
+                if(pswBox1.Password.Length < 5)
+                {
+                    txtBlockError.Text = "Пароль должен содержать как минимум 5 символов";
+                    return;
+                }
+
+
                 if(pswBox1.Password == pswBox2.Password) 
                 {
                     user = client.Registration(txtBoxLogin.Text, pswBox1.Password);

@@ -31,10 +31,10 @@ namespace MusicPlayer
 
 
 
-        private ObservableCollection<Audio> audios;
-        private ObservableCollection<Audio> favoritesAudios;
-        private ObservableCollection<Audio> myAudiosList = new ObservableCollection<Audio>();
-        private ObservableCollection<UserAlboms> userPlaylist;
+        public ObservableCollection<Audio> audios;
+        public ObservableCollection<Audio> favoritesAudios;
+        public ObservableCollection<Audio> myAudiosList = new ObservableCollection<Audio>();
+        public ObservableCollection<UserAlboms> userPlaylist;
 
 
 
@@ -66,7 +66,7 @@ namespace MusicPlayer
             audios = new ObservableCollection<Audio>(client.GetAudioList(user.UserId));
             favoritesAudios = new ObservableCollection<Audio>(client.GetFavoriteAudioList(user.UserId));
             userPlaylist = new ObservableCollection<UserAlboms>(client.GetUserAudiolist(user.UserId));
-
+            //cmUserPlaylist.ItemsSource = userPlaylist;
 
 
             mainListBox = audiosList;
@@ -483,6 +483,34 @@ namespace MusicPlayer
             cmSort.IsOpen = true;
         }
 
+        private void btnEllipsisButton_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Button button = sender as Button;
+
+            if(button.ContextMenu == null)
+            {
+                MenuItem settingMenuItem = new MenuItem();
+                settingMenuItem.Header = "Добавить в плейлист";
+                settingMenuItem.Foreground = new SolidColorBrush(Colors.White);
+                settingMenuItem.Background = new SolidColorBrush(Color.FromRgb(45, 37, 47));
+
+                foreach (var item in userPlaylist)
+                {
+                    settingMenuItem.Items.Add(new MenuItem
+                    {
+                        Header = item.Title,
+                        Foreground = new SolidColorBrush(Colors.White),
+                        Background = new SolidColorBrush(Color.FromRgb(45, 37, 47))
+                });
+                }
+
+                button.ContextMenu = new ContextMenu();
+                button.ContextMenu.Background = new SolidColorBrush(Color.FromRgb(45, 37, 47));
+                button.ContextMenu.Items.Add(settingMenuItem);
+            }
+            button.ContextMenu.IsOpen = true;
+        }
+
         private void TextBlock_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             TextBlock textBlock = sender as TextBlock;
@@ -503,9 +531,6 @@ namespace MusicPlayer
                 };
                 newUserPlaylist.AlbomId = client.AddUserAudiolist(user.UserId, newUserPlaylistWindow.TitleUserPlaylist);
                 userPlaylist.Add(newUserPlaylist);
-                
-
-
             }
         }
 
@@ -516,6 +541,18 @@ namespace MusicPlayer
             {
                 userPlaylist.Remove(userAlboms);
                 client.DeleteUserAudiolist(user.UserId,userAlboms.AlbomId);
+            }
+        }
+
+        private void btnEditAudioList_Click(object sender, RoutedEventArgs e)
+        {
+            NewAlbomWindow newUserPlaylistWindow = new NewAlbomWindow(userPlaylist[selectedItem].Title);
+            newUserPlaylistWindow.Owner = this;
+            if (newUserPlaylistWindow.ShowDialog() == true)
+            {
+                UserAlboms userAlboms = userPlaylist[selectedItem];
+                userAlboms.Title = newUserPlaylistWindow.TitleUserPlaylist;
+                client.EditUserAudiolist(userAlboms.AlbomId, userAlboms.Title);
             }
         }
     }

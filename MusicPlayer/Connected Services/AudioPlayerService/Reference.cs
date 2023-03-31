@@ -80,6 +80,12 @@ namespace MusicPlayer.AudioPlayerService {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServiceAudioPlayer/DeleteUserAudiolist")]
         System.Threading.Tasks.Task DeleteUserAudiolistAsync(int userId, int audiolistId);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServiceAudioPlayer/EditUserAudiolist")]
+        void EditUserAudiolist(int audiolistId, string title);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServiceAudioPlayer/EditUserAudiolist")]
+        System.Threading.Tasks.Task EditUserAudiolistAsync(int audiolistId, string title);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -195,6 +201,14 @@ namespace MusicPlayer.AudioPlayerService {
         
         public System.Threading.Tasks.Task DeleteUserAudiolistAsync(int userId, int audiolistId) {
             return base.Channel.DeleteUserAudiolistAsync(userId, audiolistId);
+        }
+        
+        public void EditUserAudiolist(int audiolistId, string title) {
+            base.Channel.EditUserAudiolist(audiolistId, title);
+        }
+        
+        public System.Threading.Tasks.Task EditUserAudiolistAsync(int audiolistId, string title) {
+            return base.Channel.EditUserAudiolistAsync(audiolistId, title);
         }
     }
 }

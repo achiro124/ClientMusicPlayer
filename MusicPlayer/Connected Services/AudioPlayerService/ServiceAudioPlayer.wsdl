@@ -61,6 +61,9 @@
   <wsdl:message name="IServiceAudioPlayer_DeleteUserAudiolist_InputMessage">
     <wsdl:part name="parameters" element="tns:DeleteUserAudiolist" />
   </wsdl:message>
+  <wsdl:message name="IServiceAudioPlayer_EditUserAudiolist_InputMessage">
+    <wsdl:part name="parameters" element="tns:EditUserAudiolist" />
+  </wsdl:message>
   <wsdl:portType name="IServiceAudioPlayer">
     <wsdl:operation name="GetAudioList">
       <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/GetAudioList" message="tns:IServiceAudioPlayer_GetAudioList_InputMessage" />
@@ -101,6 +104,9 @@
     </wsdl:operation>
     <wsdl:operation name="DeleteUserAudiolist">
       <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/DeleteUserAudiolist" message="tns:IServiceAudioPlayer_DeleteUserAudiolist_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EditUserAudiolist">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/EditUserAudiolist" message="tns:IServiceAudioPlayer_EditUserAudiolist_InputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IServiceAudioPlayer" type="tns:IServiceAudioPlayer">
@@ -188,6 +194,12 @@
     </wsdl:operation>
     <wsdl:operation name="DeleteUserAudiolist">
       <soap:operation soapAction="http://tempuri.org/IServiceAudioPlayer/DeleteUserAudiolist" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="EditUserAudiolist">
+      <soap:operation soapAction="http://tempuri.org/IServiceAudioPlayer/EditUserAudiolist" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

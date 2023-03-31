@@ -7,18 +7,18 @@
         xmlns:local="clr-namespace:MusicPlayer"
         mc:Ignorable="d"
         Title="Окно авторизации" Height="446" Width="450" ResizeMode="NoResize" Loaded="Window_Loaded"  WindowStartupLocation="CenterScreen">
-    <Grid Background="#ffdadada">
-        <Border MinWidth="400" Margin="15" Background="White" VerticalAlignment="Center" Padding="40" CornerRadius="20">
+    <Grid Background="#2D252F">
+        <Border MinWidth="400" Margin="15" Background="#3B2A3F" VerticalAlignment="Center" Padding="40" CornerRadius="20">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="30" Color="LightGray" ShadowDepth="0"/>
             </Border.Effect>
             <StackPanel>
-                <TextBlock Text="Авторизация" FontSize="30" FontWeight="Bold" Margin="0,0,0,20"/>
-                <TextBox x:Name="txtBoxLogin" materialDesign:HintAssist.Hint="Введите логин" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="14"/>
-                <PasswordBox x:Name="pswBox1" materialDesign:HintAssist.Hint="Введите пароль" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" FontSize="14"/>
+                <TextBlock Text="Авторизация" FontSize="30" FontWeight="Bold" Margin="0,0,0,20" Foreground="White"/>
+                <TextBox x:Name="txtBoxLogin" materialDesign:HintAssist.Hint="Введите логин" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="14" Foreground="White"/>
+                <PasswordBox x:Name="pswBox1" materialDesign:HintAssist.Hint="Введите пароль" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" FontSize="14" Foreground="White"/>
                 <TextBlock x:Name="txtBlockError" TextAlignment="Center" FontSize="14" Margin="0,10,0,10"/>
                 <Button Content="Авторизоваться" Click="Button_Click" Margin="0 10 0 0"/>
-                <TextBlock TextWrapping="Wrap" TextAlignment="Center" Margin="0,10,0,0"> 
+                <TextBlock TextWrapping="Wrap" TextAlignment="Center" Margin="0,10,0,0" Foreground="White"> 
                     <Run Language="ru-ru" Text="Нет аккаунта?"/>
                     <Hyperlink Click="Hyperlink_Click">Зарегистрироваться</Hyperlink>
                 </TextBlock>

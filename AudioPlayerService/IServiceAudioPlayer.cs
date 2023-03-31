@@ -51,6 +51,15 @@ namespace AudioPlayerService
         [OperationContract(IsOneWay = true)]
         void DeleteUserAudiolist(int userId, int audiolistId);
 
+        [OperationContract(IsOneWay = true)]
+        void EditUserAudiolist(int audiolistId, string title);
+
+        [OperationContract(IsOneWay = true)]
+        void AddAudioUserAudiolist(int audiolistId, int audioId);
+
+        [OperationContract(IsOneWay = true)]
+        void DeleteAudioUserAudiolist(int audiolistId, int audioId);
+
     }
     public interface IServerAudioCallback
     {

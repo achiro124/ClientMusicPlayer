@@ -131,7 +131,7 @@ namespace AudioPlayerService
 
         public List<UserAlboms> GetUserAudiolist(int userId)
         {
-            return _context.UserAlboms.Include(x => x.User).ToList();
+            return _context.UserAlboms.Include(x => x.User).Where(x => x.User.UserId == userId).ToList();
         }
 
         public void DeleteUserAudiolist(int userId, int audiolistId)
@@ -141,6 +141,24 @@ namespace AudioPlayerService
 
             _context.Users.Include(st => st.UserAlboms).FirstOrDefault(x => x.UserId == userId).UserAlboms.Remove(userlist);
             _context.UserAlboms.Remove(userlist);
+            _context.SaveChanges();
+        }
+
+        public void EditUserAudiolist(int audiolistId, string title)
+        {
+            _context.UserAlboms.FirstOrDefault(x => x.AlbomId == audiolistId).Title= title;
+            _context.SaveChanges();
+        }
+
+        public void AddAudioUserAudiolist(int audiolistId, int audioId)
+        {
+            _context.UserAlboms.FirstOrDefault(x => x.AlbomId == audiolistId).ListAudio.Add(_context.Audios.FirstOrDefault(x => x.AudioId == audioId));
+            _context.SaveChanges();
+        }
+
+        public void DeleteAudioUserAudiolist(int audiolistId, int audioId)
+        {
+            _context.UserAlboms.FirstOrDefault(x => x.AlbomId == audiolistId).ListAudio.Remove(_context.Audios.FirstOrDefault(x => x.AudioId == audioId));
             _context.SaveChanges();
         }
     }

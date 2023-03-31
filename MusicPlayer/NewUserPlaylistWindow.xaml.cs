@@ -25,9 +25,20 @@ namespace MusicPlayer
             InitializeComponent();
         }
 
+        public NewAlbomWindow(string titleUserPlaylist)
+        {
+            InitializeComponent();
+
+            txtTitle.Visibility = Visibility.Hidden;
+
+            TitleUserPlaylist = titleUserPlaylist;
+            txtBoxTitlePlaylist.Text = TitleUserPlaylist;
+        }
+
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if(txtBoxTitlePlaylist.Text != "")
+            if(txtBoxTitlePlaylist.Text != String.Empty)
             {
                 TitleUserPlaylist = txtBoxTitlePlaylist.Text;
                 DialogResult = true;
