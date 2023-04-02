@@ -46,23 +46,29 @@
   <wsdl:message name="IServiceAudioPlayer_DeleteFavoriteAudio_InputMessage">
     <wsdl:part name="parameters" element="tns:DeleteFavoriteAudio" />
   </wsdl:message>
-  <wsdl:message name="IServiceAudioPlayer_AddUserAudiolist_InputMessage">
-    <wsdl:part name="parameters" element="tns:AddUserAudiolist" />
+  <wsdl:message name="IServiceAudioPlayer_AddUserPlaylist_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddUserPlaylist" />
   </wsdl:message>
-  <wsdl:message name="IServiceAudioPlayer_AddUserAudiolist_OutputMessage">
-    <wsdl:part name="parameters" element="tns:AddUserAudiolistResponse" />
+  <wsdl:message name="IServiceAudioPlayer_AddUserPlaylist_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddUserPlaylistResponse" />
   </wsdl:message>
-  <wsdl:message name="IServiceAudioPlayer_GetUserAudiolist_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetUserAudiolist" />
+  <wsdl:message name="IServiceAudioPlayer_GetUserPlaylist_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserPlaylist" />
   </wsdl:message>
-  <wsdl:message name="IServiceAudioPlayer_GetUserAudiolist_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetUserAudiolistResponse" />
+  <wsdl:message name="IServiceAudioPlayer_GetUserPlaylist_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserPlaylistResponse" />
   </wsdl:message>
-  <wsdl:message name="IServiceAudioPlayer_DeleteUserAudiolist_InputMessage">
-    <wsdl:part name="parameters" element="tns:DeleteUserAudiolist" />
+  <wsdl:message name="IServiceAudioPlayer_DeleteUserPlaylist_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteUserPlaylist" />
   </wsdl:message>
-  <wsdl:message name="IServiceAudioPlayer_EditUserAudiolist_InputMessage">
-    <wsdl:part name="parameters" element="tns:EditUserAudiolist" />
+  <wsdl:message name="IServiceAudioPlayer_EditUserPlaylist_InputMessage">
+    <wsdl:part name="parameters" element="tns:EditUserPlaylist" />
+  </wsdl:message>
+  <wsdl:message name="IServiceAudioPlayer_AddAudioUserPlaylist_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddAudioUserPlaylist" />
+  </wsdl:message>
+  <wsdl:message name="IServiceAudioPlayer_DeleteAudioUserPlaylist_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteAudioUserPlaylist" />
   </wsdl:message>
   <wsdl:portType name="IServiceAudioPlayer">
     <wsdl:operation name="GetAudioList">
@@ -94,19 +100,25 @@
     <wsdl:operation name="DeleteFavoriteAudio">
       <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/DeleteFavoriteAudio" message="tns:IServiceAudioPlayer_DeleteFavoriteAudio_InputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="AddUserAudiolist">
-      <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/AddUserAudiolist" message="tns:IServiceAudioPlayer_AddUserAudiolist_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IServiceAudioPlayer/AddUserAudiolistResponse" message="tns:IServiceAudioPlayer_AddUserAudiolist_OutputMessage" />
+    <wsdl:operation name="AddUserPlaylist">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/AddUserPlaylist" message="tns:IServiceAudioPlayer_AddUserPlaylist_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceAudioPlayer/AddUserPlaylistResponse" message="tns:IServiceAudioPlayer_AddUserPlaylist_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="GetUserAudiolist">
-      <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/GetUserAudiolist" message="tns:IServiceAudioPlayer_GetUserAudiolist_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IServiceAudioPlayer/GetUserAudiolistResponse" message="tns:IServiceAudioPlayer_GetUserAudiolist_OutputMessage" />
+    <wsdl:operation name="GetUserPlaylist">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/GetUserPlaylist" message="tns:IServiceAudioPlayer_GetUserPlaylist_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceAudioPlayer/GetUserPlaylistResponse" message="tns:IServiceAudioPlayer_GetUserPlaylist_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="DeleteUserAudiolist">
-      <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/DeleteUserAudiolist" message="tns:IServiceAudioPlayer_DeleteUserAudiolist_InputMessage" />
+    <wsdl:operation name="DeleteUserPlaylist">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/DeleteUserPlaylist" message="tns:IServiceAudioPlayer_DeleteUserPlaylist_InputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="EditUserAudiolist">
-      <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/EditUserAudiolist" message="tns:IServiceAudioPlayer_EditUserAudiolist_InputMessage" />
+    <wsdl:operation name="EditUserPlaylist">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/EditUserPlaylist" message="tns:IServiceAudioPlayer_EditUserPlaylist_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddAudioUserPlaylist">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/AddAudioUserPlaylist" message="tns:IServiceAudioPlayer_AddAudioUserPlaylist_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAudioUserPlaylist">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceAudioPlayer/DeleteAudioUserPlaylist" message="tns:IServiceAudioPlayer_DeleteAudioUserPlaylist_InputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IServiceAudioPlayer" type="tns:IServiceAudioPlayer">
@@ -174,8 +186,8 @@
         <soap:body use="literal" />
       </wsdl:input>
     </wsdl:operation>
-    <wsdl:operation name="AddUserAudiolist">
-      <soap:operation soapAction="http://tempuri.org/IServiceAudioPlayer/AddUserAudiolist" style="document" />
+    <wsdl:operation name="AddUserPlaylist">
+      <soap:operation soapAction="http://tempuri.org/IServiceAudioPlayer/AddUserPlaylist" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -183,8 +195,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetUserAudiolist">
-      <soap:operation soapAction="http://tempuri.org/IServiceAudioPlayer/GetUserAudiolist" style="document" />
+    <wsdl:operation name="GetUserPlaylist">
+      <soap:operation soapAction="http://tempuri.org/IServiceAudioPlayer/GetUserPlaylist" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -192,14 +204,26 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="DeleteUserAudiolist">
-      <soap:operation soapAction="http://tempuri.org/IServiceAudioPlayer/DeleteUserAudiolist" style="document" />
+    <wsdl:operation name="DeleteUserPlaylist">
+      <soap:operation soapAction="http://tempuri.org/IServiceAudioPlayer/DeleteUserPlaylist" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
     </wsdl:operation>
-    <wsdl:operation name="EditUserAudiolist">
-      <soap:operation soapAction="http://tempuri.org/IServiceAudioPlayer/EditUserAudiolist" style="document" />
+    <wsdl:operation name="EditUserPlaylist">
+      <soap:operation soapAction="http://tempuri.org/IServiceAudioPlayer/EditUserPlaylist" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="AddAudioUserPlaylist">
+      <soap:operation soapAction="http://tempuri.org/IServiceAudioPlayer/AddAudioUserPlaylist" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAudioUserPlaylist">
+      <soap:operation soapAction="http://tempuri.org/IServiceAudioPlayer/DeleteAudioUserPlaylist" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

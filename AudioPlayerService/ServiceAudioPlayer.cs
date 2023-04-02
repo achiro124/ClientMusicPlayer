@@ -116,49 +116,49 @@ namespace AudioPlayerService
             _context.SaveChanges();
         }
 
-        public int AddUserAudiolist(int userId, string title)
+        public int AddUserPlaylist(int userId, string title)
         {
-            UserAlboms userAlboms = new UserAlboms
+            UserPlaylist userAlboms = new UserPlaylist
             {
                 Title = title,
                 User = _context.Users.FirstOrDefault(x => x.UserId == userId)
             };
-            _context.Users.FirstOrDefault(x => x.UserId == userId).UserAlboms.Add(userAlboms);
+            _context.Users.FirstOrDefault(x => x.UserId == userId).UserPlaylist.Add(userAlboms);
             _context.UserAlboms.Add(userAlboms);
             _context.SaveChanges();
             return _context.UserAlboms.FirstOrDefault(x => x.Title == title).AlbomId;
         }
 
-        public List<UserAlboms> GetUserAudiolist(int userId)
+        public List<UserPlaylist> GetUserPlaylist(int userId)
         {
-            return _context.UserAlboms.Include(x => x.User).Where(x => x.User.UserId == userId).ToList();
+            return _context.UserAlboms.Include(x => x.ListAudio).Include(x => x.User).Where(x => x.User.UserId == userId).ToList();
         }
 
-        public void DeleteUserAudiolist(int userId, int audiolistId)
+        public void DeleteUserPlaylist(int userId, int audiolistId)
         {
-            UserAlboms userlist = _context.UserAlboms.Include(st => st.User).FirstOrDefault(x => x.AlbomId == audiolistId);
-            User user = _context.Users.Include(st => st.UserAlboms).FirstOrDefault(x => x.UserId == userId);
+            UserPlaylist userlist = _context.UserAlboms.Include(st => st.User).FirstOrDefault(x => x.AlbomId == audiolistId);
+            User user = _context.Users.Include(st => st.UserPlaylist).FirstOrDefault(x => x.UserId == userId);
 
-            _context.Users.Include(st => st.UserAlboms).FirstOrDefault(x => x.UserId == userId).UserAlboms.Remove(userlist);
+            _context.Users.Include(st => st.UserPlaylist).FirstOrDefault(x => x.UserId == userId).UserPlaylist.Remove(userlist);
             _context.UserAlboms.Remove(userlist);
             _context.SaveChanges();
         }
 
-        public void EditUserAudiolist(int audiolistId, string title)
+        public void EditUserPlaylist(int audiolistId, string title)
         {
             _context.UserAlboms.FirstOrDefault(x => x.AlbomId == audiolistId).Title= title;
             _context.SaveChanges();
         }
 
-        public void AddAudioUserAudiolist(int audiolistId, int audioId)
+        public void AddAudioUserPlaylist(int audiolistId, int audioId)
         {
-            _context.UserAlboms.FirstOrDefault(x => x.AlbomId == audiolistId).ListAudio.Add(_context.Audios.FirstOrDefault(x => x.AudioId == audioId));
+            _context.UserAlboms.Include(x => x.ListAudio).FirstOrDefault(x => x.AlbomId == audiolistId).ListAudio.Add(_context.Audios.FirstOrDefault(x => x.AudioId == audioId));
             _context.SaveChanges();
         }
 
-        public void DeleteAudioUserAudiolist(int audiolistId, int audioId)
+        public void DeleteAudioUserPlaylist(int audiolistId, int audioId)
         {
-            _context.UserAlboms.FirstOrDefault(x => x.AlbomId == audiolistId).ListAudio.Remove(_context.Audios.FirstOrDefault(x => x.AudioId == audioId));
+            _context.UserAlboms.Include(x => x.ListAudio).FirstOrDefault(x => x.AlbomId == audiolistId).ListAudio.Remove(_context.Audios.FirstOrDefault(x => x.AudioId == audioId));
             _context.SaveChanges();
         }
     }

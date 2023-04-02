@@ -28,6 +28,6 @@ namespace AudioPlayerLibrary
         public List<Audio> FavoriteAudio { get; set; } = new List<Audio>();
 
         [DataMember]
-        public List<UserAlboms> UserAlboms { get; set; } = new List<UserAlboms>();
+        public List<UserPlaylist> UserPlaylist { get; set; } = new List<UserPlaylist>();
     }
 }

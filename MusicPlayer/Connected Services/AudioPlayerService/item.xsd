@@ -97,7 +97,7 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="AddUserAudiolist">
+  <xs:element name="AddUserPlaylist">
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="userId" type="xs:int" />
@@ -105,28 +105,28 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="AddUserAudiolistResponse">
+  <xs:element name="AddUserPlaylistResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="AddUserAudiolistResult" type="xs:int" />
+        <xs:element minOccurs="0" name="AddUserPlaylistResult" type="xs:int" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="GetUserAudiolist">
+  <xs:element name="GetUserPlaylist">
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="userId" type="xs:int" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="GetUserAudiolistResponse">
+  <xs:element name="GetUserPlaylistResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/AudioPlayerLibrary" minOccurs="0" name="GetUserAudiolistResult" nillable="true" type="q5:ArrayOfUserAlboms" />
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/AudioPlayerLibrary" minOccurs="0" name="GetUserPlaylistResult" nillable="true" type="q5:ArrayOfUserPlaylist" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="DeleteUserAudiolist">
+  <xs:element name="DeleteUserPlaylist">
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="userId" type="xs:int" />
@@ -134,11 +134,27 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="EditUserAudiolist">
+  <xs:element name="EditUserPlaylist">
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="audiolistId" type="xs:int" />
         <xs:element minOccurs="0" name="title" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddAudioUserPlaylist">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="audiolistId" type="xs:int" />
+        <xs:element minOccurs="0" name="audioId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteAudioUserPlaylist">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="audiolistId" type="xs:int" />
+        <xs:element minOccurs="0" name="audioId" type="xs:int" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

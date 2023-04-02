@@ -42,23 +42,23 @@ namespace AudioPlayerService
 
         [OperationContract]
         [CyclicReferencesAware(true)]
-        int AddUserAudiolist(int userId, string title);
+        int AddUserPlaylist(int userId, string title);
 
         [OperationContract]
         [CyclicReferencesAware(true)]
-        List<UserAlboms> GetUserAudiolist(int userId);
+        List<UserPlaylist> GetUserPlaylist(int userId);
 
         [OperationContract(IsOneWay = true)]
-        void DeleteUserAudiolist(int userId, int audiolistId);
+        void DeleteUserPlaylist(int userId, int audiolistId);
 
         [OperationContract(IsOneWay = true)]
-        void EditUserAudiolist(int audiolistId, string title);
+        void EditUserPlaylist(int audiolistId, string title);
 
         [OperationContract(IsOneWay = true)]
-        void AddAudioUserAudiolist(int audiolistId, int audioId);
+        void AddAudioUserPlaylist(int audiolistId, int audioId);
 
         [OperationContract(IsOneWay = true)]
-        void DeleteAudioUserAudiolist(int audiolistId, int audioId);
+        void DeleteAudioUserPlaylist(int audiolistId, int audioId);
 
     }
     public interface IServerAudioCallback

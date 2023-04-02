@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AudioPlayerLibrary
 {
-    public class UserAlboms : INotifyPropertyChanged
+    [DataContract]
+    public class UserPlaylist
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -28,18 +28,18 @@ namespace AudioPlayerLibrary
         private string title;
         [Required]
         [DataMember]
-        public string Title 
+        public string Title
         {
             get
             {
                 return title;
-            } 
-            
-            set 
+            }
+
+            set
             {
                 title = value;
                 PropertyChange("Title");
-            } 
+            }
         }
 
         [DataMember]
@@ -54,8 +54,5 @@ namespace AudioPlayerLibrary
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
             }
         }
-
-
-
     }
 }
