@@ -17,6 +17,7 @@
       <xs:element minOccurs="0" name="Title" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Users" nillable="true" type="tns:ArrayOfUser" />
       <xs:element minOccurs="0" name="favorite" type="xs:boolean" />
+      <xs:element minOccurs="0" name="userPlaylists" nillable="true" type="tns:ArrayOfUserPlaylist" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Audio" nillable="true" type="tns:Audio" />
@@ -41,24 +42,25 @@
       <xs:element minOccurs="0" name="Icon" nillable="true" type="xs:base64Binary" />
       <xs:element minOccurs="0" name="Login" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Password" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="UserAlboms" nillable="true" type="tns:ArrayOfUserAlboms" />
       <xs:element minOccurs="0" name="UserId" type="xs:int" />
+      <xs:element minOccurs="0" name="UserPlaylist" nillable="true" type="tns:ArrayOfUserPlaylist" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="User" nillable="true" type="tns:User" />
-  <xs:complexType name="ArrayOfUserAlboms">
+  <xs:complexType name="ArrayOfUserPlaylist">
     <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="UserAlboms" nillable="true" type="tns:UserAlboms" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="UserPlaylist" nillable="true" type="tns:UserPlaylist" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ArrayOfUserAlboms" nillable="true" type="tns:ArrayOfUserAlboms" />
-  <xs:complexType name="UserAlboms">
+  <xs:element name="ArrayOfUserPlaylist" nillable="true" type="tns:ArrayOfUserPlaylist" />
+  <xs:complexType name="UserPlaylist">
     <xs:sequence>
       <xs:element minOccurs="0" name="AlbomId" type="xs:int" />
       <xs:element minOccurs="0" name="ListAudio" nillable="true" type="tns:ArrayOfAudio" />
       <xs:element minOccurs="0" name="Title" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="User" nillable="true" type="tns:User" />
+      <xs:element minOccurs="0" name="title" nillable="true" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="UserAlboms" nillable="true" type="tns:UserAlboms" />
+  <xs:element name="UserPlaylist" nillable="true" type="tns:UserPlaylist" />
 </xs:schema>

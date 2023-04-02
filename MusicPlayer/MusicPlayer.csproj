@@ -156,6 +156,7 @@
     <None Include="Properties\DataSources\AudioPlayerLibrary.Audio.datasource" />
     <None Include="Properties\DataSources\AudioPlayerLibrary.User.datasource" />
     <None Include="Properties\DataSources\AudioPlayerLibrary.UserAlboms.datasource" />
+    <None Include="Properties\DataSources\AudioPlayerLibrary.UserPlaylist.datasource" />
     <None Include="Properties\DataSources\AudioPlayerService.User.datasource" />
     <None Include="Properties\DataSources\AudioPlayerService.User1.datasource" />
     <None Include="Properties\DataSources\MusicPlayer.Audio.datasource" />
@@ -251,6 +252,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Image\ellipsisButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\deleteAudioPlaylistButton.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.8.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.8.0\build\MaterialDesignThemes.targets')" />

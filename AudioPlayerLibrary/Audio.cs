@@ -58,6 +58,11 @@ namespace AudioPlayerLibrary
 
         [DataMember]
         public string Path { get; set; } = "";
+
+        [DataMember]
+        public List<UserPlaylist> userPlaylists { get; set; } = new List<UserPlaylist>();
+
+
     }
 
     public enum GenreType

@@ -34,7 +34,9 @@ namespace MusicPlayer
         public ObservableCollection<Audio> audios;
         public ObservableCollection<Audio> favoritesAudios;
         public ObservableCollection<Audio> myAudiosList = new ObservableCollection<Audio>();
-        public ObservableCollection<UserAlboms> userPlaylist;
+        public ObservableCollection<UserPlaylist> userPlaylists;
+        public Dictionary<UserPlaylist, ObservableCollection<Audio>> userPlaylistDict = new Dictionary<UserPlaylist, ObservableCollection<Audio>>();
+        private List<MenuItem> menuItems;
 
 
 
@@ -46,8 +48,8 @@ namespace MusicPlayer
         private int countAudio = 0;
         private User user;
         private int selectedItem;
-
-        ListBox mainListBox;
+        private int selectedIdItemPlaylist;
+        private ListBox mainListBox;
 
 
         public MainWindow(ServiceAudioPlayerClient client, User user)
@@ -65,21 +67,26 @@ namespace MusicPlayer
         {
             audios = new ObservableCollection<Audio>(client.GetAudioList(user.UserId));
             favoritesAudios = new ObservableCollection<Audio>(client.GetFavoriteAudioList(user.UserId));
-            userPlaylist = new ObservableCollection<UserAlboms>(client.GetUserAudiolist(user.UserId));
-            //cmUserPlaylist.ItemsSource = userPlaylist;
+            userPlaylists = new ObservableCollection<UserPlaylist>(client.GetUserPlaylist(user.UserId));
 
+            foreach (var item in userPlaylists)
+            {
+                userPlaylistDict[item] = new ObservableCollection<Audio>(item.ListAudio);
+            }
 
             mainListBox = audiosList;
 
-            btnAddAudio.Visibility = Visibility.Hidden;
             audiosList.ItemsSource = audios;
             audiosListFavorites.ItemsSource = favoritesAudios;
             spUser.DataContext = user;
-            listUserAlboms.ItemsSource = userPlaylist;
+
+            listUserAlboms.ItemsSource = userPlaylists;
             audiosListUser.ItemsSource = myAudiosList;
 
 
+            btnAddAudio.Visibility = Visibility.Hidden;
             countAudio = new DirectoryInfo(@"Audios").GetFiles().Length;
+
         }
 
         //Пауза или старт аудио
@@ -88,13 +95,13 @@ namespace MusicPlayer
             Image image = new Image();
             image.Height = 36;
             image.Width = 38;
-            
+
             if (mediaPlayerIsPlaying)
             {
                 mePlayer.Pause();
                 mediaPlayerIsPlaying = false;
 
-                
+
                 image.Source = new BitmapImage(new Uri(@"/MusicPlayer;component/Image/ButtonPlay.png", UriKind.RelativeOrAbsolute));
                 ButtonStart.Content = image;
 
@@ -213,7 +220,7 @@ namespace MusicPlayer
                 FileInfo fileInfo = new FileInfo(@"Audios\" + audio.Title + ".mp3");
                 audios.FirstOrDefault(x => x.AudioId == audio.AudioId).Path = fileInfo.FullName;
 
-                if(favoritesAudios.FirstOrDefault(x => x.AudioId == audio.AudioId) != null)
+                if (favoritesAudios.FirstOrDefault(x => x.AudioId == audio.AudioId) != null)
                     favoritesAudios.FirstOrDefault(x => x.AudioId == audio.AudioId).Path = fileInfo.FullName;
 
                 audio.Path = fileInfo.FullName;
@@ -277,7 +284,7 @@ namespace MusicPlayer
         void DeleteAudios()
         {
             DirectoryInfo di = new DirectoryInfo("Audios");
-           
+
             foreach (FileInfo file in di.GetFiles())
             {
                 file.Delete();
@@ -291,47 +298,48 @@ namespace MusicPlayer
 
         private void btnUser_Click(object sender, RoutedEventArgs e)
         {
-          //  UserWindow userWindow = new UserWindow(client,user);
-          //  userWindow.Owner = this;
-          //  userWindow.Show();
+            //  UserWindow userWindow = new UserWindow(client,user);
+            //  userWindow.Owner = this;
+            //  userWindow.Show();
         }
 
         private void favorites_Click(object sender, RoutedEventArgs e)
         {
-            audiosList.Visibility = Visibility.Hidden;
-            audiosListUser.Visibility = Visibility.Hidden;
-            audiosListFavorites.Visibility = Visibility.Visible;
+            mainListBox.Visibility = Visibility.Hidden;
+            mainListBox = audiosListFavorites;
+            mainListBox.Visibility = Visibility.Visible;
 
             txtBlock.Text = "Избранное";
             btnAddAudio.Visibility = Visibility.Hidden;
 
-            mainListBox = audiosListFavorites;
+            btnFavorite.Visibility = Visibility.Visible;
+
+
         }
 
         private void btnMain_Click(object sender, RoutedEventArgs e)
         {
-            audiosList.Visibility = Visibility.Visible;
-            audiosListUser.Visibility = Visibility.Hidden;
-            audiosListFavorites.Visibility = Visibility.Hidden;
-
+            mainListBox.Visibility = Visibility.Hidden;
+            mainListBox = audiosList;
+            mainListBox.Visibility = Visibility.Visible;
 
             audiosList.ItemsSource = audios;
             txtBlock.Text = "Главная";
             btnAddAudio.Visibility = Visibility.Hidden;
+            btnFavorite.Visibility = Visibility.Visible;
 
-            mainListBox = audiosList;
         }
 
         private void myAudios_Click(object sender, RoutedEventArgs e)
         {
-            audiosList.Visibility = Visibility.Hidden;
-            audiosListFavorites.Visibility = Visibility.Hidden;
-            audiosListUser.Visibility = Visibility.Visible;
-            
+
+            mainListBox.Visibility = Visibility.Hidden;
+            mainListBox = audiosListUser;
+            mainListBox.Visibility = Visibility.Visible;
+
             txtBlock.Text = "Мои аудиозаписи";
             btnAddAudio.Visibility = Visibility.Visible;
-
-            mainListBox = audiosListUser;
+            btnFavorite.Visibility = Visibility.Hidden;
         }
 
         private void btnFavorite_Click(object sender, RoutedEventArgs e)
@@ -353,13 +361,13 @@ namespace MusicPlayer
                 client.DeleteFavoriteAudio(user.UserId, audio.AudioId);
                 favoritesAudios.Remove(favoritesAudios.FirstOrDefault(x => x.AudioId == audio.AudioId));
             }
-            
+
         }
 
         private void btnAddFavorite_Click(object sender, RoutedEventArgs e)
         {
             Audio audio = mainListBox.Items[selectedItem] as Audio;
-          
+
             if (!audio.IsFavorites)
             {
                 audios.FirstOrDefault(x => x.AudioId == audio.AudioId).IsFavorites = true;
@@ -405,14 +413,18 @@ namespace MusicPlayer
 
         private void TxtBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(txtBoxSearch.Text == string.Empty)
+            mainListBox.Visibility = Visibility.Hidden;
+            mainListBox = audiosList;
+            mainListBox.Visibility = Visibility.Visible;
+
+            if (txtBoxSearch.Text == string.Empty)
             {
                 audiosList.ItemsSource = audios;
             }
             else
             {
-                audiosList.ItemsSource = audios?.Where(x =>  x.Group.ToLower().Contains(txtBoxSearch.Text.ToLower()) ||  
-                                                            x.Title.ToLower().Contains(txtBoxSearch.Text.ToLower()));
+                audiosList.ItemsSource = audios?.Where(x => x.Group.ToLower().Contains(txtBoxSearch.Text.ToLower()) ||
+                                                             x.Title.ToLower().Contains(txtBoxSearch.Text.ToLower()));
             }
             txtBlock.Text = "Главная";
         }
@@ -421,7 +433,7 @@ namespace MusicPlayer
         {
             MenuItem item = sender as MenuItem;
             MenuItem menuItem;
-            if (item != null) 
+            if (item != null)
             {
                 int k = cmSort.Items.IndexOf(item);
                 switch (k)
@@ -483,32 +495,51 @@ namespace MusicPlayer
             cmSort.IsOpen = true;
         }
 
-        private void btnEllipsisButton_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void btnSettingsAudio_ClickLeft(object sender, MouseButtonEventArgs e)
         {
             Button button = sender as Button;
+            selectedIdItemPlaylist = selectedItem;
 
-            if(button.ContextMenu == null)
+            MenuItem settingMenuItem = new MenuItem();
+            settingMenuItem.Header = "Добавить в плейлист";
+            settingMenuItem.Foreground = new SolidColorBrush(Colors.White);
+            settingMenuItem.Background = new SolidColorBrush(Color.FromRgb(45, 37, 47));
+
+            menuItems = new List<MenuItem>();
+
+            foreach (var item in userPlaylists)
             {
-                MenuItem settingMenuItem = new MenuItem();
-                settingMenuItem.Header = "Добавить в плейлист";
-                settingMenuItem.Foreground = new SolidColorBrush(Colors.White);
-                settingMenuItem.Background = new SolidColorBrush(Color.FromRgb(45, 37, 47));
 
-                foreach (var item in userPlaylist)
+                MenuItem menuItem = new MenuItem
                 {
-                    settingMenuItem.Items.Add(new MenuItem
-                    {
-                        Header = item.Title,
-                        Foreground = new SolidColorBrush(Colors.White),
-                        Background = new SolidColorBrush(Color.FromRgb(45, 37, 47))
-                });
-                }
-
-                button.ContextMenu = new ContextMenu();
-                button.ContextMenu.Background = new SolidColorBrush(Color.FromRgb(45, 37, 47));
-                button.ContextMenu.Items.Add(settingMenuItem);
+                    Header = item.Title,
+                    Foreground = new SolidColorBrush(Colors.White),
+                    Background = new SolidColorBrush(Color.FromRgb(45, 37, 47)),
+                };
+                menuItem.Click += MenuItemAddNewAudio_Click;
+                settingMenuItem.Items.Add(menuItem);
+                menuItems.Add(menuItem);
             }
+
+            button.ContextMenu = new ContextMenu();
+            button.ContextMenu.Background = new SolidColorBrush(Color.FromRgb(45, 37, 47));
+            button.ContextMenu.Items.Add(settingMenuItem);
             button.ContextMenu.IsOpen = true;
+        }
+
+        private void MenuItemAddNewAudio_Click(object sender, RoutedEventArgs e)
+        {
+
+            Audio audio = mainListBox.Items[selectedIdItemPlaylist] as Audio;
+            MenuItem menuItem = sender as MenuItem;
+            UserPlaylist userPlaylist = userPlaylistDict.Keys.FirstOrDefault(x => x.AlbomId == userPlaylists[menuItems.IndexOf(menuItem)].AlbomId);
+
+            if (userPlaylist.ListAudio.FirstOrDefault(x => x.AudioId == audio.AudioId) == null)
+            {
+                client.AddAudioUserPlaylist(userPlaylist.AlbomId, audio.AudioId);
+                userPlaylist.ListAudio.Add(audio);
+                userPlaylistDict[userPlaylist].Add(audio);
+            }
         }
 
         private void TextBlock_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -522,38 +553,76 @@ namespace MusicPlayer
         {
             NewAlbomWindow newUserPlaylistWindow = new NewAlbomWindow();
             newUserPlaylistWindow.Owner = this;
-            if(newUserPlaylistWindow.ShowDialog() == true)
+            if (newUserPlaylistWindow.ShowDialog() == true)
             {
-                UserAlboms newUserPlaylist = new UserAlboms
+                UserPlaylist newUserPlaylist = new UserPlaylist
                 {
                     User = this.user,
                     Title = newUserPlaylistWindow.TitleUserPlaylist
                 };
-                newUserPlaylist.AlbomId = client.AddUserAudiolist(user.UserId, newUserPlaylistWindow.TitleUserPlaylist);
-                userPlaylist.Add(newUserPlaylist);
+                newUserPlaylist.AlbomId = client.AddUserPlaylist(user.UserId, newUserPlaylistWindow.TitleUserPlaylist);
+                newUserPlaylist.ListAudio = new ObservableCollection<Audio>().ToList();
+                userPlaylists.Add(newUserPlaylist);
+                userPlaylistDict[newUserPlaylist] = new ObservableCollection<Audio>();
             }
         }
 
         private void DeleteUserPlaylistButton_Click(object sender, RoutedEventArgs e)
         {
-            UserAlboms userAlboms = listUserAlboms.Items[selectedItem] as UserAlboms;
-            if(userAlboms != null)
+            UserPlaylist userAlboms = listUserAlboms.Items[selectedItem] as UserPlaylist;
+            if (userAlboms != null)
             {
-                userPlaylist.Remove(userAlboms);
-                client.DeleteUserAudiolist(user.UserId,userAlboms.AlbomId);
+                userPlaylists.Remove(userAlboms);
+                userPlaylistDict.Remove(userAlboms);
+                client.DeleteUserPlaylist(user.UserId, userAlboms.AlbomId);
             }
         }
 
         private void btnEditAudioList_Click(object sender, RoutedEventArgs e)
         {
-            NewAlbomWindow newUserPlaylistWindow = new NewAlbomWindow(userPlaylist[selectedItem].Title);
+            NewAlbomWindow newUserPlaylistWindow = new NewAlbomWindow(userPlaylists[selectedItem].Title);
             newUserPlaylistWindow.Owner = this;
             if (newUserPlaylistWindow.ShowDialog() == true)
             {
-                UserAlboms userAlboms = userPlaylist[selectedItem];
+                UserPlaylist userAlboms = userPlaylists[selectedItem];
                 userAlboms.Title = newUserPlaylistWindow.TitleUserPlaylist;
-                client.EditUserAudiolist(userAlboms.AlbomId, userAlboms.Title);
+                client.EditUserPlaylist(userAlboms.AlbomId, userAlboms.Title);
             }
+        }
+
+        private void listUserAlboms_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            mainListBox.Visibility = Visibility.Hidden;
+            mainListBox = playlist;
+            mainListBox.Visibility = Visibility.Visible;
+            btnFavorite.Visibility = Visibility.Hidden;
+
+
+
+            UserPlaylist userAlbom = listUserAlboms.SelectedItem as UserPlaylist;
+            txtBlock.Text = userAlbom.Title;
+            selectedIdItemPlaylist = userAlbom.AlbomId;
+
+            listUserAlboms.SelectionChanged -= listUserAlboms_SelectionChanged;
+            listUserAlboms.SelectedIndex = -1;
+            listUserAlboms.SelectionChanged += listUserAlboms_SelectionChanged;
+
+            playlist.ItemsSource = userPlaylistDict[userAlbom];
+        }
+
+
+        private void btnSettingsAudioPlaylist_Click(object sender, MouseButtonEventArgs e)
+        {
+            Audio audio = mainListBox.Items[selectedItem] as Audio;
+            UserPlaylist userPlaylist = userPlaylists.FirstOrDefault(x => x.AlbomId == selectedIdItemPlaylist);
+
+            if(audio != null && userPlaylist != null)
+            {
+                client.DeleteAudioUserPlaylist(userPlaylist.AlbomId, audio.AudioId);
+                userPlaylistDict[userPlaylist].Remove(audio);
+                userPlaylist.ListAudio.Remove(audio);
+            }
+
         }
     }
 }
