@@ -52,7 +52,11 @@ namespace MusicPlayer
 
                 if(pswBox1.Password == pswBox2.Password) 
                 {
-                    user = client.Registration(txtBoxLogin.Text, pswBox1.Password);
+
+                    var login = txtBoxLogin.Text;
+                    var password = Md5.HashPassword(pswBox1.Password);
+
+                    user = client.Registration(login, password);
                     if (user != null)
                     {
                         MainWindow mainWindow = new MainWindow(client, user);

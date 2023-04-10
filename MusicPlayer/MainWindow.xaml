@@ -113,7 +113,7 @@
             </StackPanel>
             <Expander Grid.Row="1" IsExpanded="False"  Margin="0,2,0,0" Background="#2D252F" Visibility="Visible">
                 <Expander.Header>
-                    <TextBlock Text="Мои альбомы" FontWeight="Bold" FontSize="12"/>
+                    <TextBlock Text="Мои плейлисты" FontWeight="Bold" FontSize="13"/>
                 </Expander.Header>
 
                 <ScrollViewer VerticalScrollBarVisibility="Auto">

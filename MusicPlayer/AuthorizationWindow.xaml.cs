@@ -34,7 +34,13 @@ namespace MusicPlayer
         {
             if (txtBoxLogin.Text != string.Empty && pswBox1.Password != string.Empty)
             {
-                user = client.Authorization(txtBoxLogin.Text, pswBox1.Password);
+
+
+                var login = txtBoxLogin.Text;
+                var password = Md5.HashPassword(pswBox1.Password);
+
+
+                user = client.Authorization(login, password);
                 if(user != null)
                 {
                     MainWindow mainWindow = new MainWindow(client,user);

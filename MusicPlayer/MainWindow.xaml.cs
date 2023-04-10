@@ -314,6 +314,7 @@ namespace MusicPlayer
 
             btnFavorite.Visibility = Visibility.Visible;
 
+            txtBoxSearch.Text = "";
 
         }
 
@@ -328,6 +329,8 @@ namespace MusicPlayer
             btnAddAudio.Visibility = Visibility.Hidden;
             btnFavorite.Visibility = Visibility.Visible;
 
+            txtBoxSearch.Text = "";
+
         }
 
         private void myAudios_Click(object sender, RoutedEventArgs e)
@@ -340,6 +343,8 @@ namespace MusicPlayer
             txtBlock.Text = "Мои аудиозаписи";
             btnAddAudio.Visibility = Visibility.Visible;
             btnFavorite.Visibility = Visibility.Hidden;
+
+            txtBoxSearch.Text = "";
         }
 
         private void btnFavorite_Click(object sender, RoutedEventArgs e)
@@ -608,9 +613,9 @@ namespace MusicPlayer
             listUserAlboms.SelectionChanged += listUserAlboms_SelectionChanged;
 
             playlist.ItemsSource = userPlaylistDict[userAlbom];
+
+            txtBoxSearch.Text = "";
         }
-
-
         private void btnSettingsAudioPlaylist_Click(object sender, MouseButtonEventArgs e)
         {
             Audio audio = mainListBox.Items[selectedItem] as Audio;
